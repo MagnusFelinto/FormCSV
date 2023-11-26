@@ -18,13 +18,22 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.magnus_felinto.baraunasAPP"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d738e75c-345b-4d9f-bb26-9f9a8eaaba79"
+      }
     }
   }
 }
