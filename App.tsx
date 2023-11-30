@@ -1,27 +1,39 @@
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TextInput, Button } from 'react-native-paper'
 import { MultipleSelectList, SelectList } from 'react-native-dropdown-select-list';
 import { Feather, Entypo } from '@expo/vector-icons';
 import * as Papa from 'papaparse';
 import StarRating from './components/StarRating.jsx'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function App() {
-  const nomeArquivo = 'baraunas.csv' 
-  const handleSaveData = () => { 
-    const dataAtual = new Date();  
+  const nomeArquivo = 'baraunas.csv'
+  const key = 'testefff'
+  const scrollViewRef = useRef();
+
+  const scrollToBottom = () => {
+    scrollViewRef.current.scrollTo(0, 0, { animated: true });
+  };
+  const handleSaveData = () => {
+    setCasaVeiculo(casaVeiculo.toString().replace(',', '|'))
+    setEscolhaCandidato(escolhaCandidato.toString().replace(',', '|'))
+    setDeficienteServico(deficienteServico.toString().replace(',', '|'))
+    setBomCandidatoCaracteristica(bomCandidatoCaracteristica.toString().replace(',', '|'))
+    const dataAtual = new Date();
     const ano = dataAtual.getFullYear();
     const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
-    const dia = String(dataAtual.getDate()).padStart(2, '0'); 
+    const dia = String(dataAtual.getDate()).padStart(2, '0');
     // Formatar a hora como uma string
     const horas = String(dataAtual.getHours()).padStart(2, '0');
     const minutos = String(dataAtual.getMinutes()).padStart(2, '0');
-    const segundos = String(dataAtual.getSeconds()).padStart(2, '0'); 
+    const segundos = String(dataAtual.getSeconds()).padStart(2, '0');
     // Criar uma string no formato desejado (por exemplo, "YYYY-MM-DD HH:mm:ss")
-    const dataHoraFormatada = `${ano}-${mes}-${dia} ${horas}:${minutos}:${segundos}`; 
-    console.log("Dados salvos "+dataHoraFormatada);
-
+    let dataHoraFormatada = `${ano}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+    console.log("Dados salvos " + dataHoraFormatada);
     const newData = [
       zona,
       regiao,
@@ -48,7 +60,9 @@ export default function App() {
       avaliacaoGeilson,//20.1
       avaliacaoLucia,//20.2
       avaliacaoZeze, //20.3
-      nomeVereadorDestacado, vereadorFeedback, avaliacaoVereadorDestacado, //20.4
+      nomeVereadorDestacado,
+      vereadorFeedback,
+      avaliacaoVereadorDestacado, //20.4
       avalicaoAtendimento,
       prioridade,
       municipalPolitica,
@@ -64,19 +78,83 @@ export default function App() {
       problemaRegiao,
       mudanca,
       mensagemPolitico,
-      //Data e hora
-      dataHoraFormatada
+      dataHoraFormatada      //Data e hora
     ];
     saveDataToCSV(newData);
-  }; 
-  const [destaque, setDestaque] = useState(false);  
-  const [avaliacaoGeilson, setAvaliacaoGeilson] = useState('');   
-  const [avaliacaoLucia, setAvaliacaoLucia] = useState('');   
-  const [avaliacaoZeze, setAvaliacaoZeze]= useState('');    
-  const [avaliacaoVereadorDestacado, setAvaliacaoVereadorDestacado]= useState('');    
-  const [nomeVereadorDestacado, setNomeVereadorDestacado]= useState('');    
-  const [vereadorFeedback, setVereadorFeedback]= useState('');    
-  const [sexo, setSexo] = useState('');  
+    setzona('')
+    setRegiao('')
+    setSexo('')
+    setIdade('')
+    setFaixaRenda('')
+    setOrigemRenda('')
+    setNivelEscolar('')
+    setQuantPessoa('')
+    setmoradia('')
+    setCasaVeiculo('')
+    setPerfilEntrevistado('')
+    setComunicaoVeiculo('')
+    setDiscutirPolitica('')
+    setParticipouManif('')
+    setEscolhaCandidato('')
+    setDeficienteServico('')
+    setCadidatoprioridade('')
+    setBomCandidatoCaracteristica('')
+    setVotoPresidente('')
+    setVotoGovernador('')
+    setVotoPrefeito('')
+    setAvalicaoAtendimento('')
+    setPrioridade('')
+    setMunicipalPolitica('')
+    setLiderancasPolítica('')
+    setRepresentadoPolitico('')
+    setMunicipalAdmin('')
+    setPoliticainflencia('')
+    setDecisaoInfluencia('')
+    setPrefeituraMudanca('')
+    setProblemaCidade('')
+    setIdeiaInovadora('')
+    setComunidadeFuturo('')
+    setProblemaRegiao('')
+    setMudanca('')
+    setMensagemPolitico('')
+    setMoradiaQuantPessoa('')
+    setAvaliacaoZeze('')
+    setAvaliacaoGeilson('')
+    setAvaliacaoLucia('')
+    setNomeVereadorDestacado('')
+    setVereadorFeedback('')
+    setAvaliacaoVereadorDestacado('')
+    scrollToBottom()
+
+  };
+  const [nomeDoAplicador, setNomeDoAplicador] = useState('');
+  const [nome, setNome] = useState('');
+  useEffect(() => {
+    const carregarVariavelLocal = async () => {
+      try {
+        const valorSalvo = await AsyncStorage.getItem(key);
+        if (valorSalvo !== null) {
+          setNomeDoAplicador(valorSalvo);
+          setAplicadorExistente(true)
+        }
+        else {
+          setNomeDoAplicador('')
+        }
+      } catch (error) {
+        console.error('Erro ao carregar variável local:', error);
+      }
+    };
+    carregarVariavelLocal()
+  }, [nomeDoAplicador])
+  const [aplicadorExistente, setAplicadorExistente] = useState(false);
+  const [destaque, setDestaque] = useState(false);
+  const [avaliacaoGeilson, setAvaliacaoGeilson] = useState('');
+  const [avaliacaoLucia, setAvaliacaoLucia] = useState('');
+  const [avaliacaoZeze, setAvaliacaoZeze] = useState('');
+  const [avaliacaoVereadorDestacado, setAvaliacaoVereadorDestacado] = useState('');
+  const [nomeVereadorDestacado, setNomeVereadorDestacado] = useState('');
+  const [vereadorFeedback, setVereadorFeedback] = useState('');
+  const [sexo, setSexo] = useState('');
   const [zona, setzona] = useState("");
   const [idade, setIdade] = useState('');
   const [faixaRenda, setFaixaRenda] = useState('');
@@ -112,7 +190,6 @@ export default function App() {
   const [ideiaInovadora, setIdeiaInovadora] = useState('');
   const [problemaCidade, setProblemaCidade] = useState('');
   const [regiao, setRegiao] = useState('');
-  const [avaliacaoVereador, setAvaliacaoVereador] = useState('');
   const [moradiaQuantPessoa, setMoradiaQuantPessoa] = useState('');
   const colunasPesquisa = [
     '1 - ZONA',
@@ -137,12 +214,12 @@ export default function App() {
     '18 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA PRESIDENTE?',
     '19 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?',
     '20 - Se a eleição fosse hoje, em quem você votaria para PREFEITO?',
-    '20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5)', 
+    '20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5)',
     '20.2 - Como está a avaliação dos vereadores? Zezé da Agrícola (de 1 até 5)',
-    '20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)', 
+    '20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)',
     '20.4.1 - Como está a avaliação dos vereadores? Nome',
     '20.4.2 - Como está a avaliação dos vereadores? Feedback',
-    '20.4.3 - Como está a avaliação dos vereadores? Avaliacao', 
+    '20.4.3 - Como está a avaliação dos vereadores? Avaliacao',
     '21 - Como você avalia a atuação do governo atual em relação ao atendimento das necessidades da população?',
     '22 - Na sua opinião, quais deveriam ser as prioridades de um representante político?',
     '23 - Atualmente, vejo a política municipal como:',
@@ -424,10 +501,6 @@ export default function App() {
     { key: 'CELULAR', value: 'CELULAR', },
     { key: 'JORNAIS/ REVISTAS', value: 'JORNAIS/ REVISTAS', },
   ]
-  // const vals = [
-  //   { key: '', value: '', },
-  // ]
-
   const handleInputChange = (text: string) => {
     // Remove caracteres não numéricos
     const cleanedText = text.replace(/[^0-9]/g, '');
@@ -438,29 +511,48 @@ export default function App() {
     const cleanedText = text.replace(/[^0-9]/g, '');
     setMoradiaQuantPessoa(cleanedText);
   };
- 
-    const downloadFromUrl = async () => {
-      try {
-        const csvFilePath = `${FileSystem.documentDirectory+nomeArquivo}`;
-    
-        // Verificar se o arquivo CSV já existe
-        const fileInfo = await FileSystem.getInfoAsync(csvFilePath);
-    
-        if (!fileInfo.exists) {
-          alert(  'O arquivo CSV não está disponível para download.');
-          return;
-        }
-    
-        // Obter o URI do arquivo
-        const fileUri = `file://${csvFilePath}`;
-    
-        // Compartilhar e realizar o download
-        await  shareAsync(fileUri, { mimeType: 'text/csv', dialogTitle: 'Download CSV' });
-      } catch (error) {
-        console.error('Erro ao efetuar o download do arquivo CSV:', error);
-         alert( 'Ocorreu um erro ao efetuar o download do arquivo CSV.');
+  const downloadFromUrl = async () => {
+    try {
+
+      const origem = `${FileSystem.documentDirectory}${nomeArquivo}`;
+      const destino = `${FileSystem.cacheDirectory}Download/${nomeArquivo}`; // Pasta de Downloads
+      // Verificar se o arquivo já existe no destino
+      const fileInfo = await FileSystem.getInfoAsync(destino);
+
+      if (!fileInfo.exists) {
+        alert('O arquivo Baraunas.csv ainda não foi criado');
+        return;
       }
-    }; 
+
+      // Copiar o arquivo para a pasta de downloads
+      await FileSystem.copyAsync({ from: origem, to: destino });
+      alert('Arquivo copiado para a pasta de downloads!');
+    } catch (error) {
+      console.error('Erro ao copiar o arquivo:', error);
+      alert('Error em copiar o arquivo para pasta de download.');
+    }
+
+    // try {
+    //   const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
+    //   // Verificar se o arquivo CSV já existe
+    //   const fileInfo = await FileSystem.getInfoAsync(csvFilePath);
+    //   if (!fileInfo.exists) {
+    //     alert('O arquivo CSV não está disponível para download.');
+    //     return;
+    //   }
+    //   // Obter o URI do arquivo
+    //   const fileUri = `file://${csvFilePath}`; 
+    //   // Compartilhar e realizar o download
+    //   await shareAsync(fileUri, { mimeType: 'text/csv', dialogTitle: 'Download CSV' });
+    // } catch (error) {
+    //   console.error('Erro ao efetuar o download do arquivo CSV:', error);
+    //   alert('Ocorreu um erro ao efetuar o download do arquivo CSV.');
+    // }
+  };
+  function Desmarcar(){
+      setRegiao('')
+      scrollToBottom
+  }
   async function compartilhar() {
     try {
       const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
@@ -477,14 +569,14 @@ export default function App() {
       // Ler o conteúdo do arquivo CSV
       const fileContent = await FileSystem.readAsStringAsync(csvFilePath, { encoding: FileSystem.EncodingType.UTF8 });
       // Analisar o conteúdo do arquivo CSV
-      const parsedData = Papa.parse(fileContent,{ header: true  }).data; 
+      const parsedData = Papa.parse(fileContent, { header: true }).data;
       // Compartilhar o arquivo CSV
       await shareAsync(csvFilePath, { mimeType: 'text/csv', dialogTitle: 'Compartilhar ' });
     } catch (error) {
       console.error('Erro ao criar ou compartilhar o arquivo CSV:', error);
       alert('Erro Ocorreu um erro ao criar ou compartilhar o arquivo CSV.');
     }
-  }; 
+  };
   const saveDataToCSV = async (newData: any) => {
     try {
       const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
@@ -499,29 +591,16 @@ export default function App() {
       }
       // Ler o conteúdo do arquivo CSV
       const fileContent = await FileSystem.readAsStringAsync(csvFilePath, { encoding: FileSystem.EncodingType.UTF8 });
-      console.log("______________________________________________")
-      console.log('fileContent:')
-      console.log(fileContent)
       let dadosPlanilha = processarTexto(fileContent)
       // Analisar o conteúdo do arquivo CSV
-      const parsedData = Papa.parse(fileContent, { header: true } ).data;
-      console.log('parsedData:')
-      console.log(parsedData)
-      console.log('dadosPlanilha 1 :')
-      console.log(dadosPlanilha);
+      const parsedData = Papa.parse(fileContent, { header: true }).data;
       // Adicionar nova linha aos dados
       parsedData.push(newData);
       dadosPlanilha.push(newData);
-      console.log('newData:')
-      console.log(newData)
-      console.log('dadosPlanilha 2:')
-      console.log(dadosPlanilha)
       // Converter a matriz de dados para CSV
       let updatedCSV = Papa.unparse(dadosPlanilha);
+
       updatedCSV = updatedCSV.replace(/""/g, '');
-      console.log('updatedCSV:')
-      console.log(updatedCSV)
-      console.log("______________________________________________") 
       // Sobrescrever o arquivo CSV com os novos dados
       // Usar o método append para adicionar a nova linha sem sobrescrever 
       await FileSystem.writeAsStringAsync(csvFilePath, updatedCSV, { encoding: FileSystem.EncodingType.UTF8 });
@@ -562,11 +641,18 @@ export default function App() {
       setProblemaRegiao('')
       setMudanca('')
       setMensagemPolitico('')
+      setMoradiaQuantPessoa('')
+      setAvaliacaoZeze('')
+      setAvaliacaoGeilson('')
+      setAvaliacaoLucia('')
+      setNomeVereadorDestacado('')
+      setVereadorFeedback('')
+      setAvaliacaoVereadorDestacado('')
     } catch (error) {
       console.error('Erro ao salvar dados no arquivo CSV:', error);
       alert('Ocorreu um erro ao salvar os dados no arquivo CSV.');
     }
-  }; 
+  };
 
   function processarTexto(texto: string) {
     texto = texto.trim();
@@ -577,476 +663,539 @@ export default function App() {
     // Processar cada linha dividindo-a em elementos
     const arrayDeArrays = linhas.map((linha) => linha.split('\n')); // Altere a vírgula para o separador desejado
     return arrayDeArrays;
-  } 
+  }
+
+  const salvarVariavelLocal = async () => {
+    try {
+      await AsyncStorage.setItem(key, nome);
+      console.log('Variável local salva com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar variável local:', error);
+    }
+  };
+  async function primeiroAcesso() {
+    salvarVariavelLocal()
+    setAplicadorExistente(true)
+    const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
+    const initialCSVData = [[`Nome do aplicador: ${nome}`], colunasPesquisa];
+    const initialCSV = Papa.unparse(initialCSVData);
+    await FileSystem.writeAsStringAsync(csvFilePath, initialCSV, { encoding: FileSystem.EncodingType.UTF8 });
+  }
+
   return (
-    <ScrollView style={{}}>
-      <View style={{ alignItems: 'center', justifyContent: 'center', height: 80, backgroundColor: 'purple', borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
-        <Text style={{ color: '#fff', fontSize: 22, fontWeight: "700", fontFamily: "Roboto" }}>
-          Pesquisa Baraunas
-        </Text>
-      </View>
-      <View style={{ padding: 16, flex: 1 }}> 
-        <Text style={styles.pergunta}>
-          1- ZONA
-        </Text>
-        <View  >
-          <SelectList
-            setSelected={(val: any) => setzona(val)}
-            data={zonas}
-            save="value"
-            placeholder='Selecione a zona'
-            notFoundText='Dado não encontrado'
-            searchPlaceholder='Digite a zona que deseja encontrar'
-          />
-        </View>
-        <Text style={styles.pergunta}>
-          2- REGIÃO
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setRegiao(valor)}
-          data={regioes}
-          save="value"
-          placeholder='Selecione a regiao'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a região que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          3- SEXO
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setSexo(valor)}
-          data={sexos}
-          save="value"
-          placeholder='Selecione o sexo'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o sexo que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          4 - IDADE
-        </Text>
-        <TextInput
-          style={styles.inputNumber}
-          placeholder="Digite a idade do entrevistado"
-          keyboardType="numeric"
-          value={idade}
-          onChangeText={handleInputChange}
-        />
-        <Text style={styles.pergunta}>
-          5 - FAIXA DE RENDA
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setFaixaRenda(valor)}
-          data={faixaRendas}
-          save="value"
-          placeholder='Selecione o faixa de renda'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a faixa de renda que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          6 - Qual é a origem da sua renda principal?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setOrigemRenda(valor)}
-          data={origemRendas}
-          save="value"
-          placeholder='Selecione o faixa de renda'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a faixa de renda que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          7 - NIVEL DE ESCOLARIDADE
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setNivelEscolar(valor)}
-          data={nivelEscolaridades}
-          save="value"
-          placeholder='Selecione o nivel escolar'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o nivel escolar que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          8 - Quantas pessoas moram contigo na sua casa?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setQuantPessoa(valor)}
-          data={quantPessoas}
-          save="value"
-          placeholder='Selecione o nivel escolar'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o nivel escolar que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          9 - Sua moradia é:
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setmoradia(valor)}
-          data={moradias}
-          save="value"
-          placeholder='Selecione a moradia'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a moradia que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          9.1 - Quantas pessoas moram contigo na mesma casa? (preencher com número)
-        </Text>
+    <>
+      {aplicadorExistente ?
+
+        <ScrollView style={{}} ref={scrollViewRef}>
+          <View>
+            <View style={{ alignItems: 'center', justifyContent: 'center', height: 80, backgroundColor: 'purple', borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+              <Text style={{ color: '#fff', fontSize: 22, fontWeight: "700", fontFamily: "Roboto" }}>
+                Pesquisa Baraunas
+              </Text>
+            </View>
+            <View style={{ padding: 16, flex: 1 }}>
+              <Text style={styles.pergunta}>
+                1- ZONA
+              </Text>
+              <View  >
+                <SelectList
+                  setSelected={(val: any) => setzona(val)}
+                  data={zonas}
+                  save="value"
+                  placeholder='Selecione a zona'
+                  notFoundText='Dado não encontrado'
+                  searchPlaceholder='Digite a zona que deseja encontrar'
+                />
+              </View>
+              <Text style={styles.pergunta}>
+                2- REGIÃO
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setRegiao(valor)}
+                data={regioes}
+                save="value"
+                placeholder='Selecione a regiao'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a região que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                3- SEXO
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setSexo(valor)}
+                data={sexos}
+                save="value"
+                placeholder='Selecione o sexo'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o sexo que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                4 - IDADE
+              </Text>
+              <TextInput
+                style={styles.inputNumber}
+                placeholder="Digite a idade do entrevistado"
+                keyboardType="numeric"
+                value={idade}
+                onChangeText={handleInputChange}
+              />
+              <Text style={styles.pergunta}>
+                5 - FAIXA DE RENDA
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setFaixaRenda(valor)}
+                data={faixaRendas}
+                save="value"
+                placeholder='Selecione o faixa de renda'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a faixa de renda que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                6 - Qual é a origem da sua renda principal?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setOrigemRenda(valor)}
+                data={origemRendas}
+                save="value"
+                placeholder='Selecione o faixa de renda'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a faixa de renda que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                7 - NIVEL DE ESCOLARIDADE
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setNivelEscolar(valor)}
+                data={nivelEscolaridades}
+                save="value"
+                placeholder='Selecione o nivel escolar'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o nivel escolar que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                8 - Quantas pessoas moram contigo na sua casa?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setQuantPessoa(valor)}
+                data={quantPessoas}
+                save="value"
+                placeholder='Selecione quantas pessoas moram com você'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a quantidade de pessoas que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                9 - Sua moradia é:
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setmoradia(valor)}
+                data={moradias}
+                save="value"
+                placeholder='Selecione a moradia'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a moradia que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                9.1 - Quantas pessoas moram contigo na mesma casa? (preencher com número)
+              </Text>
+              <TextInput
+                style={styles.inputNumber}
+                placeholder="Informe a quantidade de pessoas"
+                keyboardType="numeric"
+                value={moradiaQuantPessoa}
+                onChangeText={handleInputQuantPessoas}
+              />
+              <Text style={styles.pergunta}>
+                10 - Na sua casa qual tipo de veiculo existe?(selecione  as opções que existir em ordem)
+              </Text>
+              <MultipleSelectList
+                setSelected={(valor: any) => setCasaVeiculo(valor)}
+                data={casaVeiculos}
+                save="value"
+                label="Categories"
+                placeholder='Selecione os veiculos da casa'
+                searchPlaceholder='Digite o veiculo da casa que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                11 - PERFIL DO ENTREVISTADO
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setPerfilEntrevistado(valor)}
+                data={perfilEntrevistados}
+                save="value"
+                placeholder='Selecione o perfil do entrevistado'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o perfil do entrevistado que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                12 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setComunicaoVeiculo(valor)}
+                data={comunicaoVeiculos}
+                save="value"
+                placeholder='Selecione o veiculo de comunicação'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o veiculo de comunicação que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                13 - Você costuma discutir política com amigos/família/colegas?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setDiscutirPolitica(valor)}
+                data={discutirPoliticas}
+                save="value"
+                placeholder='Selecione a opção'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a opção que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                14 - Você já participou de alguma manifestação política? Seja participação em carreata, ou qualquer coisa do gênero
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setParticipouManif(valor)}
+                data={participouManifestacao}
+                save="value"
+                placeholder='Selecione a opção'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a opção que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                15 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes)
+              </Text>
+              <MultipleSelectList
+                setSelected={(valor: any) => setEscolhaCandidato(valor)}
+                data={escolhaCandidatos}
+                save="value"
+                label="Selecione três questões"
+                placeholder='Selecione as questões'
+                searchPlaceholder='Digite a questão que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                15.1 - Em relação aos serviços públicos oferecidos na sua região, quais você considera mais deficientes? (Escolha as três mais importantes)
+              </Text>
+              <MultipleSelectList
+                setSelected={(valor: any) => setDeficienteServico(valor)}
+                data={deficienteServicos}
+                save="value"
+                label="Selecione três serviços"
+                placeholder='Selecione os serviços'
+                searchPlaceholder='Digite o serviço que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                16 - Qual dessas questões você acredita que seu candidato ideal deveria priorizar?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setCadidatoprioridade(valor)}
+                data={cadidatoprioridades}
+                save="value"
+                placeholder='Selecione a questão'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a questão que deseja encontrar'
+              />
+
+              <Text style={styles.pergunta}>
+                17 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções)
+              </Text>
+              <MultipleSelectList
+                setSelected={(valor: any) => { setBomCandidatoCaracteristica(valor) }}
+                data={bomCandidatoCaracteristicas}
+                save="value"
+                label="Selecione atê três características"
+                placeholder='Selecione as características'
+                searchPlaceholder='Digite a característica que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                18 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA PRESIDENTE?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setVotoPresidente(valor)}
+                data={votoPresidentes}
+                save="value"
+                placeholder='Selecione o candidato'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o candidato que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                19 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setVotoGovernador(valor)}
+                data={votoGovernadores}
+                save="value"
+                placeholder='Selecione o candidato'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o candidato que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                20 - Se a eleição fosse hoje, em quem você votaria para PREFEITO?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setVotoPrefeito(valor)}
+                data={votoPrefeitos}
+                save="value"
+                placeholder='Selecione o candidato'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o candidato que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5)
+              </Text>
+              <StarRating rating={avaliacaoGeilson} onStarPress={setAvaliacaoGeilson} />
+              <Text style={styles.pergunta}>
+                20.2 - Como está a avaliação dos vereadores? Zezé da Agrícola (de 1 até 5)
+              </Text>
+              <StarRating rating={avaliacaoZeze} onStarPress={setAvaliacaoZeze} />
+              <Text style={styles.pergunta}>
+                20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)
+              </Text >
+              <StarRating rating={avaliacaoLucia} onStarPress={setAvaliacaoLucia} />
+              <Text style={styles.pergunta}>
+                20.4 - Como está a avaliação dos vereadores? Algum que você queira destacar uma critica ou elogio
+              </Text>
+              <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                <Button mode="contained" style={[styles.buttons, { justifyContent: 'center', width: '80%', backgroundColor: destaque ? 'red' : 'purple' }]}
+                  onPress={() => {
+                    setNomeVereadorDestacado('')
+                    setVereadorFeedback('')
+                    setAvaliacaoVereadorDestacado('')
+                    setDestaque(!destaque)
+                  }}>
+                  <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18, color: 'white' }}>
+                    {destaque ? 'Não quero avaliar' : 'Quero avaliar'}
+                  </Text>
+                </Button>
+              </View>
+              {destaque ?
+                <View >
+                  <TextInput
+                    label="Escreva o nome do vereador"
+                    value={nomeVereadorDestacado}
+                    onChangeText={(text) => setNomeVereadorDestacado(text)}
+                    style={styles.inputText}
+                  />
+                  <TextInput
+                    label="Descreva a critica ou elogio"
+                    value={vereadorFeedback}
+                    onChangeText={(text) => setVereadorFeedback(text)}
+                    style={styles.inputText}
+                  />
+                  <StarRating rating={avaliacaoVereadorDestacado} onStarPress={setAvaliacaoVereadorDestacado} />
+                </View>
+                :
+                null
+              }
+
+              <Text style={styles.pergunta}>
+                21 - Como você avalia a atuação do governo atual em relação ao atendimento das necessidades da população?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setAvalicaoAtendimento(valor)}
+                data={AvalicaoAtendimentos}
+                save="value"
+                placeholder='Selecione o candidato'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite o candidato que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                22 - Na sua opinião, quais deveriam ser as prioridades de um representante político?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setPrioridade(valor)}
+                data={prioridades}
+                save="value"
+                placeholder='Selecione as prioridades'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a prioridade que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                23 - Atualmente, vejo a política municipal como:
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setMunicipalPolitica(valor)}
+                data={MunicipalPoliticas}
+                save="value"
+                placeholder='Selecione a visão da politica atual'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a visão da politica atual que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                24 - Minha confiança nas lideranças políticas municipais é:
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setLiderancasPolítica(valor)}
+                data={liderancasPolíticas}
+                save="value"
+                placeholder='Selecione a confiança'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a confiança que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                25 - Eu me sinto representado pelos políticos locais:
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setRepresentadoPolitico(valor)}
+                data={representadoPoliticos}
+                save="value"
+                placeholder='Selecione a opção'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a opção que deseja encontrar'
+              />
+              <Text style={styles.pergunta}>
+                26 - A situação atual da administração municipal é
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setMunicipalAdmin(valor)}
+                data={MunicipalAdmins}
+                save="value"
+                placeholder='Selecione a sintuação'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a sintuação que deseja encontrar'
+              />
+
+              <Text style={styles.pergunta}>
+                27 - Minha visão sobre a política municipal é influenciada por:
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setPoliticainflencia(valor)}
+                data={politicainflencias}
+                save="value"
+                placeholder='Selecione o que influencia'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a influencia que deseja encontrar'
+              />
+
+              <Text style={styles.pergunta}>
+                28 - O que mais influencia sua decisão de voto?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setDecisaoInfluencia(valor)}
+                data={decisaoInfluencias}
+                save="value"
+                placeholder='Digite o que influencia a tomada de decisão'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a influencia que quer encontrar'
+              />
+              <Text style={styles.pergunta}>
+                29 - Você acha que deveria existir uma mudança na prefeitura da cidade?
+              </Text>
+              <SelectList
+                setSelected={(valor: any) => setPrefeituraMudanca(valor)}
+                data={PrefeituraMudancas}
+                save="value"
+                placeholder='Descreva a mudança'
+                notFoundText='Dado não encontrado'
+                searchPlaceholder='Digite a mudança encontrar'
+              />
+              <Text style={styles.pergunta}>
+                30 - QUAL O PRINCIPAL PROBLEMA DA CIDADE DE BARÚNA NA SUA OPNIÃO?
+              </Text>
+              <TextInput
+                label="Relate o problema da cidade"
+                value={problemaCidade}
+                onChangeText={(text) => setProblemaCidade(text)}
+                style={styles.inputText}
+              />
+              <Text style={styles.pergunta}>
+                31 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região?
+              </Text>
+              <TextInput
+                label="Descreva a ideia inovadora"
+                value={ideiaInovadora}
+                onChangeText={(text) => setIdeiaInovadora(text)}
+                style={styles.inputText}
+              />
+              <Text style={styles.pergunta}>
+                32 - Como você imagina nossa comunidade nos próximos anos? O que você gostaria de ver mudado ou melhorado?
+              </Text>
+              <TextInput
+                label="Descreva a comunidade"
+                value={comunidadeFuturo}
+                onChangeText={(text) => setComunidadeFuturo(text)}
+                style={styles.inputText}
+              />
+              <Text style={styles.pergunta}>
+                33 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPNIÃO?
+              </Text>
+              <TextInput
+                label="Digite o principal problema da regiao"
+                value={problemaRegiao}
+                onChangeText={(text) => setProblemaRegiao(text)}
+                style={styles.inputText}
+              />
+              <Text style={styles.pergunta}>
+                34- Quais ações ou mudanças você gostaria que a prefeitura implementasse em Baraúna para melhorar a qualidade de vida na cidade?
+              </Text>
+              <TextInput
+                label="Descreva a mudanca"
+                value={mudanca}
+                onChangeText={(text) => setMudanca(text)}
+                style={styles.inputText}
+              />
+              <Text style={styles.pergunta}>
+                35 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA
+              </Text>
+              <TextInput
+                label="Digite a mensagem"
+                value={mensagemPolitico}
+                onChangeText={(text) => setMensagemPolitico(text)}
+                style={styles.inputText}
+              />
+              <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', }}>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={downloadFromUrl} >
+                    <Feather name="download" size={30} color="purple" />
+                  </TouchableOpacity>
+                </View>
+                <View style={{ flex: 2, alignItems: 'center' }}>
+                  <Button mode="contained" style={styles.buttons} onPress={handleSaveData}>
+                    <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
+                      Salvar
+                    </Text>
+                  </Button>
+                  <Button mode="contained" style={styles.buttons} onPress={Desmarcar}>
+                    <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
+                      Desmarcar selects
+                    </Text>
+                  </Button>
+
+                </View>
+                <View style={{ flex: 1, alignItems: 'center' }}>
+                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={compartilhar} >
+                    <Entypo name="share" size={30} color="purple" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+
+        </ScrollView>
+        :
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16, backgroundColor: "#d3d3d3" }}>
+          <Image source={require('./assets/baraunaicon.png')} style={{ width: 160, height: 160, marginTop: 120, }} />
+          <Text >
+            CIDADE DE BARAUNAS
+          </Text>
+          <Text style={styles.titulo}>
+            Antes de iniciarmos a pesquisa informe o seu nome
+          </Text>
           <TextInput
-            style={styles.inputNumber}
-            placeholder="Informe a quantidade de pessoas"
-            keyboardType="numeric"
-            value={moradiaQuantPessoa}
-            onChangeText={handleInputQuantPessoas}
+            label="Digite o seu nome"
+            value={nome}
+            onChangeText={(text) => setNome(text)}
+            style={styles.inputText}
           />
-        <Text style={styles.pergunta}>
-          10 - Na sua casa qual tipo de veiculo existe?(selecione  as opções que existir em ordem)
-        </Text>
-        <MultipleSelectList
-          setSelected={(valor: any) => setCasaVeiculo(valor)}
-          data={casaVeiculos}
-          save="value"
-          label="Categories"
-          placeholder='Selecione os veiculos da casa'
-          searchPlaceholder='Digite o veiculo da casa que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          11 - PERFIL DO ENTREVISTADO
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setPerfilEntrevistado(valor)}
-          data={perfilEntrevistados}
-          save="value"
-          placeholder='Selecione o perfil do entrevistado'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o perfil do entrevistado que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          12 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setComunicaoVeiculo(valor)}
-          data={comunicaoVeiculos}
-          save="value"
-          placeholder='Selecione o veiculo de comunicação'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o veiculo de comunicação que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          13 - Você costuma discutir política com amigos/família/colegas?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setDiscutirPolitica(valor)}
-          data={discutirPoliticas}
-          save="value"
-          placeholder='Selecione a opção'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a opção que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          14 - Você já participou de alguma manifestação política? Seja participação em carreata, ou qualquer coisa do gênero
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setParticipouManif(valor)}
-          data={participouManifestacao}
-          save="value"
-          placeholder='Selecione a opção'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a opção que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          15 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes)
-        </Text>
-        <MultipleSelectList
-          setSelected={(valor: any) => setEscolhaCandidato(valor)}
-          data={escolhaCandidatos}
-          save="value" 
-          label="Selecione três questões"
-          placeholder='Selecione as questões'
-          searchPlaceholder='Digite a questão que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          15.1 - Em relação aos serviços públicos oferecidos na sua região, quais você considera mais deficientes? (Escolha as três mais importantes)
-        </Text>
-        <MultipleSelectList
-          setSelected={(valor: any) => setDeficienteServico(valor)}
-          data={deficienteServicos}
-          save="value" 
-          label="Selecione três serviços"
-          placeholder='Selecione os serviços'
-          searchPlaceholder='Digite o serviço que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          16 - Qual dessas questões você acredita que seu candidato ideal deveria priorizar?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setCadidatoprioridade(valor)}
-          data={cadidatoprioridades}
-          save="value"
-          placeholder='Selecione a questão'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a questão que deseja encontrar'
-        />
-
-        <Text style={styles.pergunta}>
-          17 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções)
-        </Text>
-        <MultipleSelectList
-          setSelected={(valor: any) => setBomCandidatoCaracteristica(valor)}
-          data={bomCandidatoCaracteristicas}
-          save="value" 
-          label="Selecione atê três características"
-          placeholder='Selecione as características'
-          searchPlaceholder='Digite a característica que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          18 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA PRESIDENTE?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setVotoPresidente(valor)}
-          data={votoPresidentes}
-          save="value"
-          placeholder='Selecione o candidato'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o candidato que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          19 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setVotoGovernador(valor)}
-          data={votoGovernadores}
-          save="value"
-          placeholder='Selecione o candidato'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o candidato que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          20 - Se a eleição fosse hoje, em quem você votaria para PREFEITO?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setVotoPrefeito(valor)}
-          data={votoPrefeitos}
-          save="value"
-          placeholder='Selecione o candidato'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o candidato que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5) 
-        </Text>
-          <StarRating rating={avaliacaoGeilson} onStarPress={setAvaliacaoGeilson} />
-        <Text style={styles.pergunta}>
-          20.2 - Como está a avaliação dos vereadores? Zezé da Agrícola (de 1 até 5)
-        </Text>
-          <StarRating rating={avaliacaoZeze} onStarPress={setAvaliacaoZeze} />
-        <Text style={styles.pergunta}>
-          20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)  
-        </Text >
-          <StarRating rating={avaliacaoLucia} onStarPress={setAvaliacaoLucia} />
-        <Text style={styles.pergunta}>
-          20.4 - Como está a avaliação dos vereadores? Algum que você queira destacar uma critica ou elogio  
-        </Text>
-        <View style={{justifyContent: 'center', alignItems: 'center', flex:1 }}>
-          <Button mode="contained" style={[styles.buttons,{ justifyContent: 'center', width: '80%', backgroundColor: destaque ? 'red': 'purple'}]} onPress={()=> setDestaque(!destaque) }>
-              <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18, color: 'white' }}>
-                {  destaque ? 'Não quero destacar': 'Quero destacar'} 
-              </Text>
-            </Button>
+          <Button mode="contained" style={[styles.buttons, { marginTop: '5%', marginBottom: '60%' }]} onPress={primeiroAcesso}>
+            <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
+              Começar a pesquisa
+            </Text>
+          </Button>
+          <Text style={{ alignItems: 'flex-end', color: '#0c0c0c' }}>
+            Versão Beta
+          </Text>
         </View>
-            { destaque ?
-              <View >
-                <TextInput
-                  label="Escreva o nome do vereador"
-                  value={nomeVereadorDestacado}
-                  onChangeText={(text) => setNomeVereadorDestacado(text)}
-                  style={styles.inputText}
-                />
-                <TextInput
-                  label="Descreva a critica ou elogio"
-                  value={vereadorFeedback}
-                  onChangeText={(text) => setVereadorFeedback(text)}
-                  style={styles.inputText}
-                />
-                <StarRating rating={avaliacaoVereadorDestacado} onStarPress={setAvaliacaoVereadorDestacado} />
-              </View> 
-          :
-          null
-          }
 
-        <Text style={styles.pergunta}>
-          21 - Como você avalia a atuação do governo atual em relação ao atendimento das necessidades da população?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setAvalicaoAtendimento(valor)}
-          data={AvalicaoAtendimentos}
-          save="value"
-          placeholder='Selecione o candidato'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite o candidato que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          22 - Na sua opinião, quais deveriam ser as prioridades de um representante político?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setPrioridade(valor)}
-          data={prioridades}
-          save="value"
-          placeholder='Selecione as prioridades'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a prioridade que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          23 - Atualmente, vejo a política municipal como:
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setMunicipalPolitica(valor)}
-          data={MunicipalPoliticas}
-          save="value"
-          placeholder='Selecione a visão da politica atual'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a visão da politica atual que deseja encontrar'
-        /> 
-        <Text style={styles.pergunta}>
-          24 - Minha confiança nas lideranças políticas municipais é:
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setLiderancasPolítica(valor)}
-          data={liderancasPolíticas}
-          save="value"
-          placeholder='Selecione a confiança'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a confiança que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          25 - Eu me sinto representado pelos políticos locais:
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setRepresentadoPolitico(valor)}
-          data={representadoPoliticos}
-          save="value"
-          placeholder='Selecione a opção'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a opção que deseja encontrar'
-        />
-        <Text style={styles.pergunta}>
-          26 - A situação atual da administração municipal é
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setMunicipalAdmin(valor)}
-          data={MunicipalAdmins}
-          save="value"
-          placeholder='Selecione a sintuação'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a sintuação que deseja encontrar'
-        />
-
-        <Text style={styles.pergunta}>
-          27 - Minha visão sobre a política municipal é influenciada por:
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setPoliticainflencia(valor)}
-          data={politicainflencias}
-          save="value"
-          placeholder='Selecione o que influencia'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a influencia que deseja encontrar'
-        />
-
-        <Text style={styles.pergunta}>
-          28 - O que mais influencia sua decisão de voto?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setDecisaoInfluencia(valor)}
-          data={decisaoInfluencias}
-          save="value"
-          placeholder='Digite o que influencia a tomada de decisão'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a influencia que quer encontrar'
-        />
-        <Text style={styles.pergunta}>
-          29 - Você acha que deveria existir uma mudança na prefeitura da cidade?
-        </Text>
-        <SelectList
-          setSelected={(valor: any) => setPrefeituraMudanca(valor)}
-          data={PrefeituraMudancas}
-          save="value"
-          placeholder='Descreva a mudança'
-          notFoundText='Dado não encontrado'
-          searchPlaceholder='Digite a mudança encontrar'
-        />
-        <Text style={styles.pergunta}>
-          30 - QUAL O PRINCIPAL PROBLEMA DA CIDADE DE BARÚNA NA SUA OPNIÃO?
-        </Text>
-        <TextInput
-          label="Relate o problema da cidade"
-          value={problemaCidade}
-          onChangeText={(text) => setProblemaCidade(text)}
-          style={styles.inputText}
-        />
-        <Text style={styles.pergunta}>
-          31 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região?
-        </Text>
-        <TextInput
-          label="Descreva a ideia inovadora"
-          value={ideiaInovadora}
-          onChangeText={(text) => setIdeiaInovadora(text)}
-          style={styles.inputText}
-        />
-        <Text style={styles.pergunta}>
-          32 - Como você imagina nossa comunidade nos próximos anos? O que você gostaria de ver mudado ou melhorado?
-        </Text>
-        <TextInput
-          label="Descreva a comunidade"
-          value={comunidadeFuturo}
-          onChangeText={(text) => setComunidadeFuturo(text)}
-          style={styles.inputText}
-        />
-        <Text style={styles.pergunta}>
-          33 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPNIÃO?
-        </Text>
-        <TextInput
-          label="Digite o principal problema da regiao"
-          value={problemaRegiao}
-          onChangeText={(text) => setProblemaRegiao(text)}
-          style={styles.inputText}
-        />
-        <Text style={styles.pergunta}>
-          34- Quais ações ou mudanças você gostaria que a prefeitura implementasse em Baraúna para melhorar a qualidade de vida na cidade?
-        </Text>
-        <TextInput
-          label="Descreva a mudanca"
-          value={mudanca}
-          onChangeText={(text) => setMudanca(text)}
-          style={styles.inputText}
-        />
-        <Text style={styles.pergunta}>
-          35 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA
-        </Text>
-        <TextInput
-          label="Digite a mensagem"
-          value={mensagemPolitico}
-          onChangeText={(text) => setMensagemPolitico(text)}
-          style={styles.inputText}
-        />
-        <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', }}>
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <TouchableOpacity style={{ alignItems: 'center' }} onPress={downloadFromUrl} >
-              <Feather name="download" size={30} color="purple" />
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 2, alignItems: 'center' }}>
-            <Button mode="contained" style={styles.buttons} onPress={handleSaveData}>
-              <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
-                Salvar
-              </Text>
-            </Button>
-          </View>
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <TouchableOpacity style={{ alignItems: 'center' }} onPress={compartilhar} >
-              <Entypo name="share" size={30} color="purple" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+      }
+    </>
   );
 }
 
@@ -1057,6 +1206,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  titulo: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 8,
+    fontSize: 24,
+    textAlign: 'center',
+    fontWeight: "500",
+    color: '#450145'
+  },
   inputNumber: {
     height: 40,
     borderColor: 'gray',
@@ -1065,7 +1223,8 @@ const styles = StyleSheet.create({
   }
   ,
   inputText: {
-    width: '100%'
+    width: '100%',
+    borderRadius: 16
   },
   section: {
     flexDirection: 'row',
@@ -1086,10 +1245,104 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     padding: 8,
     fontSize: 16,
-    textAlign: 'justify'
+    textAlign: 'justify',
+    fontWeight: "500"
   },
   buttons: {
-    width: '100%',
-
+    width: '100%', 
   }
 });
+
+
+// import React, { useState } from 'react';
+// import { View, Text, Button } from 'react-native';
+// import { SelectList } from 'react-native-dropdown-select-list';
+
+// const SeuFormulario = () => {
+//   const [opcao1, setOpcao1] = useState('null');
+//   const [opcao2, setOpcao2] = useState(null);
+//   const [opcao3, setOpcao3] = useState(null);
+//   // Função para resetar os valores
+//   const resetarValores = () => {
+//     setOpcao1('Jammu & Kashmir');
+//     setOpcao2(null);
+//     setOpcao3(null);
+//   };
+//   const [selected, setSelected] = React.useState("");
+  
+//   const data = [
+//     {key:'1',value:'Jammu & Kashmir', disabled:true},
+//     {key:'2',value:'Gujrat'},
+//     {key:'3',value:'Maharashtra'},
+//     {key:'4',value:'Goa'},
+//   ];
+//   let dadosOpcao1 = [
+//     { key: 'op1', value: 'op1' },
+//     { key: 'op2', value: 'op2' },
+//     { key: 'op3', value: 'op3' },
+//   ] 
+//   let dadosOpcao2 = [
+//     { key: 'op1', value: 'op1' },
+//     { key: 'op2', value: 'op2' },
+//     { key: 'op3', value: 'op3' },
+//   ] 
+//   let dadosOpcao3 = [
+//     { key: 'op1', value: 'op1' },
+//     { key: 'op2', value: 'op2' },
+//     { key: 'op3', value: 'op3' },
+//   ] 
+//   // Função para resetar os valores dos SelectList
+//   // const resetarValores = () => {
+//   //   setOpcao1('');
+//   //   setOpcao2('');
+//   //   setOpcao3('');
+//   // };
+
+//   return (
+//     <View>
+//       <Text  >Escolha a Opção 1:</Text>
+//       <SelectList
+//         setSelected={(valor: any) => setOpcao1(valor)}
+//         data={dadosOpcao1}
+//         save="value"
+//         placeholder='Selecione a opção 1'
+//         notFoundText='Dado não encontrado'
+//         searchPlaceholder='Digite a opção que deseja encontrar'
+//       /> 
+//       <Text  >Escolha a Opção 2:</Text>
+//       <SelectList
+//         setSelected={(valor: any) => setOpcao2(valor)}
+//         data={dadosOpcao2}
+//         save="value"
+//         placeholder='Selecione a opção 2'
+//         notFoundText='Dado não encontrado'
+//         searchPlaceholder='Digite a opção que deseja encontrar'
+//       /> 
+//       <Text  >Escolha a Opção 3:</Text>
+//       <SelectList
+//         setSelected={(valor: any) => setOpcao3(valor)}
+//         data={dadosOpcao3}
+//         save="value"
+//         onSelect={}
+
+//         placeholder='Selecione a opção 3' 
+//         notFoundText='Dado não encontrado'
+//         searchPlaceholder='Digite a opção que deseja encontrar'
+//       />
+//        <SelectList  
+//           setSelected={setSelected} 
+//           fontFamily='lato'
+//           data={data}   
+//           onSelect={opcao1 ? [opcao1] : []}
+
+//           search={false} 
+//           boxStyles={{borderRadius:0}} //override default styles
+//           defaultOption={{ key:'1', value:'Jammu & Kashmir' }}   //default selected option
+//         />
+//       {/* Botão para resetar os valores */}
+//       <Button title="Resetar Valores" onPress={resetarValores} />
+//     </View>
+//   );
+// };
+
+// export default SeuFormulario;

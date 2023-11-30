@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "FormCSV",
+    "name": "Formulários Baraúnas",
     "slug": "FormCSV",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/formulariosgoogle.png", 
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -15,9 +15,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "magnus"
     },
     "android": {
+      "sdkVersion": "40.0.0",
       "permissions": [
         "WRITE_EXTERNAL_STORAGE"
       ],
