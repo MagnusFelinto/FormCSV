@@ -1,5 +1,5 @@
 
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image, StatusBar } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 import { useEffect, useRef, useState } from 'react';
@@ -9,32 +9,91 @@ import { Feather, Entypo } from '@expo/vector-icons';
 import * as Papa from 'papaparse';
 import StarRating from './components/StarRating.jsx'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useForm, Controller } from "react-hook-form" 
 
 export default function App() {
   const nomeArquivo = 'baraunas.csv'
   const key = 'testefff'
   const scrollViewRef = useRef();
-
+  const [nomeDoAplicador, setNomeDoAplicador] = useState('');
+  const [nome, setNome] = useState('');
+  const [aplicadorExistente, setAplicadorExistente] = useState(false);
+  const [destaque, setDestaque] = useState(false);
+  const [avaliacaoGeilson, setAvaliacaoGeilson] = useState('');
+  const [avaliacaoLucia, setAvaliacaoLucia] = useState('');
+  const [avaliacaoZeze, setAvaliacaoZeze] = useState('');
+  const [avaliacaoVereadorDestacado, setAvaliacaoVereadorDestacado] = useState('');
+  const [nomeVereadorDestacado, setNomeVereadorDestacado] = useState('');
+  const [vereadorFeedback, setVereadorFeedback] = useState('');
+  const [sexo, setSexo] = useState('');
+  const [zona, setzona] = useState("");
+  const [idade, setIdade] = useState('');
+  const [faixaRenda, setFaixaRenda] = useState('');
+  const [origemRenda, setOrigemRenda] = useState('');
+  const [nivelEscolar, setNivelEscolar] = useState('');
+  const [quantPessoa, setQuantPessoa] = useState('');
+  const [moradia, setmoradia] = useState('');
+  const [casaVeiculo, setCasaVeiculo] = useState('');
+  const [perfilEntrevistado, setPerfilEntrevistado] = useState('');
+  const [comunicaoVeiculo, setComunicaoVeiculo] = useState('')
+  const [discutirPolitica, setDiscutirPolitica] = useState('')
+  const [participouManif, setParticipouManif] = useState('')
+  const [escolhaCandidato, setEscolhaCandidato] = useState('')
+  const [deficienteServico, setDeficienteServico] = useState('')
+  const [cadidatoprioridade, setCadidatoprioridade] = useState('')
+  const [bomCandidatoCaracteristica, setBomCandidatoCaracteristica] = useState('')
+  const [votoPresidente, setVotoPresidente] = useState('')
+  const [votoGovernador, setVotoGovernador] = useState('')
+  const [votoPrefeito, setVotoPrefeito] = useState('')
+  const [avalicaoAtendimento, setAvalicaoAtendimento] = useState('')
+  const [prioridade, setPrioridade] = useState('')
+  const [municipalPolitica, setMunicipalPolitica] = useState('')
+  const [liderancasPolítica, setLiderancasPolítica] = useState('')
+  const [representadoPolitico, setRepresentadoPolitico] = useState('')
+  const [municipalAdmin, setMunicipalAdmin] = useState('')
+  const [politicainflencia, setPoliticainflencia] = useState('')
+  const [decisaoInfluencia, setDecisaoInfluencia] = useState('')
+  const [prefeituraMudanca, setPrefeituraMudanca] = useState('')
+  const [mensagemPolitico, setMensagemPolitico] = useState('');
+  const [mudanca, setMudanca] = useState('');
+  const [problemaRegiao, setProblemaRegiao] = useState('');
+  const [comunidadeFuturo, setComunidadeFuturo] = useState('');
+  const [ideiaInovadora, setIdeiaInovadora] = useState('');
+  const [problemaCidade, setProblemaCidade] = useState('');
+  const [regiao, setRegiao] = useState('');
+  const [moradiaQuantPessoa, setMoradiaQuantPessoa] = useState('');
+  const { control, handleSubmit, setValue, reset, formState: { errors } } = useForm(); 
   const scrollToBottom = () => {
     scrollViewRef.current.scrollTo(0, 0, { animated: true });
   };
   const handleSaveData = () => {
+    scrollToBottom()
     setCasaVeiculo(casaVeiculo.toString().replace(',', '|'))
     setEscolhaCandidato(escolhaCandidato.toString().replace(',', '|'))
     setDeficienteServico(deficienteServico.toString().replace(',', '|'))
     setBomCandidatoCaracteristica(bomCandidatoCaracteristica.toString().replace(',', '|'))
+    const opcoes = {
+      timeZone: 'America/Sao_Paulo', // Fuso horário do Brasil
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
     const dataAtual = new Date();
-    const ano = dataAtual.getFullYear();
-    const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
-    const dia = String(dataAtual.getDate()).padStart(2, '0');
-    // Formatar a hora como uma string
-    const horas = String(dataAtual.getHours()).padStart(2, '0');
-    const minutos = String(dataAtual.getMinutes()).padStart(2, '0');
-    const segundos = String(dataAtual.getSeconds()).padStart(2, '0');
-    // Criar uma string no formato desejado (por exemplo, "YYYY-MM-DD HH:mm:ss")
-    let dataHoraFormatada = `${ano}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
-    console.log("Dados salvos " + dataHoraFormatada);
-    const newData = [
+    const op = {
+      timeZone: 'America/Sao_Paulo',  
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+    
+    const dataHoraFormatada = dataAtual.toLocaleString('pt-BR', op); 
+    let newData = [
       zona,
       regiao,
       sexo,
@@ -123,12 +182,10 @@ export default function App() {
     setAvaliacaoLucia('')
     setNomeVereadorDestacado('')
     setVereadorFeedback('')
-    setAvaliacaoVereadorDestacado('')
-    scrollToBottom()
-
+    setAvaliacaoVereadorDestacado('') 
+    reset();  
+    alert('Dados salvos com sucesso!');
   };
-  const [nomeDoAplicador, setNomeDoAplicador] = useState('');
-  const [nome, setNome] = useState('');
   useEffect(() => {
     const carregarVariavelLocal = async () => {
       try {
@@ -146,51 +203,6 @@ export default function App() {
     };
     carregarVariavelLocal()
   }, [nomeDoAplicador])
-  const [aplicadorExistente, setAplicadorExistente] = useState(false);
-  const [destaque, setDestaque] = useState(false);
-  const [avaliacaoGeilson, setAvaliacaoGeilson] = useState('');
-  const [avaliacaoLucia, setAvaliacaoLucia] = useState('');
-  const [avaliacaoZeze, setAvaliacaoZeze] = useState('');
-  const [avaliacaoVereadorDestacado, setAvaliacaoVereadorDestacado] = useState('');
-  const [nomeVereadorDestacado, setNomeVereadorDestacado] = useState('');
-  const [vereadorFeedback, setVereadorFeedback] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [zona, setzona] = useState("");
-  const [idade, setIdade] = useState('');
-  const [faixaRenda, setFaixaRenda] = useState('');
-  const [origemRenda, setOrigemRenda] = useState('');
-  const [nivelEscolar, setNivelEscolar] = useState('');
-  const [quantPessoa, setQuantPessoa] = useState('');
-  const [moradia, setmoradia] = useState('');
-  const [casaVeiculo, setCasaVeiculo] = useState('');
-  const [perfilEntrevistado, setPerfilEntrevistado] = useState('');
-  const [comunicaoVeiculo, setComunicaoVeiculo] = useState('')
-  const [discutirPolitica, setDiscutirPolitica] = useState('')
-  const [participouManif, setParticipouManif] = useState('')
-  const [escolhaCandidato, setEscolhaCandidato] = useState('')
-  const [deficienteServico, setDeficienteServico] = useState('')
-  const [cadidatoprioridade, setCadidatoprioridade] = useState('')
-  const [bomCandidatoCaracteristica, setBomCandidatoCaracteristica] = useState('')
-  const [votoPresidente, setVotoPresidente] = useState('')
-  const [votoGovernador, setVotoGovernador] = useState('')
-  const [votoPrefeito, setVotoPrefeito] = useState('')
-  const [avalicaoAtendimento, setAvalicaoAtendimento] = useState('')
-  const [prioridade, setPrioridade] = useState('')
-  const [municipalPolitica, setMunicipalPolitica] = useState('')
-  const [liderancasPolítica, setLiderancasPolítica] = useState('')
-  const [representadoPolitico, setRepresentadoPolitico] = useState('')
-  const [municipalAdmin, setMunicipalAdmin] = useState('')
-  const [politicainflencia, setPoliticainflencia] = useState('')
-  const [decisaoInfluencia, setDecisaoInfluencia] = useState('')
-  const [prefeituraMudanca, setPrefeituraMudanca] = useState('')
-  const [mensagemPolitico, setMensagemPolitico] = useState('');
-  const [mudanca, setMudanca] = useState('');
-  const [problemaRegiao, setProblemaRegiao] = useState('');
-  const [comunidadeFuturo, setComunidadeFuturo] = useState('');
-  const [ideiaInovadora, setIdeiaInovadora] = useState('');
-  const [problemaCidade, setProblemaCidade] = useState('');
-  const [regiao, setRegiao] = useState('');
-  const [moradiaQuantPessoa, setMoradiaQuantPessoa] = useState('');
   const colunasPesquisa = [
     '1 - ZONA',
     '2 - REGIÃO',
@@ -511,9 +523,8 @@ export default function App() {
     const cleanedText = text.replace(/[^0-9]/g, '');
     setMoradiaQuantPessoa(cleanedText);
   };
-  const downloadFromUrl = async () => {
-    try {
-
+  const downloadFromUrl = async () => { 
+    try { 
       const origem = `${FileSystem.documentDirectory}${nomeArquivo}`;
       const destino = `${FileSystem.cacheDirectory}Download/${nomeArquivo}`; // Pasta de Downloads
       // Verificar se o arquivo já existe no destino
@@ -549,10 +560,6 @@ export default function App() {
     //   alert('Ocorreu um erro ao efetuar o download do arquivo CSV.');
     // }
   };
-  function Desmarcar(){
-      setRegiao('')
-      scrollToBottom
-  }
   async function compartilhar() {
     try {
       const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
@@ -582,7 +589,6 @@ export default function App() {
       const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
       // Verificar se o arquivo CSV já existe
       const fileInfo = await FileSystem.getInfoAsync(csvFilePath);
-
       if (!fileInfo.exists) {
         // Se o arquivo não existir, criar um novo com cabeçalho
         const initialCSVData = [colunasPesquisa];
@@ -604,50 +610,50 @@ export default function App() {
       // Sobrescrever o arquivo CSV com os novos dados
       // Usar o método append para adicionar a nova linha sem sobrescrever 
       await FileSystem.writeAsStringAsync(csvFilePath, updatedCSV, { encoding: FileSystem.EncodingType.UTF8 });
-      alert('Dados salvos com sucesso!');
-      setzona('')
-      setRegiao('')
-      setSexo('')
-      setIdade('')
-      setFaixaRenda('')
-      setOrigemRenda('')
-      setNivelEscolar('')
-      setQuantPessoa('')
-      setmoradia('')
-      setCasaVeiculo('')
-      setPerfilEntrevistado('')
-      setComunicaoVeiculo('')
-      setDiscutirPolitica('')
-      setParticipouManif('')
-      setEscolhaCandidato('')
-      setDeficienteServico('')
-      setCadidatoprioridade('')
-      setBomCandidatoCaracteristica('')
-      setVotoPresidente('')
-      setVotoGovernador('')
-      setVotoPrefeito('')
-      setAvalicaoAtendimento('')
-      setPrioridade('')
-      setMunicipalPolitica('')
-      setLiderancasPolítica('')
-      setRepresentadoPolitico('')
-      setMunicipalAdmin('')
-      setPoliticainflencia('')
-      setDecisaoInfluencia('')
-      setPrefeituraMudanca('')
-      setProblemaCidade('')
-      setIdeiaInovadora('')
-      setComunidadeFuturo('')
-      setProblemaRegiao('')
-      setMudanca('')
-      setMensagemPolitico('')
-      setMoradiaQuantPessoa('')
-      setAvaliacaoZeze('')
-      setAvaliacaoGeilson('')
-      setAvaliacaoLucia('')
-      setNomeVereadorDestacado('')
-      setVereadorFeedback('')
-      setAvaliacaoVereadorDestacado('')
+    
+      // setzona('')
+      // setRegiao(null)
+      // setSexo('')
+      // setIdade('')
+      // setFaixaRenda('')
+      // setOrigemRenda('')
+      // setNivelEscolar('')
+      // setQuantPessoa('')
+      // setmoradia('')
+      // setCasaVeiculo('')
+      // setPerfilEntrevistado('')
+      // setComunicaoVeiculo('')
+      // setDiscutirPolitica('')
+      // setParticipouManif('')
+      // setEscolhaCandidato('')
+      // setDeficienteServico('')
+      // setCadidatoprioridade('')
+      // setBomCandidatoCaracteristica('')
+      // setVotoPresidente('')
+      // setVotoGovernador('')
+      // setVotoPrefeito('')
+      // setAvalicaoAtendimento('')
+      // setPrioridade('')
+      // setMunicipalPolitica('')
+      // setLiderancasPolítica('')
+      // setRepresentadoPolitico('')
+      // setMunicipalAdmin('')
+      // setPoliticainflencia('')
+      // setDecisaoInfluencia('')
+      // setPrefeituraMudanca('')
+      // setProblemaCidade('')
+      // setIdeiaInovadora('')
+      // setComunidadeFuturo('')
+      // setProblemaRegiao('')
+      // setMudanca('')
+      // setMensagemPolitico('')
+      // setMoradiaQuantPessoa('')
+      // setAvaliacaoZeze('')
+      // setAvaliacaoGeilson('')
+      // setAvaliacaoLucia('')
+      // setNomeVereadorDestacado('')
+      // setVereadorFeedback('')
+      // setAvaliacaoVereadorDestacado('')
     } catch (error) {
       console.error('Erro ao salvar dados no arquivo CSV:', error);
       alert('Ocorreu um erro ao salvar os dados no arquivo CSV.');
@@ -680,278 +686,538 @@ export default function App() {
     const initialCSVData = [[`Nome do aplicador: ${nome}`], colunasPesquisa];
     const initialCSV = Papa.unparse(initialCSVData);
     await FileSystem.writeAsStringAsync(csvFilePath, initialCSV, { encoding: FileSystem.EncodingType.UTF8 });
-  }
-
+  } 
   return (
     <>
       {aplicadorExistente ?
-
         <ScrollView style={{}} ref={scrollViewRef}>
+          <StatusBar backgroundColor={'purple'} animated={true} showHideTransition={"fade"}/>
           <View>
-            <View style={{ alignItems: 'center', justifyContent: 'center', height: 80, backgroundColor: 'purple', borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', height: 60, backgroundColor: 'purple', borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
               <Text style={{ color: '#fff', fontSize: 22, fontWeight: "700", fontFamily: "Roboto" }}>
                 Pesquisa Baraunas
               </Text>
             </View>
             <View style={{ padding: 16, flex: 1 }}>
+ 
               <Text style={styles.pergunta}>
                 1- ZONA
               </Text>
-              <View  >
-                <SelectList
-                  setSelected={(val: any) => setzona(val)}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(val: any) => {
+                        setzona(val);
+                        onChange(val);
+                      }}
+                      data={zonas}
+                      save="value"
+                      placeholder='Selecione a zona'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a zona que deseja encontrar'
+                    />
+                    {errors.zona && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma zona</Text>}
+                  </View>
+                )}
+                name="zona"
+                rules={{ required: true }}
+              />
+              {/* <SelectList
+                  setSelected={(val: any) =>{ setzona(val)}
                   data={zonas}
                   save="value"
                   placeholder='Selecione a zona'
                   notFoundText='Dado não encontrado'
                   searchPlaceholder='Digite a zona que deseja encontrar'
-                />
-              </View>
+                /> */}
               <Text style={styles.pergunta}>
                 2- REGIÃO
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setRegiao(valor)}
-                data={regioes}
-                save="value"
-                placeholder='Selecione a regiao'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a região que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setRegiao(valor); onChange(valor); }}
+                      data={regioes}
+                      save="value"
+                      placeholder='Selecione a regiao'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a região que deseja encontrar'
+                    />
+                    {errors.regiao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma regiao</Text>}
+                  </View>
+                )}
+                name="regiao"
+                rules={{ required: true }}
               />
+
               <Text style={styles.pergunta}>
                 3- SEXO
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setSexo(valor)}
-                data={sexos}
-                save="value"
-                placeholder='Selecione o sexo'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o sexo que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setSexo(valor); onChange(valor); }}
+                      data={sexos}
+                      save="value"
+                      placeholder='Selecione o sexo'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o sexo que deseja encontrar'
+                    />
+                    {errors.sexo && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um sexo</Text>}
+                  </View>
+                )}
+                name="sexo"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 4 - IDADE
               </Text>
-              <TextInput
-                style={styles.inputNumber}
-                placeholder="Digite a idade do entrevistado"
-                keyboardType="numeric"
-                value={idade}
-                onChangeText={handleInputChange}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      style={styles.inputNumber}
+                      placeholder="Digite a idade do entrevistado"
+                      keyboardType="numeric"
+                      value={idade}
+                      onChangeText={(text: string) => { handleInputChange(text); onChange(text); }}
+                    />
+                    {errors.idade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma idade</Text>}
+                  </View>
+                )}
+                name="idade"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 5 - FAIXA DE RENDA
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setFaixaRenda(valor)}
-                data={faixaRendas}
-                save="value"
-                placeholder='Selecione o faixa de renda'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a faixa de renda que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setFaixaRenda(valor); onChange(valor); }}
+                      data={faixaRendas}
+                      save="value"
+                      placeholder='Selecione o faixa de renda'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a faixa de renda que deseja encontrar'
+                    />
+                    {errors.renda && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma renda</Text>}
+                  </View>
+                )}
+                name="renda"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 6 - Qual é a origem da sua renda principal?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setOrigemRenda(valor)}
-                data={origemRendas}
-                save="value"
-                placeholder='Selecione o faixa de renda'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a faixa de renda que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setOrigemRenda(valor); onChange(valor); }}
+                      data={origemRendas}
+                      save="value"
+                      placeholder='Selecione o origem de renda'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a origem de renda que deseja encontrar'
+                    />
+                    {errors.origem && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma origem</Text>}
+                  </View>
+                )}
+                name="origem"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 7 - NIVEL DE ESCOLARIDADE
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setNivelEscolar(valor)}
-                data={nivelEscolaridades}
-                save="value"
-                placeholder='Selecione o nivel escolar'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o nivel escolar que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setNivelEscolar(valor); onChange(valor); }}
+                      data={nivelEscolaridades}
+                      save="value"
+                      placeholder='Selecione o nivel escolar'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o nivel escolar que deseja encontrar'
+                    />
+                    {errors.escolaridade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma escolaridade</Text>}
+                  </View>
+                )}
+                name="escolaridade"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 8 - Quantas pessoas moram contigo na sua casa?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setQuantPessoa(valor)}
-                data={quantPessoas}
-                save="value"
-                placeholder='Selecione quantas pessoas moram com você'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a quantidade de pessoas que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setQuantPessoa(valor); onChange(valor); }}
+                      data={quantPessoas}
+                      save="value"
+                      placeholder='Selecione quantas pessoas moram com você'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a quantidade de pessoas que deseja encontrar'
+                    />
+                    {errors.pessoas && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma pessoas</Text>}
+                  </View>
+                )}
+                name="pessoas"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 9 - Sua moradia é:
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setmoradia(valor)}
-                data={moradias}
-                save="value"
-                placeholder='Selecione a moradia'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a moradia que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setmoradia(valor); onChange(valor); }}
+                      data={moradias}
+                      save="value"
+                      placeholder='Selecione a moradia'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a moradia que deseja encontrar'
+                    />
+                    {errors.moradia && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma moradia</Text>}
+                  </View>
+                )}
+                name="moradia"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 9.1 - Quantas pessoas moram contigo na mesma casa? (preencher com número)
               </Text>
-              <TextInput
-                style={styles.inputNumber}
-                placeholder="Informe a quantidade de pessoas"
-                keyboardType="numeric"
-                value={moradiaQuantPessoa}
-                onChangeText={handleInputQuantPessoas}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      style={styles.inputNumber}
+                      placeholder="Informe a quantidade de pessoas"
+                      keyboardType="numeric"
+                      value={moradiaQuantPessoa}
+                      onChangeText={(text) => { handleInputQuantPessoas(text); onChange(text) }}
+                    />
+                    {errors.quantpessoa && <Text style={{ color: 'red', textAlign: 'center' }}>Digite a quantidade de pessoas</Text>}
+                  </View>
+                )}
+                name="quantpessoa"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 10 - Na sua casa qual tipo de veiculo existe?(selecione  as opções que existir em ordem)
               </Text>
-              <MultipleSelectList
-                setSelected={(valor: any) => setCasaVeiculo(valor)}
-                data={casaVeiculos}
-                save="value"
-                label="Categories"
-                placeholder='Selecione os veiculos da casa'
-                searchPlaceholder='Digite o veiculo da casa que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <MultipleSelectList
+                      setSelected={(valor: any) => { setCasaVeiculo(valor); onChange("valor"); }}
+                      data={casaVeiculos}
+                      save="value"
+                      label="Categories"
+                      placeholder='Selecione os veiculos da casa'
+                      searchPlaceholder='Digite o veiculo da casa que deseja encontrar'
+                    />
+                    {errors.veiculo && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma veiculo</Text>}
+                  </View>
+                )}
+                name="veiculo"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 11 - PERFIL DO ENTREVISTADO
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setPerfilEntrevistado(valor)}
-                data={perfilEntrevistados}
-                save="value"
-                placeholder='Selecione o perfil do entrevistado'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o perfil do entrevistado que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setPerfilEntrevistado(valor); onChange(valor); }}
+                      data={perfilEntrevistados}
+                      save="value"
+                      placeholder='Selecione o perfil do entrevistado'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o perfil do entrevistado que deseja encontrar'
+                    />
+                    {errors.entrevistado && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um perfil</Text>}
+                  </View>
+                )}
+                name="entrevistado"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 12 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setComunicaoVeiculo(valor)}
-                data={comunicaoVeiculos}
-                save="value"
-                placeholder='Selecione o veiculo de comunicação'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o veiculo de comunicação que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setComunicaoVeiculo(valor); onChange(valor); }}
+                      data={comunicaoVeiculos}
+                      save="value"
+                      placeholder='Selecione o veiculo de comunicação'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o veiculo de comunicação que deseja encontrar'
+                    />
+                    {errors.comunicacao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um veiculo comunicacao</Text>}
+                  </View>
+                )}
+                name="comunicacao"
+                rules={{ required: true }}
               />
+
               <Text style={styles.pergunta}>
                 13 - Você costuma discutir política com amigos/família/colegas?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setDiscutirPolitica(valor)}
-                data={discutirPoliticas}
-                save="value"
-                placeholder='Selecione a opção'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a opção que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setDiscutirPolitica(valor); onChange(valor) }}
+                      data={discutirPoliticas}
+                      save="value"
+                      placeholder='Selecione a opção'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a opção que deseja encontrar'
+                    />
+                    {errors.discutir && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma opção</Text>}
+                  </View>
+                )}
+                name="discutir"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 14 - Você já participou de alguma manifestação política? Seja participação em carreata, ou qualquer coisa do gênero
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setParticipouManif(valor)}
-                data={participouManifestacao}
-                save="value"
-                placeholder='Selecione a opção'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a opção que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setParticipouManif(valor); onChange(valor) }}
+                      data={participouManifestacao}
+                      save="value"
+                      placeholder='Selecione a opção'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a opção que deseja encontrar'
+                    />
+                    {errors.manifestacao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma opção</Text>}
+                  </View>
+                )}
+                name="manifestacao"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 15 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes)
               </Text>
-              <MultipleSelectList
-                setSelected={(valor: any) => setEscolhaCandidato(valor)}
-                data={escolhaCandidatos}
-                save="value"
-                label="Selecione três questões"
-                placeholder='Selecione as questões'
-                searchPlaceholder='Digite a questão que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <MultipleSelectList
+                      setSelected={(valor: any) => { setEscolhaCandidato(valor); onChange("valor") }}
+                      data={escolhaCandidatos}
+                      save="value"
+                      label="Selecione três questões"
+                      placeholder='Selecione as questões'
+                      searchPlaceholder='Digite a questão que deseja encontrar'
+                    />
+                    {errors.questoes && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione as questoes</Text>}
+                  </View>
+                )}
+                name="questoes"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 15.1 - Em relação aos serviços públicos oferecidos na sua região, quais você considera mais deficientes? (Escolha as três mais importantes)
               </Text>
-              <MultipleSelectList
-                setSelected={(valor: any) => setDeficienteServico(valor)}
-                data={deficienteServicos}
-                save="value"
-                label="Selecione três serviços"
-                placeholder='Selecione os serviços'
-                searchPlaceholder='Digite o serviço que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <MultipleSelectList
+                      setSelected={(valor: any) => { setDeficienteServico(valor); onChange("valor") }}
+                      data={deficienteServicos}
+                      save="value"
+                      label="Selecione três serviços"
+                      placeholder='Selecione os serviços'
+                      searchPlaceholder='Digite o serviço que deseja encontrar'
+                    />
+                    {errors.deficiencia && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma deficiencia</Text>}
+                  </View>
+                )}
+                name="deficiencia"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 16 - Qual dessas questões você acredita que seu candidato ideal deveria priorizar?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setCadidatoprioridade(valor)}
-                data={cadidatoprioridades}
-                save="value"
-                placeholder='Selecione a questão'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a questão que deseja encontrar'
-              />
-
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setCadidatoprioridade(valor); onChange(valor) }}
+                      data={cadidatoprioridades}
+                      save="value"
+                      placeholder='Selecione a questão'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a questão que deseja encontrar'
+                    />
+                    {errors.prioridade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma prioridade</Text>}
+                  </View>
+                )}
+                name="prioridade"
+                rules={{ required: true }} />
               <Text style={styles.pergunta}>
                 17 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções)
               </Text>
-              <MultipleSelectList
-                setSelected={(valor: any) => { setBomCandidatoCaracteristica(valor) }}
-                data={bomCandidatoCaracteristicas}
-                save="value"
-                label="Selecione atê três características"
-                placeholder='Selecione as características'
-                searchPlaceholder='Digite a característica que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <MultipleSelectList
+                      setSelected={(valor: any) => { setBomCandidatoCaracteristica(valor); onChange("valor") }}
+                      data={bomCandidatoCaracteristicas}
+                      save="value"
+                      label="Selecione atê três características"
+                      placeholder='Selecione as características'
+                      searchPlaceholder='Digite a característica que deseja encontrar'
+                    />
+                    {errors.caracteristicas && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma caracteristicas</Text>}
+                  </View>
+                )} 
+                name="caracteristicas"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 18 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA PRESIDENTE?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setVotoPresidente(valor)}
-                data={votoPresidentes}
-                save="value"
-                placeholder='Selecione o candidato'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o candidato que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setVotoPresidente(valor); onChange(valor) }}
+                      data={votoPresidentes}
+                      save="value"
+                      placeholder='Selecione o candidato'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o candidato que deseja encontrar'
+                    />
+                    {errors.presidente && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um presidente</Text>}
+                  </View>
+                )} 
+                name="presidente"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 19 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setVotoGovernador(valor)}
-                data={votoGovernadores}
-                save="value"
-                placeholder='Selecione o candidato'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o candidato que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setVotoGovernador(valor); onChange(valor) }}
+                      data={votoGovernadores}
+                      save="value"
+                      placeholder='Selecione o candidato'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o candidato que deseja encontrar'
+                    />
+                    {errors.governador && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um governador</Text>}
+                  </View>
+                )}
+
+                name="governador"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 20 - Se a eleição fosse hoje, em quem você votaria para PREFEITO?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setVotoPrefeito(valor)}
-                data={votoPrefeitos}
-                save="value"
-                placeholder='Selecione o candidato'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o candidato que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setVotoPrefeito(valor); onChange(valor) }}
+                      data={votoPrefeitos}
+                      save="value"
+                      placeholder='Selecione o candidato'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o candidato que deseja encontrar'
+                    />
+                    {errors.prefeito && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um prefeito</Text>}
+                  </View>
+                )} 
+                name="prefeito"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5)
               </Text>
-              <StarRating rating={avaliacaoGeilson} onStarPress={setAvaliacaoGeilson} />
+              <Controller
+                 control={control}
+                 render={({ field: { onChange, onBlur, value } }) => (
+                   <View>
+                     <StarRating rating={avaliacaoGeilson} onStarPress={(nota:any)=>{setAvaliacaoGeilson(nota); onChange(nota)}} />
+                     {errors.notaGilson && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a nota de Gilson</Text>}
+                   </View>
+                 )} 
+                 name="notaGilson"
+                 rules={{ required: true }}
+               />
               <Text style={styles.pergunta}>
                 20.2 - Como está a avaliação dos vereadores? Zezé da Agrícola (de 1 até 5)
               </Text>
-              <StarRating rating={avaliacaoZeze} onStarPress={setAvaliacaoZeze} />
+              <Controller
+                 control={control}
+                 render={({ field: { onChange, onBlur, value } }) => (
+                   <View> 
+                     <StarRating rating={avaliacaoZeze} onStarPress={(nota:any)=>{setAvaliacaoZeze(nota); onChange(nota)}} />
+                     {errors.notaZeze && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a nota de Zeze</Text>}
+                   </View>
+                 )} 
+                 name="notaZeze"
+                 rules={{ required: true }}
+               />
               <Text style={styles.pergunta}>
                 20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)
               </Text >
-              <StarRating rating={avaliacaoLucia} onStarPress={setAvaliacaoLucia} />
+              <Controller
+                 control={control}
+                 render={({ field: { onChange, onBlur, value } }) => (
+                   <View>
+                      <StarRating rating={avaliacaoLucia} onStarPress={(nota:any)=>{setAvaliacaoLucia(nota); onChange(nota)}} />
+                      {errors.notaLucia && <Text style={{ color: 'red', textAlign: 'center' }}>A nota de Lucia(a)</Text>}
+                   </View>
+                 )} 
+                 name="notaLucia"
+                 rules={{ required: true }}
+               />
               <Text style={styles.pergunta}>
                 20.4 - Como está a avaliação dos vereadores? Algum que você queira destacar uma critica ou elogio
-              </Text>
+              </Text> 
               <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <Button mode="contained" style={[styles.buttons, { justifyContent: 'center', width: '80%', backgroundColor: destaque ? 'red' : 'purple' }]}
                   onPress={() => {
@@ -967,178 +1233,356 @@ export default function App() {
               </View>
               {destaque ?
                 <View >
-                  <TextInput
-                    label="Escreva o nome do vereador"
-                    value={nomeVereadorDestacado}
-                    onChangeText={(text) => setNomeVereadorDestacado(text)}
-                    style={styles.inputText}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <View>
+                        <TextInput
+                          label="Escreva o nome do vereador"
+                          value={nomeVereadorDestacado}
+                          onChangeText={(text) => { setNomeVereadorDestacado(text); onChange(text) }}
+                          style={styles.inputText}
+                        />
+                        {errors.nomeVereador && <Text style={{ color: 'red', textAlign: 'center' }}>Digite o nome Vereador</Text>}
+                      </View>
+                    )}
+                    name="nomeVereador"
+                    rules={destaque ? { required: true } : { required: false }}
                   />
-                  <TextInput
-                    label="Descreva a critica ou elogio"
-                    value={vereadorFeedback}
-                    onChangeText={(text) => setVereadorFeedback(text)}
-                    style={styles.inputText}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <View>
+                        <TextInput
+                          label="Descreva a critica ou elogio"
+                          value={vereadorFeedback}
+                          onChangeText={(text) => { setVereadorFeedback(text); onChange(text) }}
+                          style={styles.inputText}
+                        />
+                        {errors.critica && <Text style={{ color: 'red', textAlign: 'center' }}>Digite uma critica</Text>}
+                      </View>
+                    )}
+                    name="critica"
+                    rules={{ required: destaque }}
                   />
-                  <StarRating rating={avaliacaoVereadorDestacado} onStarPress={setAvaliacaoVereadorDestacado} />
+                  <Controller
+                 control={control}
+                 render={({ field: { onChange, onBlur, value } }) => (
+                   <View>
+                     <StarRating rating={avaliacaoVereadorDestacado} onStarPress={(nota: any) =>{ setAvaliacaoVereadorDestacado(nota); onChange(nota) }} />
+                     {errors.notaVereador && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a nota do vereador(a)</Text>}
+                   </View>
+                 )} 
+                 name="notaVereador"
+                 rules={{ required: destaque }}
+               />
                 </View>
                 :
                 null
               }
-
               <Text style={styles.pergunta}>
                 21 - Como você avalia a atuação do governo atual em relação ao atendimento das necessidades da população?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setAvalicaoAtendimento(valor)}
-                data={AvalicaoAtendimentos}
-                save="value"
-                placeholder='Selecione o candidato'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite o candidato que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setAvalicaoAtendimento(valor); onChange(valor) }}
+                      data={AvalicaoAtendimentos}
+                      save="value"
+                      placeholder='Selecione o candidato'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite o candidato que deseja encontrar'
+                    />
+                    {errors.avaliacaoAtendimento && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma avaliacao do atendimento</Text>}
+                  </View>
+                )}
+                name="avaliacaoAtendimento"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 22 - Na sua opinião, quais deveriam ser as prioridades de um representante político?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setPrioridade(valor)}
-                data={prioridades}
-                save="value"
-                placeholder='Selecione as prioridades'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a prioridade que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setPrioridade(valor); onChange(valor) }}
+                      data={prioridades}
+                      save="value"
+                      placeholder='Selecione as prioridades'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a prioridade que deseja encontrar'
+                    />
+                    {errors.prioridade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a prioridade</Text>}
+                  </View>
+                )} 
+                name="prioridade"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 23 - Atualmente, vejo a política municipal como:
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setMunicipalPolitica(valor)}
-                data={MunicipalPoliticas}
-                save="value"
-                placeholder='Selecione a visão da politica atual'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a visão da politica atual que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setMunicipalPolitica(valor); onChange(valor) }}
+                      data={MunicipalPoliticas}
+                      save="value"
+                      placeholder='Selecione a visão da politica atual'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a visão da politica atual que deseja encontrar'
+                    />
+                    {errors.visaoPolitica && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um visao politica atual</Text>}
+                  </View>
+                )} 
+                name="visaoPolitica"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 24 - Minha confiança nas lideranças políticas municipais é:
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setLiderancasPolítica(valor)}
-                data={liderancasPolíticas}
-                save="value"
-                placeholder='Selecione a confiança'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a confiança que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setLiderancasPolítica(valor); onChange(valor) }}
+                      data={liderancasPolíticas}
+                      save="value"
+                      placeholder='Selecione a confiança'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a confiança que deseja encontrar'
+                    />
+                    {errors.confianca && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma confianca</Text>}
+                  </View>
+                )} 
+                name="confianca"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 25 - Eu me sinto representado pelos políticos locais:
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setRepresentadoPolitico(valor)}
-                data={representadoPoliticos}
-                save="value"
-                placeholder='Selecione a opção'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a opção que deseja encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setRepresentadoPolitico(valor); onChange(valor) }}
+                      data={representadoPoliticos}
+                      save="value"
+                      placeholder='Selecione a opção'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a opção que deseja encontrar'
+                    />
+                    {errors.representantePolitico && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um opcao</Text>}
+                  </View>
+                )} 
+                name="representantePolitico"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 26 - A situação atual da administração municipal é
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setMunicipalAdmin(valor)}
-                data={MunicipalAdmins}
-                save="value"
-                placeholder='Selecione a sintuação'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a sintuação que deseja encontrar'
-              />
-
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setMunicipalAdmin(valor); onChange(valor) }}
+                      data={MunicipalAdmins}
+                      save="value"
+                      placeholder='Selecione a sintuação'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a sintuação que deseja encontrar'
+                    />
+                    {errors.sintuacao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma sintuacao</Text>}
+                  </View>
+                )} 
+                name="sintuacao"
+                rules={{ required: true }}
+              /> 
               <Text style={styles.pergunta}>
                 27 - Minha visão sobre a política municipal é influenciada por:
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setPoliticainflencia(valor)}
-                data={politicainflencias}
-                save="value"
-                placeholder='Selecione o que influencia'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a influencia que deseja encontrar'
-              />
-
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setPoliticainflencia(valor); onChange(valor) }}
+                      data={politicainflencias}
+                      save="value"
+                      placeholder='Selecione o que influencia'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a influencia que deseja encontrar'
+                    />
+                    {errors.influenciaPolitica && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma influencia politica</Text>}
+                  </View>
+                )} 
+                name="influenciaPolitica"
+                rules={{ required: true }}
+              /> 
               <Text style={styles.pergunta}>
                 28 - O que mais influencia sua decisão de voto?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setDecisaoInfluencia(valor)}
-                data={decisaoInfluencias}
-                save="value"
-                placeholder='Digite o que influencia a tomada de decisão'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a influencia que quer encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setDecisaoInfluencia(valor); onChange(valor) }}
+                      data={decisaoInfluencias}
+                      save="value"
+                      placeholder='Digite o que influencia a tomada de decisão'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a influencia que quer encontrar'
+                    />
+                    {errors.influencia && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma influencia</Text>}
+                  </View>
+                )}
+
+                name="influencia"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 29 - Você acha que deveria existir uma mudança na prefeitura da cidade?
               </Text>
-              <SelectList
-                setSelected={(valor: any) => setPrefeituraMudanca(valor)}
-                data={PrefeituraMudancas}
-                save="value"
-                placeholder='Descreva a mudança'
-                notFoundText='Dado não encontrado'
-                searchPlaceholder='Digite a mudança encontrar'
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <SelectList
+                      setSelected={(valor: any) => { setPrefeituraMudanca(valor); onChange(valor) }}
+                      data={PrefeituraMudancas}
+                      save="value"
+                      placeholder='Descreva a mudança'
+                      notFoundText='Dado não encontrado'
+                      searchPlaceholder='Digite a mudança encontrar'
+                    />
+                    {errors.prefeituraMudanca && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma mudanca na prefeitura</Text>}
+                  </View>
+                )}
+                name="prefeituraMudanca"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 30 - QUAL O PRINCIPAL PROBLEMA DA CIDADE DE BARÚNA NA SUA OPNIÃO?
               </Text>
-              <TextInput
-                label="Relate o problema da cidade"
-                value={problemaCidade}
-                onChangeText={(text) => setProblemaCidade(text)}
-                style={styles.inputText}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      label="Relate o problema da cidade"
+                      value={problemaCidade}
+                      onChangeText={(text) => { setProblemaCidade(text); onChange(text) }}
+                      style={styles.inputText}
+                    />
+                    {errors.problema && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um problema</Text>}
+                  </View>
+                )}
+                name="problema"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 31 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região?
               </Text>
-              <TextInput
-                label="Descreva a ideia inovadora"
-                value={ideiaInovadora}
-                onChangeText={(text) => setIdeiaInovadora(text)}
-                style={styles.inputText}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      label="Descreva a ideia inovadora"
+                      value={ideiaInovadora}
+                      onChangeText={(text) => { setIdeiaInovadora(text); onChange(text) }}
+                      style={styles.inputText}
+                    />
+                    {errors.ideia && <Text style={{ color: 'red', textAlign: 'center' }}>Digite uma ideia</Text>}
+                  </View>
+                )}
+                name="ideia"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 32 - Como você imagina nossa comunidade nos próximos anos? O que você gostaria de ver mudado ou melhorado?
               </Text>
-              <TextInput
-                label="Descreva a comunidade"
-                value={comunidadeFuturo}
-                onChangeText={(text) => setComunidadeFuturo(text)}
-                style={styles.inputText}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      label="Descreva a comunidade"
+                      value={comunidadeFuturo}
+                      onChangeText={(text) => { setComunidadeFuturo(text); onChange(text) }}
+                      style={styles.inputText}
+                    />
+                    {errors.comunidade && <Text style={{ color: 'red', textAlign: 'center' }}>Digite sobre a comunidade</Text>}
+                  </View>
+                )} 
+                name="comunidade"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 33 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPNIÃO?
               </Text>
-              <TextInput
-                label="Digite o principal problema da regiao"
-                value={problemaRegiao}
-                onChangeText={(text) => setProblemaRegiao(text)}
-                style={styles.inputText}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      label="Digite o principal problema da regiao"
+                      value={problemaRegiao}
+                      onChangeText={(text) => { setProblemaRegiao(text); onChange(text) }}
+                      style={styles.inputText}
+                    />
+                    {errors.principal && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um principal problema</Text>}
+                  </View>
+                )}
+                name="principal"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 34- Quais ações ou mudanças você gostaria que a prefeitura implementasse em Baraúna para melhorar a qualidade de vida na cidade?
               </Text>
-              <TextInput
-                label="Descreva a mudanca"
-                value={mudanca}
-                onChangeText={(text) => setMudanca(text)}
-                style={styles.inputText}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      label="Descreva a mudanca"
+                      value={mudanca}
+                      onChangeText={(text) => { setMudanca(text); onChange(text) }}
+                      style={styles.inputText}
+                    />
+                    {errors.mudanca && <Text style={{ color: 'red', textAlign: 'center' }}>Digite uma mudanca</Text>}
+                  </View>
+                )}
+                name="mudanca"
+                rules={{ required: true }}
               />
               <Text style={styles.pergunta}>
                 35 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA
               </Text>
-              <TextInput
-                label="Digite a mensagem"
-                value={mensagemPolitico}
-                onChangeText={(text) => setMensagemPolitico(text)}
-                style={styles.inputText}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <View>
+                    <TextInput
+                      label="Digite a mensagem"
+                      value={mensagemPolitico}
+                      onChangeText={(text) => { setMensagemPolitico(text); onChange(text) }}
+                      style={styles.inputText}
+                    />
+                    {errors.mensagem && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um mensagem</Text>}
+                  </View>
+                )}
+                name="mensagem"
+                rules={{ required: true }}
               />
               <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', }}>
                 <View style={{ flex: 1, alignItems: 'center' }}>
@@ -1147,17 +1591,11 @@ export default function App() {
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 2, alignItems: 'center' }}>
-                  <Button mode="contained" style={styles.buttons} onPress={handleSaveData}>
+                  <Button mode="contained" style={styles.buttons} onPress={handleSubmit(handleSaveData)}>
                     <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
                       Salvar
                     </Text>
-                  </Button>
-                  <Button mode="contained" style={styles.buttons} onPress={Desmarcar}>
-                    <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
-                      Desmarcar selects
-                    </Text>
-                  </Button>
-
+                  </Button> 
                 </View>
                 <View style={{ flex: 1, alignItems: 'center' }}>
                   <TouchableOpacity style={{ alignItems: 'center' }} onPress={compartilhar} >
@@ -1167,7 +1605,6 @@ export default function App() {
               </View>
             </View>
           </View>
-
         </ScrollView>
         :
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16, backgroundColor: "#d3d3d3" }}>
@@ -1181,7 +1618,7 @@ export default function App() {
           <TextInput
             label="Digite o seu nome"
             value={nome}
-            onChangeText={(text) => setNome(text)}
+            onChangeText={(text) => { setNome(text); onChange(text) }}
             style={styles.inputText}
           />
           <Button mode="contained" style={[styles.buttons, { marginTop: '5%', marginBottom: '60%' }]} onPress={primeiroAcesso}>
@@ -1249,100 +1686,6 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   buttons: {
-    width: '100%', 
+    width: '100%',
   }
 });
-
-
-// import React, { useState } from 'react';
-// import { View, Text, Button } from 'react-native';
-// import { SelectList } from 'react-native-dropdown-select-list';
-
-// const SeuFormulario = () => {
-//   const [opcao1, setOpcao1] = useState('null');
-//   const [opcao2, setOpcao2] = useState(null);
-//   const [opcao3, setOpcao3] = useState(null);
-//   // Função para resetar os valores
-//   const resetarValores = () => {
-//     setOpcao1('Jammu & Kashmir');
-//     setOpcao2(null);
-//     setOpcao3(null);
-//   };
-//   const [selected, setSelected] = React.useState("");
-  
-//   const data = [
-//     {key:'1',value:'Jammu & Kashmir', disabled:true},
-//     {key:'2',value:'Gujrat'},
-//     {key:'3',value:'Maharashtra'},
-//     {key:'4',value:'Goa'},
-//   ];
-//   let dadosOpcao1 = [
-//     { key: 'op1', value: 'op1' },
-//     { key: 'op2', value: 'op2' },
-//     { key: 'op3', value: 'op3' },
-//   ] 
-//   let dadosOpcao2 = [
-//     { key: 'op1', value: 'op1' },
-//     { key: 'op2', value: 'op2' },
-//     { key: 'op3', value: 'op3' },
-//   ] 
-//   let dadosOpcao3 = [
-//     { key: 'op1', value: 'op1' },
-//     { key: 'op2', value: 'op2' },
-//     { key: 'op3', value: 'op3' },
-//   ] 
-//   // Função para resetar os valores dos SelectList
-//   // const resetarValores = () => {
-//   //   setOpcao1('');
-//   //   setOpcao2('');
-//   //   setOpcao3('');
-//   // };
-
-//   return (
-//     <View>
-//       <Text  >Escolha a Opção 1:</Text>
-//       <SelectList
-//         setSelected={(valor: any) => setOpcao1(valor)}
-//         data={dadosOpcao1}
-//         save="value"
-//         placeholder='Selecione a opção 1'
-//         notFoundText='Dado não encontrado'
-//         searchPlaceholder='Digite a opção que deseja encontrar'
-//       /> 
-//       <Text  >Escolha a Opção 2:</Text>
-//       <SelectList
-//         setSelected={(valor: any) => setOpcao2(valor)}
-//         data={dadosOpcao2}
-//         save="value"
-//         placeholder='Selecione a opção 2'
-//         notFoundText='Dado não encontrado'
-//         searchPlaceholder='Digite a opção que deseja encontrar'
-//       /> 
-//       <Text  >Escolha a Opção 3:</Text>
-//       <SelectList
-//         setSelected={(valor: any) => setOpcao3(valor)}
-//         data={dadosOpcao3}
-//         save="value"
-//         onSelect={}
-
-//         placeholder='Selecione a opção 3' 
-//         notFoundText='Dado não encontrado'
-//         searchPlaceholder='Digite a opção que deseja encontrar'
-//       />
-//        <SelectList  
-//           setSelected={setSelected} 
-//           fontFamily='lato'
-//           data={data}   
-//           onSelect={opcao1 ? [opcao1] : []}
-
-//           search={false} 
-//           boxStyles={{borderRadius:0}} //override default styles
-//           defaultOption={{ key:'1', value:'Jammu & Kashmir' }}   //default selected option
-//         />
-//       {/* Botão para resetar os valores */}
-//       <Button title="Resetar Valores" onPress={resetarValores} />
-//     </View>
-//   );
-// };
-
-// export default SeuFormulario;
