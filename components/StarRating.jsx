@@ -20,9 +20,19 @@ const StarRating = ({ rating, onStarPress }) => {
   };
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+    <View>
+      <TouchableOpacity
+        style={{backgroundColor: rating ? "purple":"gray" , flex: 1, alignItems: 'center', borderRadius: 16, height: 40, justifyContent: 'center' }}
+        onPress={() => onStarPress("Não conheço")} >
+        <Text  style={{ marginLeft: 10, fontWeight: '600', color: 'white' }}> 
+          NÃO CONHEÇO
+        </Text>
+        {/* <Text style={ respostas[index]== "SIM"? styles.labelSelect: styles.labelNotSelect}>SIM</Text> */}
+      </TouchableOpacity>
+    <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'center' }}> 
       {renderStars()}
-      <Text style={{ marginLeft: 10 }}>{rating} estrelas</Text>
+      <Text style={{ marginLeft: 10, fontWeight: '600' }}>{rating == 'Não conheço' ? 'Não conheço' : rating ? rating +' estrelas' : ''}</Text>
+    </View>
     </View>
   );
 };

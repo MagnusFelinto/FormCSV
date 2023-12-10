@@ -1,5 +1,4 @@
-
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Image, StatusBar, } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 import { useEffect, useRef, useState } from 'react';
@@ -9,181 +8,118 @@ import { Feather, Entypo } from '@expo/vector-icons';
 import * as Papa from 'papaparse';
 import StarRating from './components/StarRating.jsx'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useForm, Controller } from "react-hook-form" 
+import { useForm, Controller } from "react-hook-form"
+//import * as SQLite from 'expo-sqlite';
 
 export default function App() {
-  const nomeArquivo = 'baraunas.csv'
-  const key = 'testefff'
-  const scrollViewRef = useRef();
+  const nomeArquivo = 'baraunasPlanilha.csv'
+  const key = 'testando2'
+// const db = SQLite.openDatabase('myDatabase.db');
+
+// db.transaction(tx => {
+//   tx.executeSql(
+//     'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER);',
+//     [],
+//     () => {
+//       console.log('Table created successfully!');
+//     },
+    
+//   );
+// });
+//   console.log(db._name)
+//   async function criar(){
+//     db.transactionAsync(tx =>{
+//       tx.executeSqlAsync('',
+//             [],
+             
+//           )
+//     })
+//   }
+//   async function read(){
+//     db.transactionAsync(tx =>{
+//       tx.executeSqlAsync('',
+//             [],
+             
+//           )
+//     })
+//   }
+  const scrollViewRef = useRef(); 
   const [nomeDoAplicador, setNomeDoAplicador] = useState('');
   const [nome, setNome] = useState('');
-  const [aplicadorExistente, setAplicadorExistente] = useState(false);
-  const [destaque, setDestaque] = useState(false);
-  const [avaliacaoGeilson, setAvaliacaoGeilson] = useState('');
-  const [avaliacaoLucia, setAvaliacaoLucia] = useState('');
-  const [avaliacaoZeze, setAvaliacaoZeze] = useState('');
-  const [avaliacaoVereadorDestacado, setAvaliacaoVereadorDestacado] = useState('');
-  const [nomeVereadorDestacado, setNomeVereadorDestacado] = useState('');
-  const [vereadorFeedback, setVereadorFeedback] = useState('');
-  const [sexo, setSexo] = useState('');
-  const [zona, setzona] = useState("");
-  const [idade, setIdade] = useState('');
-  const [faixaRenda, setFaixaRenda] = useState('');
-  const [origemRenda, setOrigemRenda] = useState('');
-  const [nivelEscolar, setNivelEscolar] = useState('');
-  const [quantPessoa, setQuantPessoa] = useState('');
-  const [moradia, setmoradia] = useState('');
-  const [casaVeiculo, setCasaVeiculo] = useState('');
-  const [perfilEntrevistado, setPerfilEntrevistado] = useState('');
-  const [comunicaoVeiculo, setComunicaoVeiculo] = useState('')
-  const [discutirPolitica, setDiscutirPolitica] = useState('')
-  const [participouManif, setParticipouManif] = useState('')
-  const [escolhaCandidato, setEscolhaCandidato] = useState('')
-  const [deficienteServico, setDeficienteServico] = useState('')
-  const [cadidatoprioridade, setCadidatoprioridade] = useState('')
-  const [bomCandidatoCaracteristica, setBomCandidatoCaracteristica] = useState('')
-  const [votoPresidente, setVotoPresidente] = useState('')
-  const [votoGovernador, setVotoGovernador] = useState('')
-  const [votoPrefeito, setVotoPrefeito] = useState('')
-  const [avalicaoAtendimento, setAvalicaoAtendimento] = useState('')
-  const [prioridade, setPrioridade] = useState('')
-  const [municipalPolitica, setMunicipalPolitica] = useState('')
-  const [liderancasPolítica, setLiderancasPolítica] = useState('')
-  const [representadoPolitico, setRepresentadoPolitico] = useState('')
-  const [municipalAdmin, setMunicipalAdmin] = useState('')
-  const [politicainflencia, setPoliticainflencia] = useState('')
-  const [decisaoInfluencia, setDecisaoInfluencia] = useState('')
-  const [prefeituraMudanca, setPrefeituraMudanca] = useState('')
-  const [mensagemPolitico, setMensagemPolitico] = useState('');
-  const [mudanca, setMudanca] = useState('');
-  const [problemaRegiao, setProblemaRegiao] = useState('');
-  const [comunidadeFuturo, setComunidadeFuturo] = useState('');
-  const [ideiaInovadora, setIdeiaInovadora] = useState('');
-  const [problemaCidade, setProblemaCidade] = useState('');
-  const [regiao, setRegiao] = useState('');
-  const [moradiaQuantPessoa, setMoradiaQuantPessoa] = useState('');
-  const { control, handleSubmit, setValue, reset, formState: { errors } } = useForm(); 
+  const [aplicadorExistente, setAplicadorExistente] = useState(false); 
+  const [casaVeiculo, setCasaVeiculo] = useState(''); 
+  const [escolhaCandidato, setEscolhaCandidato] = useState('') 
+  const [bomCandidatoCaracteristica, setBomCandidatoCaracteristica] = useState('') 
+  const { control, handleSubmit, setValue, reset, formState: { errors } } = useForm();
+ 
+//  function resertar(){
+//   reset();
+//   setRespostas(initialState)
+//   scrollToBottom()
+//  }
+function substituirVirgulaPorPonto(arrayVar:any){ 
+    let stringResult = ''; 
+    for (let i = 0; i < arrayVar.length; i++) {
+      stringResult += arrayVar[i]; 
+      if (i < arrayVar.length - 1) {
+        // Adiciona um ponto e espaço entre os elementos, exceto no último
+        stringResult += '. ';
+      }
+    }
+    
+    return stringResult
+
+}
+function teste() { 
+  preencharTudo()
+  const dataAtual = new Date();
+  const dataHoraFormatada = dataAtual.toLocaleString('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+  console.log(respostas)
+  console.log("respostas") 
+  console.warn(respostas.toString())
+  console.warn(respostas[20])
+  console.warn(respostas[33])
+  console.warn(respostas[35])
+  console.log(respostas[20])
+  console.log(respostas[33])
+  console.log(respostas[35])
+} 
   const scrollToBottom = () => {
     scrollViewRef.current.scrollTo(0, 0, { animated: true });
   };
-  const handleSaveData = () => {
-    scrollToBottom()
-    setCasaVeiculo(casaVeiculo.toString().replace(',', '|'))
-    setEscolhaCandidato(escolhaCandidato.toString().replace(',', '|'))
-    setDeficienteServico(deficienteServico.toString().replace(',', '|'))
-    setBomCandidatoCaracteristica(bomCandidatoCaracteristica.toString().replace(',', '|'))
-    const opcoes = {
-      timeZone: 'America/Sao_Paulo', // Fuso horário do Brasil
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    };
+  function preencharTudo(){
+    console.log(Object.keys(errors)[0])
+    if (Object.keys(errors).length > 0) { 
+      alert('Preencha todos os campos obrigatórios');
+    }
+  }
+  const handleSaveData = () => { 
+    scrollToBottom() 
+    updateRespostas(35, substituirVirgulaPorPonto(bomCandidatoCaracteristica))
+    updateRespostas(33, substituirVirgulaPorPonto(escolhaCandidato))
+    updateRespostas(20, substituirVirgulaPorPonto(casaVeiculo)) 
     const dataAtual = new Date();
-    const op = {
-      timeZone: 'America/Sao_Paulo',  
+    const dataHoraFormatada = dataAtual.toLocaleString('pt-BR', {
+      timeZone: 'America/Sao_Paulo',
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-    };
-    
-    const dataHoraFormatada = dataAtual.toLocaleString('pt-BR', op); 
-    let newData = [
-      zona,
-      regiao,
-      sexo,
-      idade,
-      faixaRenda,
-      origemRenda,
-      nivelEscolar,
-      quantPessoa,
-      moradia, // 9
-      moradiaQuantPessoa, // 9.1
-      casaVeiculo,
-      perfilEntrevistado,
-      comunicaoVeiculo,
-      discutirPolitica,
-      participouManif,
-      escolhaCandidato,
-      deficienteServico,
-      cadidatoprioridade,
-      bomCandidatoCaracteristica,
-      votoPresidente,
-      votoGovernador,
-      votoPrefeito, //20
-      avaliacaoGeilson,//20.1
-      avaliacaoLucia,//20.2
-      avaliacaoZeze, //20.3
-      nomeVereadorDestacado,
-      vereadorFeedback,
-      avaliacaoVereadorDestacado, //20.4
-      avalicaoAtendimento,
-      prioridade,
-      municipalPolitica,
-      liderancasPolítica,
-      representadoPolitico,
-      municipalAdmin,
-      politicainflencia,
-      decisaoInfluencia,
-      prefeituraMudanca,
-      problemaCidade,
-      ideiaInovadora,
-      comunidadeFuturo,
-      problemaRegiao,
-      mudanca,
-      mensagemPolitico,
-      dataHoraFormatada      //Data e hora
-    ];
-    saveDataToCSV(newData);
-    setzona('')
-    setRegiao('')
-    setSexo('')
-    setIdade('')
-    setFaixaRenda('')
-    setOrigemRenda('')
-    setNivelEscolar('')
-    setQuantPessoa('')
-    setmoradia('')
-    setCasaVeiculo('')
-    setPerfilEntrevistado('')
-    setComunicaoVeiculo('')
-    setDiscutirPolitica('')
-    setParticipouManif('')
-    setEscolhaCandidato('')
-    setDeficienteServico('')
-    setCadidatoprioridade('')
-    setBomCandidatoCaracteristica('')
-    setVotoPresidente('')
-    setVotoGovernador('')
-    setVotoPrefeito('')
-    setAvalicaoAtendimento('')
-    setPrioridade('')
-    setMunicipalPolitica('')
-    setLiderancasPolítica('')
-    setRepresentadoPolitico('')
-    setMunicipalAdmin('')
-    setPoliticainflencia('')
-    setDecisaoInfluencia('')
-    setPrefeituraMudanca('')
-    setProblemaCidade('')
-    setIdeiaInovadora('')
-    setComunidadeFuturo('')
-    setProblemaRegiao('')
-    setMudanca('')
-    setMensagemPolitico('')
-    setMoradiaQuantPessoa('')
-    setAvaliacaoZeze('')
-    setAvaliacaoGeilson('')
-    setAvaliacaoLucia('')
-    setNomeVereadorDestacado('')
-    setVereadorFeedback('')
-    setAvaliacaoVereadorDestacado('') 
-    reset();  
+    });
+    updateRespostas(colunasPesquisa3.length+1,dataHoraFormatada) 
+    saveDataToCSV(respostas);
+    setRespostas(initialState)
+    reset();
     alert('Dados salvos com sucesso!');
   };
   useEffect(() => {
@@ -202,329 +138,212 @@ export default function App() {
       }
     };
     carregarVariavelLocal()
-  }, [nomeDoAplicador])
-  const colunasPesquisa = [
-    '1 - ZONA',
-    '2 - REGIÃO',
-    '3 - SEXO',
-    '4 - IDADE',
-    '5 - FAIXA DE RENDA',
-    '6 - Qual é a origem da sua renda principal?',
-    '7 - NIVEL DE ESCOLARIDADE',
-    '8 - Quantas pessoas moram contigo na sua casa?',
-    '9 - Sua moradia é:',
-    '9.1 - Quantas pessoas moram contigo na mesma casa? (preencher com número)',
-    '10 - Na sua casa qual tipo de veiculo existe?(selecione  as opções que existir em ordem)',
-    '11 - PERFIL DO ENTREVISTADO ',
-    '12 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR?',
-    '13 - Você costuma discutir política com amigos/família/colegas?',
-    '14 - Você já participou de alguma manifestação política? Seja participação em carreata, ou qualquer coisa do gênero',
-    '15 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes)',
-    '15.1 - Em relação aos serviços públicos oferecidos na sua região, quais você considera mais deficientes? (Escolha as três mais importantes)',
-    '16 - Qual dessas questões você acredita que seu candidato ideal deveria priorizar?',
-    '17 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções)',
-    '18 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA PRESIDENTE?',
-    '19 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?',
-    '20 - Se a eleição fosse hoje, em quem você votaria para PREFEITO?',
-    '20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5)',
-    '20.2 - Como está a avaliação dos vereadores? Zezé da Agrícola (de 1 até 5)',
-    '20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)',
-    '20.4.1 - Como está a avaliação dos vereadores? Nome',
-    '20.4.2 - Como está a avaliação dos vereadores? Feedback',
-    '20.4.3 - Como está a avaliação dos vereadores? Avaliacao',
-    '21 - Como você avalia a atuação do governo atual em relação ao atendimento das necessidades da população?',
-    '22 - Na sua opinião, quais deveriam ser as prioridades de um representante político?',
-    '23 - Atualmente, vejo a política municipal como:',
-    '24 - Minha confiança nas lideranças políticas municipais é:',
-    '25 - Eu me sinto representado pelos políticos locais:',
-    '26 - A situação atual da administração municipal é',
-    '27 - Minha visão sobre a política municipal é influenciada por:',
-    '28 - O que mais influencia sua decisão de voto?',
-    '29 - Você acha que deveria existir uma mudança na prefeitura da cidade?',
-    '30 - QUAL O PRINCIPAL PROBLEMA DA CIDADE DE BARÚNA NA SUA OPNIÃO?',
-    '31 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região?',
-    '32 - Como você imagina nossa comunidade nos próximos anos? O que você gostaria de ver mudado ou melhorado?',
-    '33 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPNIÃO?',
-    '34 - Quais ações ou mudanças você gostaria que a prefeitura implementasse em Baraúna para melhorar a qualidade de vida na cidade?',
-    '35 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA',
-    'Data e hora da coleta',
+  }, [nomeDoAplicador]) 
+  const colunasPesquisa3 = [
+    ["0 - SEXO"],
+    ["1 - PERFIL DO ENTREVISTADO (ESTIMULADA)"],
+    ["2 - ZONA  (ESPOTANIA)"],
+    ["3 - REGIÃO  (ESPONTANEA)"],
+    ["4 - Qual é a sua orientação sexual?  (ESTIMULADA)"],
+    ["5 - Você se identifica como?  (ESTIMULADA)"],
+    ["6 - IDADE"],
+    ["7 - Estado Civil"],
+    ["8 - Você estuda ou estudou, em escola pública ou privada (ESTIMULADA E ÚNICA)"],
+    ["9 - NIVEL DE ESCOLARIDADE  (ESTIMULADA)"],
+    ["10 - Você poderia me dizer qual é aproximadamente a sua renda mensal pessoal? (SE NÃO RESPONDER ESPONTANEAMENTE APRESENTE AS OPÇÕES)"],
+    ["11 - De onde vem sua fonte de renda?  (ESTIMULADA)"],
+    ["12 - Quantas pessoas moram contigo na sua casa?  (ESPONTANEA)"],
+    ["13 - O(a) sr(a). poderia me dizer qual é aproximadamente a sua renda mensal de sua casa, caso tenha? (ESPONTANEA/ ESTIMULADA)"],
+    ["14 - Em sua casa alguém recebe auxílio do Governo Federal?  (ESTIMULADA)"],
+    ["15 - Quantos filhos com menos de 18 anos o(a) Sr(a) tem? (ESPONTÂNEA)"],
+    ["16 - SE SIM, O(s) filho(s) do(a) Sr(a) estuda(m) ou estudara(m) em escola pública ou particular? (ESTIMULADA)"],
+    ["17 - Quando o(a) Sr(a) tem algum problema de saúde, o(a) Sr(a): (ESTIMULADA)"],
+    ["18 - Sua moradia é:  (ESTIMULADA)"],
+    ["19 - Qual sua religião?  (ESPONTANEO)"],
+    ["20 - Na sua casa qual tipo de veiculo existe? (ESTIMULADA)  (selecione  as opções que existir em ordem)"],
+    ["21 - O(a)    Sr(a)    tem    título    de    eleitor?    (INSTRUÇÃO: Pessoas que perderam o título entram como opção sim) (ESTIMULADA)"],
+    ["22 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR? DE 1 ATÉ 5  (ESTIMULADA)"],
+    ["TELEVISÃO"],
+    ["CELULAR"],
+    ["JORNAIS/ REVISTAS"],
+    ["RÁDIO"],
+    ["23 - Você costuma discutir política com amigos/família/colegas?  (ESTIMULADA)"],
+    ["24 - Você já participou de alguma manifestação política? Seja participação em carreata, ou qualquer coisa do gênero   (ESTIMULADA)"],
+    ["25 - SE SIM, Durante a última campanha eleitoral para prefeito em Baraúna-RN, o(a) Sr(a) tentou convencer alguém a votar em algum candidato ou partido? (ESTIMULADA)"],
+    ["26 -  SE SIM, Durante    as últimas eleições para prefeito deste município o(a) Sr(a) mostrou seu apoio a algum candidato ou partido, participando de    reuniões,    colando cartazes ou distribuindo panfletos?    (Se    sim) Com    que frequência: (ESTIMULADA)    "],
+    ["27 -  SE SIM, E    o(a)    Sr(a)    colocou    faixas    ou    cartazes    de    algum    candidato em sua casa, no trabalho, ou colou    adesivo    no    carro? "],
+    ["28 -  SE SIM, Durante    a    campanha    eleitoral    um    candidato    ou    uma    pessoa    de    qualquer    partido    entrou    em    contato    com    o(a)    Sr(a)    para    pedir    o    seu    voto?"],
+    ["29 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes, DA MAIOR PARA A MENOR)  (ESTIMULADA)"],
+    ["30 - Qual dessas questões você acredita que seu candidato ideal deveria priorizar?  (ESTIMULADA)"],
+    ["31 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções) (ESTIMULADA)"],
+    ["32 - Agora usando as notas de zero a dez, gostaria que o(a) Sr(a) me dissesse o quanto gosta de alguns políticos que vou mencionar. Quero lembrar que, zero significa que o(a) Sr(a) NÃO gosta do político que vou mencionar e dez que o(a) Sr(a) gosta muito. De novo, se o(a) Sr(a) não conhecer o político que eu disser, diga apenas que não o conhece. (ESTIMULADA E ÚNICA PARA CADA ITEM DA BATERIA) (LER CANDIDATOS – RODIZIAR) "],
+    ["LULA"],	
+    ["BOLSONARO"]	,
+    ["SIMONE TEBET"]	,
+    ["CIRO GOMES"]	,
+    ["FELIPI D'ÁVILA"]	,
+    ["CABO DARCIOLO"],	
+    ["PADRE KELMON"],	 
+    ["33 - Qual    o    partido    que    melhor    representa    a    maneira    como    o(a)    Sr(a)    pensa?    (ESPONTÂNEA    E    ÚNICA)"],
+    ["34 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?  (ESPONTANEO)"],
+    ["35 - Em quem o(a) Sr(a) votou para prefeito na última eleição, município de baraúna? (ESPONTANEO)"],
+    ["36 - Se a eleição fosse hoje, em quem você votaria para PREFEITO? (ESPONTANEO)"],
+    ["37 - Você votaria em Divanize para ser reeleita Prefeita?  (ESPONTANEO)"],
+    ["38 - Você votaria em Zezé Da Agrícola para Prefeito?  (ESPONTANEO)"],
+    ["39 - Você votaria em Saldanha para Prefeito? (ESPONTANEO)"],
+    ["40 Você votaria em Izoares Martins para Prefeito? (ESPONTANEO)"],
+    ["41 -  Na    ultima campanha municipal em Baraúna/RN ,    em    quem    o(a)    Sr(a)    votou    para    VEREADOR?    (ESPONTANEA)  SE NECESSARIO  LER    OPÇÕES"],
+    ["42 - Como    o(a)    sr(a)    avalia a    atuação do vereador que votou em 2020, caso ele tenha sido eleito? (ESTIMULADO)"],
+    ["43 - Na sua opinião, de uma maneira geral, a Gestão da atual prefeita nos últimos 3 anos foi  (ESTIMULADA)"],
+    ["44 - Eu vou ler várias situações e gostaria que o(a) Sr(a) dissesse se o    senhor votaria: (ESTIMULADA)"],
+    ["  • Em um candidato que oferece cestas básicas de alimentos para famílias muito pobres:"],
+    ["  • Em um candidato que conseguisse para uma mãe, vaga para matricular seu filho na escola.	"],
+    ["  • Em um candidato que oferecesse um caminhão de tijolos para várias famílias que precisam acabar de construir suas casas	"],
+    ["  • Em um candidato que  oferece reformar um campo de futebol para um grupo de amigos que jogam bola juntos toda semana	"],
+    ["  • Em um candidato que só fizesse o bem pensando no coletivo, buscando melhorias para o bem comum de vários ou de toda uma população, através de leis, projetos, prestação de contas do dinheiro público e não desse prioridade a necessidades individuais e particulares, como as citadas anteriormente:	"],
+    ["45 - Minha confiança em relação a prefeita atual é de: (ESTIMULADA)"],
+    ["46 - Eu me sinto representado pelos políticos locais: (ESTIMULADA)"],
+    ["47 - Vou citar alguns serviços públicos da cidade e gostaria que o (a) Sr. (a) desse uma nota de 0 a 10 para dizer o quanto está satisfeito com cada um deles em Baraúna/RN. De 0 a 5, que nota o (a) Sr(a) dá para. (ESTIMULADA)"],
+    [" A coleta de lixo	"],
+    ["A polícia	"],
+    ["A limpeza das ruas e calçadas	"],
+    ["O estado de manutenção das ruas e calçadas da cidade	"],
+    ["O controle dos camelôs, mesas de bar e bancas de lojas	"],
+    ["As quadras, praças e espaços de lazer da cidade"],	
+    ["As escolas públicas"],	
+    ["O serviço de saúde pública	"],
+    ["A iluminação das ruas e praças"],	
+    ["O serviço de água	"],
+    ["O serviço de esgoto"],
+    ["48 - Minha visão sobre a política municipal é influenciada por:  (ESTIMULADA)"],
+    ["49 - O que mais influencia sua decisão de voto? (ESTIMULADO)"],
+    ["50 - Você acha que deveria existir uma mudança na prefeitura da cidade?"],
+    ["51 - Nos    últimos    3    anos    o(a)    Sr(a)    fez    contato    com    algum    político,    ou    alguém    que    trabalha    na gestão    municipal,    para    pedir a solução de algum problema que prejudicava muitas pessoas    ou reclamar do próprio    governo?    (ESPONTÂNEA)"],
+    ["52 - SE SIM, O problema, após contato ou reclamação, foi resolvido"],
+    ["54 - AVALIE OS PROBLEMAS DA CIDADE DE BARÚNA NA SUA OPNIÃO, COM NOTAS DE 1 A 5. SENDO QUANDO MAIS PROXIMO DE 1 MENOR PRIORIDADE VOCÊ DÁ A ESSE PROBLEMA E QUANTO MAIS PROXIMO DE 5 MAIOR É A PRIORIDADE DESSE PROBLEMA.  (ESTIMULADO) "],
+    ["1 Desemprego"],
+    ["2 Saúde"],
+    ["3 Educação"],
+    ["4 Pobreza"],
+    ["5 Salário"],
+    ["6 Violência"],
+    ["7 Corrupção"],
+    ["11 Política"],
+    ["12 Fome"],
+    ["13 Desigualdade	"],
+    ["14 Trânsito"],
+    ["15 Enchentes"],
+    ["17 Favelas"],
+    ["18 Água	"],
+    ["19 Esgoto	"],
+    ["20 Urbanismo	"],
+    ["21 Estacionamento	"],
+    ["22 Transporte público	"],
+    ["23 Infraestrutura	"],
+    ["24 Lazer	"],
+    ["55 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região? (ESPONTANEO)"],
+    ["56 - Como você imagina nossa comunidade nos próximos anos? O que você gostaria de ver mudado ou melhorado?  (ESPONTANEO)"],
+    ["57 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPNIÃO?  (ESPONTANEO)"],
+    ["58- Quais ações ou mudanças você gostaria que a prefeitura implementasse em Baraúna para melhorar a qualidade de vida na cidade?  (ESPONTANEO)"],
+    ["59 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA  (ESPONTANEO)"],
+    ["60 - Para    terminar    eu    gostaria    de    ouvir    sua    opinião    sobre    o    questionário.    O    que    o(a)    Sr(a)    achou    do    questionário:    longo,    interessante,    chato    ou    importante?    Você    pode    dar    mais    de    uma    resposta.(ESTIMULADO)"],
   ]
-  const zonas = [
-    { key: 'Norte', value: 'Norte', },
-    { key: 'Sul', value: 'Sul' },
-    { key: 'Leste', value: 'Leste' },
-    { key: 'Oeste', value: 'Oeste', },
-    { key: 'Cidade', value: 'Cidade' },
+  const RespostasPesquisa3 = [
+    //[],// Horario
+    ["MASCULINO", "FEMININO"],
+    ["ESTUDANTE DO ENSINO MÉDIO", "SERVIDOR PÚBLICO", "COMERCIANTE", "UNIVERSITARIO", "COMUNIDADE GERAL", "AGRICULTOR"],
+    ["NORTE", "SUL", "LESTE", "OESTE", "URBANA"],
+    ["Campestre", "Juremal", "Primavera", "Vertentes", "CENTRO", "PRIMAVERA", "ALTO DA AVENIDA", "CAMPO VERDE", "CINDERELA", "SUB-ESTAÇÃO", "DAS PALMEIRAS", "FILADELFIA", "Florêncio", "Vila Nova III", "Angicos", "PA Pico Estreito", "PA Caatingueira", "Vila Nova II", "Vila Nova I", "PA Real", "Córrego de Pedra", "Santa Maria", "Aroeira Grande", "AV. Senhor Petrolino Portela", "PA Tiradentes", "PA Vitória", "Mato Alto", "Velame I", "Formigueiro", "Velame II", "Lajedo de Ouro", "Maxixe", "Olho d'gua da Escada", "Lajedo Mel", "Sumidouro", "Mata Burro", "PA Bom Sucesso dos Militares", "Canaã", "Lajedo do Sebo", "KM.31", "Boa Sorte", "PA Poço Novo II", "PA Fazenda Poço Baraúna (Poco I)", "Baixa Branca", "Veneza", "Recreio", "PA Santa Clara", "Boa Água", "PA Formosa", "Banco da Terra", "PA Ouro Verde", "Rancho DO",],
+    ["Héterossexual", "Bissexual", "Lésbica", "Pansexual", "Queer", "Outra"],
+    ["1 Preto", "2 Pardo", "3 Branco", "4 Amarelo", "5 Índio",],
+    [ /* Idade*/],
+    ["Solteiro(a)", "Casado(a)/ comp.(a)", "Viuvo(a)", "Desquitado(a)/ Divorciado(a)", "Separado(a)",],
+    ["1 Escola pública", " 2 Escola particular", "3 Em escola pública E particular", " 4 Nunca frequentei a escola",],
+    ["ANALFABETO", "ENSINO FUNDAMENTAL I", "ENSINO FUNDAMENTAL II", "ENSINO MÉDIO INCOMPLETO", "ENSINO MÉDIO COMPLETO", "ENSINO SUPERIOR INCOMPLETO", "ENSINO SUPERIOR COMPLETO", "PÓS GRADUAÇÃO", "DOUTORADO",],
+    ["Até R$ 260,00", "De R$ 260,01 até R$ 520,00", "De R$ 520,01 até R$ 780,00", "De R$ 780,01 até R$ 1.320,00", "De R$ 1.320,01 até R$ 2.600,00", "De R$ 2.600,01 até R$ 5.200,00", "De R$ 5.200,01 até R$ 7.800,00", "Mais de R$ 7.800,00", "Não tem renda pessoal", "Não sei/Não respondeu"],
+    ["Agricultor", "Aposentadoria", "Autônomo", "Auxílio governamental", "Bolsa de Estudos", "Comerciante", "Desemprego", "Servidor Público", "Trabalho com carteira assinada (CLT)", "Outra"],
+    [/*Quantidade de pessoas moram na sua casa*/],
+    ["Menos de 1 salário minimo", "Entre 1 e 3 salários mínimos", "De 3 até 5 salários mínimos", "De 5 até 10 salários mínimos", "Mais de 10 salários mínimos", "Prefiro não declarar", "Não tem renda pessoal",],
+    ["SIM", "NÃO"],
+    [/*Quantos filhos*/],
+    ["Não tem filho", " 1 Escola pública", "2 Escola particular", " 3 Em escola pública E particular", "4 Eles ainda não estudam/Nunca estudaram",],
+    ["Vai ao hospital público /posto de saúde  ", "Vai ao hospital particular /clínica/consultório", "Vai aos hospitais público E particular",],
+    ["casa própria", "aluguel", "mora de favor",],
+    ["Agnostico", "Ateu", "Católico", "Candomblé", "Evangélico", "Evangélico Pentecostal", "Protestante", "Umbandista", "Nenhuma/Não tem religião", "Outra"],
+    ["Não temos transporte", "carro", "moto", "bicicleta", "Carroça", "veiculo de trabalho (caminhão trator e afim)", "Outra"],
+    ["Sim", "Não",],
+    [],
+    /* 22 */[/*TELEVISÃO Estrelas */], [/*CELULAR Estrelas */], [/*JORNAIS/ REVISTAS Estrelas */], [/*RÁDIO Estrelas */],
+    ["Sim, frequentemente", "Às vezes", "Raramente", "Não",],
+    ["Sim", "Não",],
+    ["Muitas vezes", "Algumas vezes", "Poucas vezes", "Não",],
+    ["Muitas vezes", "Algumas vezes", "Poucas vezes", "Não",],
+    ["Sim", "Não",],
+    ["Sim", "Não",],
+    ["Saúde", "Educação", "Segurança pública", "Economia", "Meio ambiente", "Emprego", "Infraestrutura", "Outra",],
+    ["Saúde (exemplo: melhorar o acesso a hospitais e serviços de saúde)", "Educação (exemplo: investir na melhoria de escolas e programas educacionais)", "Segurança pública (exemplo: implementar políticas de combate à criminalidade)", "Meio ambiente (exemplo: promover a preservação de áreas verdes e reduzir a poluição)", "Emprego (exemplo: criar programas para incentivar a geração de empregos)", "Infraestrutura (exemplo: melhorar estradas, transporte público e serviços básicos)", "Outra"],
+    ["Honestidade ( FALAR A VERDADE DOA A QUEM DOER)", "Competência técnica (PESSOA QUE SABE COMO FAZER AS COISAS)", "Empatia ( QUE ENTENDA AS PESSOAS E SUAS NECESSIDADES)", "Experiência política (PESSOA QUE JÁ TENHA UMA CARREIRA POLITICA)", "Transparência (PESSOA NO QUAL SEJA ACESSIVEL E MOSTRE SEU TRABALHO RECORRENTEMENTE)", "Caridosa (AJUDA AS PESSOAS MAIS NECESSITADAS)", "Bons Valores (PESSOA NO QUAL PRESERVAM OS VALORES FAMILIARES)"],
+    [],
+    /**23  */[/*LULA	 */], [/*BOLSONARO*/], [/*SIMONE TEBET	*/], [/*CIRO GOMES	*/], [/*FELIPI D'ÁVILA */], [/*CABO DARCIOLO*/], [/*PADRE KELMON */],
+    ["NÃO TENHO", "NÃO SEI", "PARTIDO DEMOCRÁTICO TRABALHISTA - PDT", "PARTIDO DOS TRABALHADORES - PT", "MOVIMENTO DEMOCRÁTICO BRASILEIRO - MDB", "PARTIDO COMUNISTA DO BRASIL - PCdoB", "PARTIDO SOCIALISTA BRASILEIRO - PSB", "PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA - PSDB", "AGIR - AGIR", "PARTIDO DA MOBILIZAÇÃO NACIONAL - PMN", "CIDADANIA - CIDADANIA", "PARTIDO VERDE - PV", "AVANTE - AVANTE", "PROGRESSISTAS - PP", "PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO - PSTU", "PARTIDO COMUNISTA BRASILEIRO - PCB", "PARTIDO RENOVADOR TRABALHISTA BRASILEIRO - PRTB", "DEMOCRACIA CRISTÃ - DC", "PARTIDO DA CAUSA OPERÁRIA - PCO", "PODEMOS - PODE", "REPUBLICANOS - REPUBLI", "PARTIDO SOCIALISMO E LIBERDADE - PSOL", "PARTIDO LIBERAL - PL", "PARTIDO SOCIAL DEMOCRÁTICO - PSD", "SOLIDARIEDADE - SOL", "PARTIDO NOVO - NOVO", "REDE SUSTENTABILIDADE - REDE", "PARTIDO DA MULHER BRASILEIRA - PMB", "UNIDADE POPULAR - UP", "UNIÃO BRASIL - UNIÃO", "Partido Renovação Democrática - PRD"],
+    ["Fatima Bezerra", "Fabio Dantas", "Capitão Styvenson", "Clorisa Linhares", "NÃO VOTEI", "VOTEI EM BRANCO", "VOTEI NULO", "PREFIRO NÃO DECLARAR"],
+    ["a) Divanize", "c) Izoares", "b) Saldanha", "h) Não votou, por ser maior de 70 anos", "i) Não votou por opçao", "j) Não votou por ter entre 16 e 17 anos", "k) Não votou, apenas justificou o voto ", "g) Prefere não declarar", "Justificou o voto", "Voto nulo", "Voto em branco", "Não lembra", "Outro"],
+    ["Divanize", "Zezé da Agrícola", "Izoares", "Lucia Nascimento", "Luciano Testinha", "Fabrício Equipadora", "Marcos Antònio", "Não sei, sou eleitor indeciso", "Outra"],
+    ["Sim", "Não", "Talvez", "Não sei quem é",],
+    ["Sim", "Não", "Talvez", "Não sei quem é",],
+    ["Sim", "Não", "Talvez", "Não sei quem é",],
+    ["Sim", "Não", "Talvez", "Não sei quem é",],
+    ["Fabio Jr", "Fabricio Equipadora", "Zezé da Agricola", "David Simão", "Neuza", "Helena de Lair", "Artilho", "Raimundo do Poco NOVO", "EDILSON", "MELQUE", "Justificou o voto", "Voto nulo", "Voto em branco", "Outra"],
+    ["Ótima", "Boa", "Ruim", "Péssima", "Regular para bom", "Regular para ruim", "Nao foi eleito",],
+    ["MUITO BOA", "BOA", "RUIM", "PÉSSIMA",],
+    [],
+    ["Sim", "Não",],
+    ["Sim", "Não",],
+    ["Sim", "Não",],
+    ["Sim", "Não",],
+    ["Sim", "Não",],
+    [, 'Ótima', 'Boa', 'Regular', 'Ruim', 'Péssima', 'Não sei/Não quero responder',],
+    ["Concordo plenamente, sinto que eles refletem minhas preocupações. (Sentimento: Identificação, Contentamento)", "Nem sempre, acho que há certa desconexão com as necessidades da população. (Sentimento: Desconexão, Insatisfação)", "Discordo, sinto-me completamente sub-representado. (Sentimento: Descontentamento, Alienamento)",],
+    [],
+    /**47*/ [/*A coleta de lixo	*/], [/*A polícia	*/], [/*A limpeza das ruas e calçadas	*/], [/*O estado de manutenção das ruas e calçadas da cidade	*/], [/*O controle dos camelôs, mesas de bar e bancas de lojas	*/], [/*As quadras, praças e espaços de lazer da cidade	*/], [/*As escolas públicas	*/], [/*O serviço de saúde pública	*/], [/*A iluminação das ruas e praças	*/], [/*O serviço de água	*/], [/*O serviço de esgoto	*/], 
+    ["Resultados e projetos realizados pela gestão. (Sentimento: Aprovação, Confiança)", "Escândalos de corrupção ou má gestão. (Sentimento: Desconfiança, Desilusão)", "Falta de transparência e comunicação por parte dos políticos. (Sentimento: Descontentamento, Desconfiança)", "Ajuda por parte dos políticos com minhas necessidades ( Sentimento de necessidade)",],
+    ["Propostas de campanha", "Histórico do candidato", "Ideologia política", "Debates eleitorais", "Amizade com candidato", "Amizade com as pessoas", "Uma ajuda com algum favor", "Escolho na hora mesmo", "Outra",],
+    ["Sim", "Não",],
+    ["Sim", "Não",],
+    ["Sim", "Não"],
+    [],
+    /**30 */
+    [/*1 Desemprego	*/],
+     [/*2 Saúde	*/],
+     [/*3 Educação	*/],
+     [/*4 Pobreza	*/], 
+     [/*5 Salário	*/],
+     [/*6 Violência	*/],
+     [/*7 Corrupção	*/],
+     [/*11 Política	*/],
+     [/*12 Fome	*/], 
+     [/*13 Desigualdade	*/], 
+     [/*14 Trânsito	*/], 
+     [/*15 Enchentes	*/], 
+     [/*17 Favelas	*/], 
+     [/*18 Água	*/], 
+     [/*19 Esgoto	*/], 
+     [/*20 Urbanismo	*/], 
+     [/*21 Estacionamento	*/], 
+     [/*22 Transporte público	*/],
+     [/*23 Infraestrutura	*/],
+     [/*24 Lazer*/],
+    [""],
+    [""],
+    [""],
+    [""],
+    [""],
+    ["Importante", "Longo", "Interessante", "Chato",],
   ]
-  const regioes = [
-    { key: 'CIDADE', value: 'CIDADE', },
-    { key: 'Campestre', value: 'Campestre' },
-    { key: 'Juremal', value: 'Juremal' },
-    { key: 'Primavera', value: 'Primavera' },
-    { key: 'Vertentes', value: 'Vertentes' },
-    { key: 'Angicos', value: 'Angicos' },
-    { key: 'Aroeira Grande', value: 'Aroeira Grande' },
-    { key: 'Florêncio', value: 'Florêncio' },
-    { key: 'PA Pico Estreito', value: 'PA Pico Estreito' },
-    { key: 'PA Tiradentes', value: 'PA Tiradentes' },
-    { key: 'PA Vitória', value: 'PA Vitória' },
-    { key: 'Santa Luzia', value: 'Santa Luzia' },
-    { key: 'Santa Maria', value: 'Santa Maria' },
-    { key: 'Taioba', value: 'Taioba' },
-    { key: 'Toca da Raposa (SITIO)', value: 'Toca da Raposa (SITIO)' },
-    { key: 'Vila Nova I', value: 'Vila Nova I' },
-    { key: 'Vila Nova II', value: 'Vila Nova II' },
-    { key: 'Vila Nova III', value: 'Vila Nova III' },
-    { key: 'Córrego de Pedra', value: 'Córrego de Pedra' },
-    { key: 'Formigueiro', value: 'Formigueiro' },
-    { key: 'Lajedo de Ouro', value: 'Lajedo de Ouro' },
-    { key: 'Lajedo Mel', value: 'Lajedo Mel' },
-    { key: 'Mato Alto', value: 'Mato Alto' },
-    { key: 'Maxixe', value: 'Maxixe' },
-    { key: 'Sumidouro', value: 'Sumidouro' },
-    { key: 'Velame I', value: 'Velame I' },
-    { key: 'Velame II', value: 'Velame II' },
-    { key: 'Mata Burro', value: 'Mata Burro' },
-    { key: 'PA Caatingueira', value: 'PA Caatingueira' },
-    { key: 'Baixa Branca', value: 'Baixa Branca' },
-    { key: 'Banco da Terra', value: 'Banco da Terra' },
-    { key: 'Boa Água', value: 'Boa Água' },
-    { key: 'Boa Sorte', value: 'Boa Sorte' },
-    { key: 'Canaã', value: 'Canaã' },
-    { key: 'KM.31', value: 'KM.31' },
-    { key: 'Lajedo do Sebo', value: 'Lajedo do Sebo' },
-    { key: 'PA Bom Sucesso dos Militares', value: 'PA Bom Sucesso dos Militares' },
-    { key: 'PA Fazenda Poço Baraúna (Poco I)', value: 'PA Fazenda Poço Baraúna (Poco I)' },
-    { key: 'PA Formosa', value: 'PA Formosa' },
-    { key: 'PA Olho D’água da Escada', value: 'PA Olho D’água da Escada' },
-    { key: 'PA Ouro Verde', value: 'PA Ouro Verde' },
-    { key: 'PA Poço Novo II', value: 'PA Poço Novo II' },
-    { key: 'PA Santa Clara', value: 'PA Santa Clara' },
-    { key: 'Rancho do', value: 'Rancho do' },
-    { key: 'Recreio', value: 'Recreio' },
-    { key: 'Veneza', value: 'Veneza' },
-  ]
-  const sexos = [
-    { key: 'Masculino', value: 'Masculino', },
-    { key: 'Feminino', value: 'Feminino', },
-    { key: 'Outro', value: 'Outro', },
-  ]
-  const faixaRendas = [
-    { key: 'NÃO TENHO RENDA', value: 'NÃO TENHO RENDA', },
-    { key: 'MENOS DE 1 SALÁRIO', value: 'MENOS DE 1 SALÁRIO', },
-    { key: 'ENTRE 1 ATÉ 2 SALÁRIOS', value: 'ENTRE 1 ATÉ 2 SALÁRIOS', },
-    { key: 'DE  2 ATÉ 3 SALÁRIOS', value: 'DE  2 ATÉ 3 SALÁRIOS', },
-    { key: 'DE  3 ATÉ 5 SALÁRIOS', value: 'DE  3 ATÉ 5 SALÁRIOS', },
-    { key: 'MAIS DE 10 SALÁRIOS', value: 'MAIS DE 10 SALÁRIOS', },
-    { key: 'PREFIRO NÃO DECLARAR', value: 'PREFIRO NÃO DECLARAR', },
-  ]
-  const origemRendas = [
-    { key: 'Desemprego', value: 'Desemprego', },
-    { key: 'Aposentadoria', value: 'Aposentadoria', },
-    { key: 'Agricultor', value: 'Agricultor', },
-    { key: 'Auxílio governamental', value: 'Auxílio governamental', },
-    { key: 'Comerciante', value: 'Comerciante', },
-    { key: 'Trabalho com carteira assinada (CLT)', value: 'Trabalho com carteira assinada (CLT)', },
-    { key: 'Trabalho autônomo', value: 'Trabalho autônomo', },
-    { key: 'Servidor Público', value: 'Servidor Público', },
-    { key: 'Bolsa de Estudos', value: 'Bolsa de Estudos', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const nivelEscolaridades = [
-    { key: 'ANALFABETO', value: 'ANALFABETO', },
-    { key: 'ENSINO FUNDAMENTAL I', value: 'ENSINO FUNDAMENTAL I', },
-    { key: 'ENSINO FUNDAMENTAL II', value: 'ENSINO FUNDAMENTAL II', },
-    { key: 'ENSINO MÉDIO INCOMPLETO', value: 'ENSINO MÉDIO INCOMPLETO', },
-    { key: 'ENSINO MÉDIO COMPLETO', value: 'ENSINO MÉDIO COMPLETO', },
-    { key: 'ENSINO SUPERIOR INCOMPLETO', value: 'ENSINO SUPERIOR INCOMPLETO', },
-    { key: 'ENSINO SUPERIOR COMPLETO', value: 'ENSINO SUPERIOR COMPLETO', },
-    { key: 'PÓS GRADUAÇÃO', value: 'PÓS GRADUAÇÃO', },
-    { key: 'DOUTORADO', value: 'DOUTORADO', },
-  ]
-  const quantPessoas = [
-    { key: 'Moro sozinho', value: 'Moro sozinho', },
-    { key: '2 pessoas na casa', value: '2 pessoas na casa', },
-    { key: '3 pessoas na casa', value: '3 pessoas na casa', },
-    { key: '4 pessoas na casa', value: '4 pessoas na casa', },
-    { key: '5 pessoas na casa', value: '5 pessoas na casa', },
-    { key: 'mais de 5 pessoas', value: 'mais de 5 pessoas', },
-  ]
-  const moradias = [
-    { key: 'casa própria', value: 'casa própria', },
-    { key: 'aluguel', value: 'aluguel', },
-    { key: 'mora de favor', value: 'mora de favor', },
-  ]
-  const casaVeiculos = [
-    { key: 'Não temos transporte', value: 'Não temos transporte', },
-    { key: 'carro', value: 'carro', },
-    { key: 'moto', value: 'moto', },
-    { key: 'bicicleta', value: 'bicicleta', },
-    { key: 'Carroça', value: 'Carroça', },
-    { key: 'veiculo de trabalho (caminhão, trator e afim)', value: 'veiculo de trabalho (caminhão, trator e afim)', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const perfilEntrevistados = [
-    { key: 'ESTUDANTE DO ENSINO MÉDIO', value: 'ESTUDANTE DO ENSINO MÉDIO', },
-    { key: 'COMERCIANTE', value: 'COMERCIANTE', },
-    { key: 'UNIVERSITARIO', value: 'UNIVERSITARIO', },
-    { key: 'COMUNIDADE GERAL', value: 'COMUNIDADE GERAL', },
-    { key: 'AGRICULTOR', value: 'AGRICULTOR', },
-    { key: 'SERVIDOR PÚBLICO', value: 'SERVIDOR PÚBLICO', },
-  ]
-  const PrefeituraMudancas = [
-    { key: 'Sim', value: 'Sim', },
-    { key: 'Não', value: 'Não', },
-  ]
-  const decisaoInfluencias = [
-    { key: 'Propostas de campanha', value: 'Propostas de campanha', },
-    { key: 'Histórico do candidato', value: 'Histórico do candidato', },
-    { key: 'Ideologia política', value: 'Ideologia política', },
-    { key: 'Debates eleitorais', value: 'Debates eleitorais', },
-    { key: 'Amizade com candidato', value: 'Amizade com candidato', },
-    { key: 'Amizade com as pessoas', value: 'Amizade com as pessoas', },
-    { key: 'Uma ajuda com algum favor', value: 'Uma ajuda com algum favor', },
-    { key: 'Escolho na hora mesmo', value: 'Escolho na hora mesmo', },
-    { key: 'Outra', value: 'Outra', },
-
-  ]
-  const politicainflencias = [
-    { key: 'Resultados e projetos realizados pela gestão. (Sentimento: Aprovação, Confiança)', value: 'Resultados e projetos realizados pela gestão. (Sentimento: Aprovação, Confiança)', },
-    { key: 'Escândalos de corrupção ou má gestão. (Sentimento: Desconfiança, Desilusão)', value: 'Escândalos de corrupção ou má gestão. (Sentimento: Desconfiança, Desilusão)', },
-    { key: 'Falta de transparência e comunicação por parte dos políticos. (Sentimento: Descontentamento, Desconfiança)', value: 'Falta de transparência e comunicação por parte dos políticos. (Sentimento: Descontentamento, Desconfiança)', },
-  ]
-  const MunicipalAdmins = [
-    { key: 'Satisfatória, sinto que a cidade está progredindo bem. (Sentimento: Satisfação, Positividade)', value: 'Satisfatória, sinto que a cidade está progredindo bem. (Sentimento: Satisfação, Positividade)', },
-    { key: 'Tolerável, mas poderia ser melhorada em vários aspectos. (Sentimento: Aceitação, Ambivalência)', value: 'Tolerável, mas poderia ser melhorada em vários aspectos. (Sentimento: Aceitação, Ambivalência)', },
-    { key: 'Insatisfatória, falta competência para lidar com as demandas. (Sentimento: Frustração, Desapontamento)  ', value: 'Insatisfatória, falta competência para lidar com as demandas. (Sentimento: Frustração, Desapontamento)  ', },
-  ]
-  const representadoPoliticos = [
-    { key: 'Concordo plenamente, sinto que eles refletem minhas preocupações. (Sentimento: Identificação, Contentamento)', value: 'Concordo plenamente, sinto que eles refletem minhas preocupações. (Sentimento: Identificação, Contentamento)', },
-    { key: 'Nem sempre, acho que há certa desconexão com as necessidades da população. (Sentimento: Desconexão, Insatisfação)', value: 'Nem sempre, acho que há certa desconexão com as necessidades da população. (Sentimento: Desconexão, Insatisfação)', },
-    { key: 'Discordo, sinto-me completamente sub-representado. (Sentimento: Descontentamento, Alienamento)', value: 'Discordo, sinto-me completamente sub-representado. (Sentimento: Descontentamento, Alienamento)', },
-  ]
-  const liderancasPolíticas = [
-    { key: '1. (Sentimento: Descrença, Desilusão)', value: '1. (Sentimento: Descrença, Desilusão)', },
-    { key: '2  (Sentimento: Expectativa, Ceticismo)', value: '2  (Sentimento: Expectativa, Ceticismo)', },
-    { key: '3. (Sentimento: Confiança, Crença)', value: '3. (Sentimento: Confiança, Crença)', },
-  ]
-  const MunicipalPoliticas = [
-    { key: 'Promissora e eficiente na solução dos problemas locais. (Sentimento: Otismo, Confiança)', value: 'Promissora e eficiente na solução dos problemas locais. (Sentimento: Otismo, Confiança)', },
-    { key: 'Aceitável, mas com áreas que precisam de melhorias. (Sentimento: Esperança, Pragmatismo)', value: 'Aceitável, mas com áreas que precisam de melhorias. (Sentimento: Esperança, Pragmatismo)', },
-    { key: 'Incapaz de lidar com os desafios e necessidades da cidade. (Sentimento: Desânimo, Desconfiança)', value: 'Incapaz de lidar com os desafios e necessidades da cidade. (Sentimento: Desânimo, Desconfiança)', },
-  ]
-  const prioridades = [
-    { key: 'Redução de impostos', value: 'Redução de impostos', },
-    { key: 'Criação de empregos', value: 'Criação de empregos', },
-    { key: 'Melhoria na infraestrutura', value: 'Melhoria na infraestrutura', },
-    { key: 'Investimentos em educação', value: 'Investimentos em educação', },
-    { key: 'Acesso à saúde de qualidade', value: 'Acesso à saúde de qualidade', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const AvalicaoAtendimentos = [
-    { key: 'Muito eficiente', value: 'Muito eficiente', },
-    { key: 'Moderadamente eficiente', value: 'Moderadamente eficiente', },
-    { key: 'Pouco eficiente', value: 'Pouco eficiente', },
-    { key: 'Ineficiente', value: 'Ineficiente', },
-    { key: 'Não sei', value: 'Não sei', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const votoPrefeitos = [
-    { key: 'Divanize Oliveira', value: 'Divanize Oliveira', },
-    { key: 'Isoares Martins', value: 'Isoares Martins', },
-    { key: 'Saldanha', value: 'Saldanha', },
-    { key: 'Zezé da Agrícola', value: 'Zezé da Agrícola', },
-    { key: 'Raimundo do Poço Novo', value: 'Raimundo do Poço Novo', },
-    { key: 'Fabricio Equipadora', value: 'Fabricio Equipadora', },
-    { key: 'Geilson Oliveira', value: 'Geilson Oliveira', },
-    { key: 'Lúcia Nascimento', value: 'Lúcia Nascimento', },
-    { key: 'Não sei, sou eleitor indeciso', value: 'Não sei, sou eleitor indeciso', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const votoGovernadores = [
-    { key: 'Fatima Bezerra', value: 'Fatima Bezerra', },
-    { key: 'Fabio Dantas', value: 'Fabio Dantas', },
-    { key: 'Capitão Styvenson', value: 'Capitão Styvenson', },
-    { key: 'Clorisa Linhares', value: 'Clorisa Linhares', },
-    { key: 'PREFIRO NÃO DECLARAR', value: 'PREFIRO NÃO DECLARAR', },
-    { key: 'NÃO VOTEI', value: 'NÃO VOTEI', },
-    { key: 'VOTEI EM BRANCO', value: 'VOTEI EM BRANCO', },
-    { key: 'VOTEI NULO', value: 'VOTEI NULO', },
-  ]
-  const votoPresidentes = [
-    { key: 'LULA', value: 'LULA', },
-    { key: 'BOLSONARO', value: 'BOLSONARO', },
-    { key: 'SIMONE TEBET', value: 'SIMONE TEBET', },
-    { key: 'CIRO GOMES', value: 'CIRO GOMES', },
-    { key: 'FELIPI DÁVILA', value: 'FELIPI DÁVILA', },
-    { key: 'PREFIRO NÃO DECLARAR', value: 'PREFIRO NÃO DECLARAR', },
-    { key: 'NÃO VOTEI', value: 'NÃO VOTEI', },
-    { key: 'VOTEI EM BRANCO', value: 'VOTEI EM BRANCO', },
-    { key: 'VOTEI NULO', value: 'VOTEI NULO', },
-  ]
-  const bomCandidatoCaracteristicas = [
-    { key: 'Honestidade', value: 'Honestidade', },
-    { key: 'Competência técnica', value: 'Competência técnica', },
-    { key: 'Empatia', value: 'Empatia', },
-    { key: 'Experiência política', value: 'Experiência política', },
-    { key: 'Transparência', value: 'Transparência', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const cadidatoprioridades = [
-    { key: 'Saúde (exemplo: melhorar o acesso a hospitais e serviços de saúde)', value: 'Saúde (exemplo: melhorar o acesso a hospitais e serviços de saúde)', },
-    { key: 'Educação (exemplo: investir na melhoria de escolas e programas educacionais)', value: 'Educação (exemplo: investir na melhoria de escolas e programas educacionais)', },
-    { key: 'Segurança pública (exemplo: implementar políticas de combate à criminalidade)', value: 'Segurança pública (exemplo: implementar políticas de combate à criminalidade)', },
-    { key: 'Meio ambiente (exemplo: promover a preservação de áreas verdes e reduzir a poluição)', value: 'Meio ambiente (exemplo: promover a preservação de áreas verdes e reduzir a poluição)', },
-    { key: 'Emprego (exemplo: criar programas para incentivar a geração de empregos)', value: 'Emprego (exemplo: criar programas para incentivar a geração de empregos)', },
-    { key: 'Infraestrutura (exemplo: melhorar estradas, transporte público e serviços básicos)', value: 'Infraestrutura (exemplo: melhorar estradas, transporte público e serviços básicos)', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const deficienteServicos = [
-    { key: 'Acesso a água', value: 'Acesso a água', },
-    { key: 'Saúde', value: 'Saúde', },
-    { key: 'Educação', value: 'Educação', },
-    { key: 'Transporte público', value: 'Transporte público', },
-    { key: 'Segurança', value: 'Segurança', },
-    { key: 'Saneamento básico', value: 'Saneamento básico', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const escolhaCandidatos = [
-    { key: 'Saúde', value: 'Saúde', },
-    { key: 'Educação', value: 'Educação', },
-    { key: 'Segurança pública', value: 'Segurança pública', },
-    { key: 'Economia', value: 'Economia', },
-    { key: 'Meio ambiente', value: 'Meio ambiente', },
-    { key: 'Emprego', value: 'Emprego', },
-    { key: 'Infraestrutura', value: 'Infraestrutura', },
-    { key: 'Outra', value: 'Outra', },
-  ]
-  const participouManifestacao = [
-    { key: 'Sim', value: 'Sim', },
-    { key: 'Não', value: 'Não', },
-  ]
-  const discutirPoliticas = [
-    { key: 'Sim, frequentemente', value: 'Sim, frequentemente', },
-    { key: 'Às vezes', value: 'Às vezes', },
-    { key: 'Raramente', value: 'Raramente', },
-    { key: 'Não', value: 'Não', },
-  ]
-  const comunicaoVeiculos = [
-    { key: 'RÁDIO', value: 'RÁDIO', },
-    { key: 'TELEVISÃO', value: 'TELEVISÃO', },
-    { key: 'CELULAR', value: 'CELULAR', },
-    { key: 'JORNAIS/ REVISTAS', value: 'JORNAIS/ REVISTAS', },
-  ]
-  const handleInputChange = (text: string) => {
-    // Remove caracteres não numéricos
-    const cleanedText = text.replace(/[^0-9]/g, '');
-    setIdade(cleanedText);
-  };
-  const handleInputQuantPessoas = (text: string) => {
-    // Remove caracteres não numéricos
-    const cleanedText = text.replace(/[^0-9]/g, '');
-    setMoradiaQuantPessoa(cleanedText);
-  };
-  const downloadFromUrl = async () => { 
-    try { 
+  const initialState = Array(colunasPesquisa3.length+1).fill('');
+  const [respostas, setRespostas] = useState(Array(colunasPesquisa3.length).fill(''));
+  const downloadFromUrl = async () => {
+    try {
       const origem = `${FileSystem.documentDirectory}${nomeArquivo}`;
       const destino = `${FileSystem.cacheDirectory}Download/${nomeArquivo}`; // Pasta de Downloads
       // Verificar se o arquivo já existe no destino
@@ -543,22 +362,6 @@ export default function App() {
       alert('Error em copiar o arquivo para pasta de download.');
     }
 
-    // try {
-    //   const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
-    //   // Verificar se o arquivo CSV já existe
-    //   const fileInfo = await FileSystem.getInfoAsync(csvFilePath);
-    //   if (!fileInfo.exists) {
-    //     alert('O arquivo CSV não está disponível para download.');
-    //     return;
-    //   }
-    //   // Obter o URI do arquivo
-    //   const fileUri = `file://${csvFilePath}`; 
-    //   // Compartilhar e realizar o download
-    //   await shareAsync(fileUri, { mimeType: 'text/csv', dialogTitle: 'Download CSV' });
-    // } catch (error) {
-    //   console.error('Erro ao efetuar o download do arquivo CSV:', error);
-    //   alert('Ocorreu um erro ao efetuar o download do arquivo CSV.');
-    // }
   };
   async function compartilhar() {
     try {
@@ -568,7 +371,7 @@ export default function App() {
       if (!fileInfo.exists) {
         // Se o arquivo não existir, criar um novo
         const initialCSVData = [
-          colunasPesquisa
+          colunasPesquisa3
         ];
         const initialCSV = Papa.unparse(initialCSVData);
         await FileSystem.writeAsStringAsync(csvFilePath, initialCSV, { encoding: FileSystem.EncodingType.UTF8 });
@@ -591,7 +394,7 @@ export default function App() {
       const fileInfo = await FileSystem.getInfoAsync(csvFilePath);
       if (!fileInfo.exists) {
         // Se o arquivo não existir, criar um novo com cabeçalho
-        const initialCSVData = [colunasPesquisa];
+        const initialCSVData = [colunasPesquisa3];
         const initialCSV = Papa.unparse(initialCSVData);
         await FileSystem.writeAsStringAsync(csvFilePath, initialCSV, { encoding: FileSystem.EncodingType.UTF8 });
       }
@@ -610,50 +413,7 @@ export default function App() {
       // Sobrescrever o arquivo CSV com os novos dados
       // Usar o método append para adicionar a nova linha sem sobrescrever 
       await FileSystem.writeAsStringAsync(csvFilePath, updatedCSV, { encoding: FileSystem.EncodingType.UTF8 });
-    
-      // setzona('')
-      // setRegiao(null)
-      // setSexo('')
-      // setIdade('')
-      // setFaixaRenda('')
-      // setOrigemRenda('')
-      // setNivelEscolar('')
-      // setQuantPessoa('')
-      // setmoradia('')
-      // setCasaVeiculo('')
-      // setPerfilEntrevistado('')
-      // setComunicaoVeiculo('')
-      // setDiscutirPolitica('')
-      // setParticipouManif('')
-      // setEscolhaCandidato('')
-      // setDeficienteServico('')
-      // setCadidatoprioridade('')
-      // setBomCandidatoCaracteristica('')
-      // setVotoPresidente('')
-      // setVotoGovernador('')
-      // setVotoPrefeito('')
-      // setAvalicaoAtendimento('')
-      // setPrioridade('')
-      // setMunicipalPolitica('')
-      // setLiderancasPolítica('')
-      // setRepresentadoPolitico('')
-      // setMunicipalAdmin('')
-      // setPoliticainflencia('')
-      // setDecisaoInfluencia('')
-      // setPrefeituraMudanca('')
-      // setProblemaCidade('')
-      // setIdeiaInovadora('')
-      // setComunidadeFuturo('')
-      // setProblemaRegiao('')
-      // setMudanca('')
-      // setMensagemPolitico('')
-      // setMoradiaQuantPessoa('')
-      // setAvaliacaoZeze('')
-      // setAvaliacaoGeilson('')
-      // setAvaliacaoLucia('')
-      // setNomeVereadorDestacado('')
-      // setVereadorFeedback('')
-      // setAvaliacaoVereadorDestacado('')
+ 
     } catch (error) {
       console.error('Erro ao salvar dados no arquivo CSV:', error);
       alert('Ocorreu um erro ao salvar os dados no arquivo CSV.');
@@ -683,926 +443,143 @@ export default function App() {
     salvarVariavelLocal()
     setAplicadorExistente(true)
     const csvFilePath = `${FileSystem.documentDirectory + nomeArquivo}`;
-    const initialCSVData = [[`Nome do aplicador: ${nome}`], colunasPesquisa];
+    const initialCSVData = [[`Nome do aplicador: ${nome}`], colunasPesquisa3];
     const initialCSV = Papa.unparse(initialCSVData);
     await FileSystem.writeAsStringAsync(csvFilePath, initialCSV, { encoding: FileSystem.EncodingType.UTF8 });
-  } 
+  }
+  function handleToggle(index: number ,value: boolean) { 
+    updateRespostas(index, value ? 'SIM' : 'NÃO');
+  }
+
+  function updateRespostas(index: number, resposta: any) {
+    setRespostas((prevRespostas) => {
+      const newRespostas = [...prevRespostas];
+      newRespostas[index] = resposta;
+      return newRespostas;
+    });
+  }
+ 
   return (
     <>
       {aplicadorExistente ?
-        <ScrollView style={{}} ref={scrollViewRef}>
-          <StatusBar backgroundColor={'purple'} animated={true} showHideTransition={"fade"}/>
-          <View>
-            <View style={{ alignItems: 'center', justifyContent: 'center', height: 60, backgroundColor: 'purple', borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
+        <ScrollView  ref={scrollViewRef}>
+          <StatusBar backgroundColor={'purple'} animated={true} showHideTransition={"fade"}  />
+          <View style={{ alignItems: 'center', justifyContent: 'center', height: 60, backgroundColor: 'purple', borderBottomRightRadius: 12, borderBottomLeftRadius: 12 }}>
               <Text style={{ color: '#fff', fontSize: 22, fontWeight: "700", fontFamily: "Roboto" }}>
                 Pesquisa Baraunas
               </Text>
             </View>
-            <View style={{ padding: 16, flex: 1 }}>
- 
-              <Text style={styles.pergunta}>
-                1- ZONA
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(val: any) => {
-                        setzona(val);
-                        onChange(val);
-                      }}
-                      data={zonas}
-                      save="value"
-                      placeholder='Selecione a zona'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a zona que deseja encontrar'
-                    />
-                    {errors.zona && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma zona</Text>}
-                  </View>
-                )}
-                name="zona"
-                rules={{ required: true }}
-              />
-              {/* <SelectList
-                  setSelected={(val: any) =>{ setzona(val)}
-                  data={zonas}
-                  save="value"
-                  placeholder='Selecione a zona'
-                  notFoundText='Dado não encontrado'
-                  searchPlaceholder='Digite a zona que deseja encontrar'
-                /> */}
-              <Text style={styles.pergunta}>
-                2- REGIÃO
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setRegiao(valor); onChange(valor); }}
-                      data={regioes}
-                      save="value"
-                      placeholder='Selecione a regiao'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a região que deseja encontrar'
-                    />
-                    {errors.regiao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma regiao</Text>}
-                  </View>
-                )}
-                name="regiao"
-                rules={{ required: true }}
-              />
+          <View style={{padding: 8}}> 
+          {
+            colunasPesquisa3.map((pergunta, index) => {
+              return (<View key={"ViewP-"+index.toString()}>
+                <Controller 
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <View >
+                      <Text   style={styles.pergunta}>
+                          {/* {index}- */}
+                          {pergunta}
+                      </Text>
+                      {
+                       index == 22 || index == 36 || index == 55  || index == 63 || index == 80 ?
+                       null
+                      :
+                      index == 6 || index == 12 || index == 15 || index > 100 && index < 106 ?
+                        <> 
+                            <TextInput
+                         
+                              label={index === 6 || index === 12 || index === 15 ? "Digite a quantidade" : "Digite a mensagem"}
+                              value={value}
+                              inputMode={index === 6 || index === 12 || index === 15  ? 'numeric' : 'text'}
+                              onChangeText={(text) => { onChange(text); updateRespostas(index, text); }}
+                              style={styles.inputText}
+                            />
+                          {errors[index] && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um mensagem</Text>}
+                        </>
+                        :
+                        index == 35 ||  index == 33 || index == 20 ?
+                        <View  >
+                            <MultipleSelectList 
+                           
+                              setSelected={(valor: any) => { onChange("valor"); console.log("valor: "+ valor); index == 35 ? setBomCandidatoCaracteristica(valor) : index == 33 ? setEscolhaCandidato(valor) : index == 20 ? setCasaVeiculo(valor) : null; console.log("Bom: "+ bomCandidatoCaracteristica); console.log("Veiculo: "+ casaVeiculo); console.log("Candidato: "+ escolhaCandidato);/** updateRespostas(index, valor); */}}
+                              data={RespostasPesquisa3[index]}
+                              save="value"
+                              label={"Perguntas-"+index.toString()}
+                              placeholder='Selecione as opções'
+                              searchPlaceholder='Digite o veiculo da casa que deseja encontrar'
+                              />
+                            {errors[index] && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma opção</Text>}
+                            {respostas[index] ? <Text style={{ color: 'green', textAlign: 'center' }}>{respostas[index]}</Text> : null}
+                          </View>
+                          :  (index > 22 && index < 27) || (index > 36 && index < 44) || (index > 63 && index < 75) || index > 80 && index < 101 ?
+                          <>
+                              <View >
+                              <StarRating   rating={respostas[index]} onStarPress={(nota: any) => { onChange(nota); updateRespostas(index, nota); }} />
+                                {errors[index] && <Text  style={{ color: 'red', textAlign: 'center' }}>Selecione uma nota</Text>}
+                              </View>
+                            </>
+                            :
+                            index > 55 && index < 61 || index == 14 || index == 21 || index == 28 || index == 31 || index == 32 || index == 77 || index == 78 || index == 79 || index == 14 ?
+                            <>
+                              <View style={{ alignItems: 'center', marginTop: 20, flexDirection: 'row' }}>
+                                <TouchableOpacity
+                           
+                                  style={[styles.checkbox, respostas[index]=="SIM" && styles.checkedYes, { flex: 1, alignItems: 'center', borderRadius: 16, height: 40, justifyContent: 'center' }]}
+                                  onPress={() =>{ handleToggle(index, true); onChange("valor")}}>
+                                  <Text style={ respostas[index]== "SIM"? styles.labelSelect: styles.labelNotSelect}>SIM</Text>
+                                </TouchableOpacity>
 
-              <Text style={styles.pergunta}>
-                3- SEXO
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setSexo(valor); onChange(valor); }}
-                      data={sexos}
-                      save="value"
-                      placeholder='Selecione o sexo'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o sexo que deseja encontrar'
-                    />
-                    {errors.sexo && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um sexo</Text>}
-                  </View>
-                )}
-                name="sexo"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                4 - IDADE
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      style={styles.inputNumber}
-                      placeholder="Digite a idade do entrevistado"
-                      keyboardType="numeric"
-                      value={idade}
-                      onChangeText={(text: string) => { handleInputChange(text); onChange(text); }}
-                    />
-                    {errors.idade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma idade</Text>}
-                  </View>
-                )}
-                name="idade"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                5 - FAIXA DE RENDA
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setFaixaRenda(valor); onChange(valor); }}
-                      data={faixaRendas}
-                      save="value"
-                      placeholder='Selecione o faixa de renda'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a faixa de renda que deseja encontrar'
-                    />
-                    {errors.renda && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma renda</Text>}
-                  </View>
-                )}
-                name="renda"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                6 - Qual é a origem da sua renda principal?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setOrigemRenda(valor); onChange(valor); }}
-                      data={origemRendas}
-                      save="value"
-                      placeholder='Selecione o origem de renda'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a origem de renda que deseja encontrar'
-                    />
-                    {errors.origem && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma origem</Text>}
-                  </View>
-                )}
-                name="origem"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                7 - NIVEL DE ESCOLARIDADE
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setNivelEscolar(valor); onChange(valor); }}
-                      data={nivelEscolaridades}
-                      save="value"
-                      placeholder='Selecione o nivel escolar'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o nivel escolar que deseja encontrar'
-                    />
-                    {errors.escolaridade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma escolaridade</Text>}
-                  </View>
-                )}
-                name="escolaridade"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                8 - Quantas pessoas moram contigo na sua casa?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setQuantPessoa(valor); onChange(valor); }}
-                      data={quantPessoas}
-                      save="value"
-                      placeholder='Selecione quantas pessoas moram com você'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a quantidade de pessoas que deseja encontrar'
-                    />
-                    {errors.pessoas && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma pessoas</Text>}
-                  </View>
-                )}
-                name="pessoas"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                9 - Sua moradia é:
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setmoradia(valor); onChange(valor); }}
-                      data={moradias}
-                      save="value"
-                      placeholder='Selecione a moradia'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a moradia que deseja encontrar'
-                    />
-                    {errors.moradia && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma moradia</Text>}
-                  </View>
-                )}
-                name="moradia"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                9.1 - Quantas pessoas moram contigo na mesma casa? (preencher com número)
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      style={styles.inputNumber}
-                      placeholder="Informe a quantidade de pessoas"
-                      keyboardType="numeric"
-                      value={moradiaQuantPessoa}
-                      onChangeText={(text) => { handleInputQuantPessoas(text); onChange(text) }}
-                    />
-                    {errors.quantpessoa && <Text style={{ color: 'red', textAlign: 'center' }}>Digite a quantidade de pessoas</Text>}
-                  </View>
-                )}
-                name="quantpessoa"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                10 - Na sua casa qual tipo de veiculo existe?(selecione  as opções que existir em ordem)
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <MultipleSelectList
-                      setSelected={(valor: any) => { setCasaVeiculo(valor); onChange("valor"); }}
-                      data={casaVeiculos}
-                      save="value"
-                      label="Categories"
-                      placeholder='Selecione os veiculos da casa'
-                      searchPlaceholder='Digite o veiculo da casa que deseja encontrar'
-                    />
-                    {errors.veiculo && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma veiculo</Text>}
-                  </View>
-                )}
-                name="veiculo"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                11 - PERFIL DO ENTREVISTADO
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setPerfilEntrevistado(valor); onChange(valor); }}
-                      data={perfilEntrevistados}
-                      save="value"
-                      placeholder='Selecione o perfil do entrevistado'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o perfil do entrevistado que deseja encontrar'
-                    />
-                    {errors.entrevistado && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um perfil</Text>}
-                  </View>
-                )}
-                name="entrevistado"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                12 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setComunicaoVeiculo(valor); onChange(valor); }}
-                      data={comunicaoVeiculos}
-                      save="value"
-                      placeholder='Selecione o veiculo de comunicação'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o veiculo de comunicação que deseja encontrar'
-                    />
-                    {errors.comunicacao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um veiculo comunicacao</Text>}
-                  </View>
-                )}
-                name="comunicacao"
-                rules={{ required: true }}
-              />
-
-              <Text style={styles.pergunta}>
-                13 - Você costuma discutir política com amigos/família/colegas?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setDiscutirPolitica(valor); onChange(valor) }}
-                      data={discutirPoliticas}
-                      save="value"
-                      placeholder='Selecione a opção'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a opção que deseja encontrar'
-                    />
-                    {errors.discutir && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma opção</Text>}
-                  </View>
-                )}
-                name="discutir"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                14 - Você já participou de alguma manifestação política? Seja participação em carreata, ou qualquer coisa do gênero
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setParticipouManif(valor); onChange(valor) }}
-                      data={participouManifestacao}
-                      save="value"
-                      placeholder='Selecione a opção'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a opção que deseja encontrar'
-                    />
-                    {errors.manifestacao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma opção</Text>}
-                  </View>
-                )}
-                name="manifestacao"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                15 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes)
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <MultipleSelectList
-                      setSelected={(valor: any) => { setEscolhaCandidato(valor); onChange("valor") }}
-                      data={escolhaCandidatos}
-                      save="value"
-                      label="Selecione três questões"
-                      placeholder='Selecione as questões'
-                      searchPlaceholder='Digite a questão que deseja encontrar'
-                    />
-                    {errors.questoes && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione as questoes</Text>}
-                  </View>
-                )}
-                name="questoes"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                15.1 - Em relação aos serviços públicos oferecidos na sua região, quais você considera mais deficientes? (Escolha as três mais importantes)
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <MultipleSelectList
-                      setSelected={(valor: any) => { setDeficienteServico(valor); onChange("valor") }}
-                      data={deficienteServicos}
-                      save="value"
-                      label="Selecione três serviços"
-                      placeholder='Selecione os serviços'
-                      searchPlaceholder='Digite o serviço que deseja encontrar'
-                    />
-                    {errors.deficiencia && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma deficiencia</Text>}
-                  </View>
-                )}
-                name="deficiencia"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                16 - Qual dessas questões você acredita que seu candidato ideal deveria priorizar?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setCadidatoprioridade(valor); onChange(valor) }}
-                      data={cadidatoprioridades}
-                      save="value"
-                      placeholder='Selecione a questão'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a questão que deseja encontrar'
-                    />
-                    {errors.prioridade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma prioridade</Text>}
-                  </View>
-                )}
-                name="prioridade"
-                rules={{ required: true }} />
-              <Text style={styles.pergunta}>
-                17 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções)
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <MultipleSelectList
-                      setSelected={(valor: any) => { setBomCandidatoCaracteristica(valor); onChange("valor") }}
-                      data={bomCandidatoCaracteristicas}
-                      save="value"
-                      label="Selecione atê três características"
-                      placeholder='Selecione as características'
-                      searchPlaceholder='Digite a característica que deseja encontrar'
-                    />
-                    {errors.caracteristicas && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma caracteristicas</Text>}
-                  </View>
-                )} 
-                name="caracteristicas"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                18 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA PRESIDENTE?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setVotoPresidente(valor); onChange(valor) }}
-                      data={votoPresidentes}
-                      save="value"
-                      placeholder='Selecione o candidato'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o candidato que deseja encontrar'
-                    />
-                    {errors.presidente && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um presidente</Text>}
-                  </View>
-                )} 
-                name="presidente"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                19 - ENTRE OS CANDIDATOS ABAIXO QUEM VOCÊ VOTOU NA ULTIMA ELEIÇÃO PARA GOVERNADOR?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setVotoGovernador(valor); onChange(valor) }}
-                      data={votoGovernadores}
-                      save="value"
-                      placeholder='Selecione o candidato'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o candidato que deseja encontrar'
-                    />
-                    {errors.governador && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um governador</Text>}
-                  </View>
-                )}
-
-                name="governador"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                20 - Se a eleição fosse hoje, em quem você votaria para PREFEITO?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setVotoPrefeito(valor); onChange(valor) }}
-                      data={votoPrefeitos}
-                      save="value"
-                      placeholder='Selecione o candidato'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o candidato que deseja encontrar'
-                    />
-                    {errors.prefeito && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um prefeito</Text>}
-                  </View>
-                )} 
-                name="prefeito"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                20.1 - Como está a avaliação dos vereadores? Geilson Oliveira (de 1 até 5)
-              </Text>
-              <Controller
-                 control={control}
-                 render={({ field: { onChange, onBlur, value } }) => (
-                   <View>
-                     <StarRating rating={avaliacaoGeilson} onStarPress={(nota:any)=>{setAvaliacaoGeilson(nota); onChange(nota)}} />
-                     {errors.notaGilson && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a nota de Gilson</Text>}
-                   </View>
-                 )} 
-                 name="notaGilson"
-                 rules={{ required: true }}
-               />
-              <Text style={styles.pergunta}>
-                20.2 - Como está a avaliação dos vereadores? Zezé da Agrícola (de 1 até 5)
-              </Text>
-              <Controller
-                 control={control}
-                 render={({ field: { onChange, onBlur, value } }) => (
-                   <View> 
-                     <StarRating rating={avaliacaoZeze} onStarPress={(nota:any)=>{setAvaliacaoZeze(nota); onChange(nota)}} />
-                     {errors.notaZeze && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a nota de Zeze</Text>}
-                   </View>
-                 )} 
-                 name="notaZeze"
-                 rules={{ required: true }}
-               />
-              <Text style={styles.pergunta}>
-                20.3 - Como está a avaliação dos vereadores? Lúcia Nascimento  (de 1 até 5)
-              </Text >
-              <Controller
-                 control={control}
-                 render={({ field: { onChange, onBlur, value } }) => (
-                   <View>
-                      <StarRating rating={avaliacaoLucia} onStarPress={(nota:any)=>{setAvaliacaoLucia(nota); onChange(nota)}} />
-                      {errors.notaLucia && <Text style={{ color: 'red', textAlign: 'center' }}>A nota de Lucia(a)</Text>}
-                   </View>
-                 )} 
-                 name="notaLucia"
-                 rules={{ required: true }}
-               />
-              <Text style={styles.pergunta}>
-                20.4 - Como está a avaliação dos vereadores? Algum que você queira destacar uma critica ou elogio
-              </Text> 
-              <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                <Button mode="contained" style={[styles.buttons, { justifyContent: 'center', width: '80%', backgroundColor: destaque ? 'red' : 'purple' }]}
-                  onPress={() => {
-                    setNomeVereadorDestacado('')
-                    setVereadorFeedback('')
-                    setAvaliacaoVereadorDestacado('')
-                    setDestaque(!destaque)
-                  }}>
-                  <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18, color: 'white' }}>
-                    {destaque ? 'Não quero avaliar' : 'Quero avaliar'}
-                  </Text>
-                </Button>
-              </View>
-              {destaque ?
-                <View >
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <View>
-                        <TextInput
-                          label="Escreva o nome do vereador"
-                          value={nomeVereadorDestacado}
-                          onChangeText={(text) => { setNomeVereadorDestacado(text); onChange(text) }}
-                          style={styles.inputText}
-                        />
-                        {errors.nomeVereador && <Text style={{ color: 'red', textAlign: 'center' }}>Digite o nome Vereador</Text>}
-                      </View>
-                    )}
-                    name="nomeVereador"
-                    rules={destaque ? { required: true } : { required: false }}
+                                <TouchableOpacity
+                            
+                                  style={[styles.checkbox,  respostas[index]=="NÃO" && styles.checkedNo, { flex: 1, alignItems: 'center', borderRadius: 16, height: 40, justifyContent: 'center' }]}
+                                  onPress={() => {handleToggle(index, false); onChange("valor")}} >
+                                  <Text style={ respostas[index]== "NÃO"? styles.labelSelect: styles.labelNotSelect}>NÃO</Text>
+                                </TouchableOpacity>
+                              </View>
+                              {errors[index] && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione sim ou não</Text>}
+                            </>
+                            :
+                            <View>
+                            <SelectList 
+                              setSelected={(valor: any) => { onChange(valor); updateRespostas(index, valor); }}
+                              data={RespostasPesquisa3[index]}
+                              save="value"
+                              placeholder='Selecione a opção'
+                              notFoundText='Dado não encontrado'
+                              searchPlaceholder='Digite o item que deseja encontrar'
+                            />
+                            {errors[index] && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma opção</Text>}
+                            {respostas[index] ? <Text style={{ color: 'green', textAlign: 'center' }}>{respostas[index]}</Text> : null}
+                          </View> 
+                      }
+                     
+                    </View>
+                  )}
+                  name={index.toString()}
+                  rules={{ required:  index == 22 || index == 36 || index == 55  || index == 63 || index == 80 ? false : true }}
                   />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <View>
-                        <TextInput
-                          label="Descreva a critica ou elogio"
-                          value={vereadorFeedback}
-                          onChangeText={(text) => { setVereadorFeedback(text); onChange(text) }}
-                          style={styles.inputText}
-                        />
-                        {errors.critica && <Text style={{ color: 'red', textAlign: 'center' }}>Digite uma critica</Text>}
-                      </View>
-                    )}
-                    name="critica"
-                    rules={{ required: destaque }}
-                  />
-                  <Controller
-                 control={control}
-                 render={({ field: { onChange, onBlur, value } }) => (
-                   <View>
-                     <StarRating rating={avaliacaoVereadorDestacado} onStarPress={(nota: any) =>{ setAvaliacaoVereadorDestacado(nota); onChange(nota) }} />
-                     {errors.notaVereador && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a nota do vereador(a)</Text>}
-                   </View>
-                 )} 
-                 name="notaVereador"
-                 rules={{ required: destaque }}
-               />
-                </View>
-                :
-                null
-              }
-              <Text style={styles.pergunta}>
-                21 - Como você avalia a atuação do governo atual em relação ao atendimento das necessidades da população?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setAvalicaoAtendimento(valor); onChange(valor) }}
-                      data={AvalicaoAtendimentos}
-                      save="value"
-                      placeholder='Selecione o candidato'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite o candidato que deseja encontrar'
-                    />
-                    {errors.avaliacaoAtendimento && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma avaliacao do atendimento</Text>}
-                  </View>
-                )}
-                name="avaliacaoAtendimento"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                22 - Na sua opinião, quais deveriam ser as prioridades de um representante político?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setPrioridade(valor); onChange(valor) }}
-                      data={prioridades}
-                      save="value"
-                      placeholder='Selecione as prioridades'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a prioridade que deseja encontrar'
-                    />
-                    {errors.prioridade && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione a prioridade</Text>}
-                  </View>
-                )} 
-                name="prioridade"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                23 - Atualmente, vejo a política municipal como:
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setMunicipalPolitica(valor); onChange(valor) }}
-                      data={MunicipalPoliticas}
-                      save="value"
-                      placeholder='Selecione a visão da politica atual'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a visão da politica atual que deseja encontrar'
-                    />
-                    {errors.visaoPolitica && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um visao politica atual</Text>}
-                  </View>
-                )} 
-                name="visaoPolitica"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                24 - Minha confiança nas lideranças políticas municipais é:
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setLiderancasPolítica(valor); onChange(valor) }}
-                      data={liderancasPolíticas}
-                      save="value"
-                      placeholder='Selecione a confiança'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a confiança que deseja encontrar'
-                    />
-                    {errors.confianca && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma confianca</Text>}
-                  </View>
-                )} 
-                name="confianca"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                25 - Eu me sinto representado pelos políticos locais:
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setRepresentadoPolitico(valor); onChange(valor) }}
-                      data={representadoPoliticos}
-                      save="value"
-                      placeholder='Selecione a opção'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a opção que deseja encontrar'
-                    />
-                    {errors.representantePolitico && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione um opcao</Text>}
-                  </View>
-                )} 
-                name="representantePolitico"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                26 - A situação atual da administração municipal é
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setMunicipalAdmin(valor); onChange(valor) }}
-                      data={MunicipalAdmins}
-                      save="value"
-                      placeholder='Selecione a sintuação'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a sintuação que deseja encontrar'
-                    />
-                    {errors.sintuacao && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma sintuacao</Text>}
-                  </View>
-                )} 
-                name="sintuacao"
-                rules={{ required: true }}
-              /> 
-              <Text style={styles.pergunta}>
-                27 - Minha visão sobre a política municipal é influenciada por:
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setPoliticainflencia(valor); onChange(valor) }}
-                      data={politicainflencias}
-                      save="value"
-                      placeholder='Selecione o que influencia'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a influencia que deseja encontrar'
-                    />
-                    {errors.influenciaPolitica && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma influencia politica</Text>}
-                  </View>
-                )} 
-                name="influenciaPolitica"
-                rules={{ required: true }}
-              /> 
-              <Text style={styles.pergunta}>
-                28 - O que mais influencia sua decisão de voto?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setDecisaoInfluencia(valor); onChange(valor) }}
-                      data={decisaoInfluencias}
-                      save="value"
-                      placeholder='Digite o que influencia a tomada de decisão'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a influencia que quer encontrar'
-                    />
-                    {errors.influencia && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma influencia</Text>}
-                  </View>
-                )}
-
-                name="influencia"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                29 - Você acha que deveria existir uma mudança na prefeitura da cidade?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <SelectList
-                      setSelected={(valor: any) => { setPrefeituraMudanca(valor); onChange(valor) }}
-                      data={PrefeituraMudancas}
-                      save="value"
-                      placeholder='Descreva a mudança'
-                      notFoundText='Dado não encontrado'
-                      searchPlaceholder='Digite a mudança encontrar'
-                    />
-                    {errors.prefeituraMudanca && <Text style={{ color: 'red', textAlign: 'center' }}>Selecione uma mudanca na prefeitura</Text>}
-                  </View>
-                )}
-                name="prefeituraMudanca"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                30 - QUAL O PRINCIPAL PROBLEMA DA CIDADE DE BARÚNA NA SUA OPNIÃO?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Relate o problema da cidade"
-                      value={problemaCidade}
-                      onChangeText={(text) => { setProblemaCidade(text); onChange(text) }}
-                      style={styles.inputText}
-                    />
-                    {errors.problema && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um problema</Text>}
-                  </View>
-                )}
-                name="problema"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                31 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Descreva a ideia inovadora"
-                      value={ideiaInovadora}
-                      onChangeText={(text) => { setIdeiaInovadora(text); onChange(text) }}
-                      style={styles.inputText}
-                    />
-                    {errors.ideia && <Text style={{ color: 'red', textAlign: 'center' }}>Digite uma ideia</Text>}
-                  </View>
-                )}
-                name="ideia"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                32 - Como você imagina nossa comunidade nos próximos anos? O que você gostaria de ver mudado ou melhorado?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Descreva a comunidade"
-                      value={comunidadeFuturo}
-                      onChangeText={(text) => { setComunidadeFuturo(text); onChange(text) }}
-                      style={styles.inputText}
-                    />
-                    {errors.comunidade && <Text style={{ color: 'red', textAlign: 'center' }}>Digite sobre a comunidade</Text>}
-                  </View>
-                )} 
-                name="comunidade"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                33 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPNIÃO?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Digite o principal problema da regiao"
-                      value={problemaRegiao}
-                      onChangeText={(text) => { setProblemaRegiao(text); onChange(text) }}
-                      style={styles.inputText}
-                    />
-                    {errors.principal && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um principal problema</Text>}
-                  </View>
-                )}
-                name="principal"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                34- Quais ações ou mudanças você gostaria que a prefeitura implementasse em Baraúna para melhorar a qualidade de vida na cidade?
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Descreva a mudanca"
-                      value={mudanca}
-                      onChangeText={(text) => { setMudanca(text); onChange(text) }}
-                      style={styles.inputText}
-                    />
-                    {errors.mudanca && <Text style={{ color: 'red', textAlign: 'center' }}>Digite uma mudanca</Text>}
-                  </View>
-                )}
-                name="mudanca"
-                rules={{ required: true }}
-              />
-              <Text style={styles.pergunta}>
-                35 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <View>
-                    <TextInput
-                      label="Digite a mensagem"
-                      value={mensagemPolitico}
-                      onChangeText={(text) => { setMensagemPolitico(text); onChange(text) }}
-                      style={styles.inputText}
-                    />
-                    {errors.mensagem && <Text style={{ color: 'red', textAlign: 'center' }}>Digite um mensagem</Text>}
-                  </View>
-                )}
-                name="mensagem"
-                rules={{ required: true }}
-              />
-              <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', }}>
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={downloadFromUrl} >
-                    <Feather name="download" size={30} color="purple" />
-                  </TouchableOpacity>
-                </View>
-                <View style={{ flex: 2, alignItems: 'center' }}>
-                  <Button mode="contained" style={styles.buttons} onPress={handleSubmit(handleSaveData)}>
-                    <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
-                      Salvar
-                    </Text>
-                  </Button> 
-                </View>
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                  <TouchableOpacity style={{ alignItems: 'center' }} onPress={compartilhar} >
-                    <Entypo name="share" size={30} color="purple" />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              </View>)
+            }) 
+          }
+          </View>
+          <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', }}>
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <TouchableOpacity style={{ alignItems: 'center' }} onPress={teste} >
+                <Feather name="download" size={30} color="purple" />
+              </TouchableOpacity>
+            </View>
+            <View style={{ flex: 2, alignItems: 'center' }}>
+              <Button mode="contained" style={styles.buttons} onPress={()=> handleSubmit(handleSaveData)}>
+                <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
+                  Salvar 2
+                </Text>
+              </Button>
+            </View>
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <TouchableOpacity style={{ alignItems: 'center' }} onPress={compartilhar} >
+                <Entypo name="share" size={30} color="purple" />
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -1614,14 +591,14 @@ export default function App() {
           </Text>
           <Text style={styles.titulo}>
             Antes de iniciarmos a pesquisa informe o seu nome
-          </Text>
+          </Text> 
           <TextInput
             label="Digite o seu nome"
             value={nome}
-            onChangeText={(text) => { setNome(text); onChange(text) }}
+            onChangeText={(text) => { setNome(text) }}
             style={styles.inputText}
           />
-          <Button mode="contained" style={[styles.buttons, { marginTop: '5%', marginBottom: '60%' }]} onPress={primeiroAcesso}>
+          <Button mode="contained" style={[styles.buttons, { marginTop: '5%', marginBottom: '60%' }]} onPress={primeiroAcesso} disabled={nome != '' ? false : true}>
             <Text style={{ fontFamily: 'Roboto', fontWeight: "700", fontSize: 18 }}>
               Começar a pesquisa
             </Text>
@@ -1634,6 +611,7 @@ export default function App() {
       }
     </>
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -1642,6 +620,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  checkbox: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 5,
+    padding: 10,
+    margin: 10,
+  },
+  checkedYes: {
+    backgroundColor: 'green',
+    borderColor: 'puple',
+  },
+  checkedNo: {
+    backgroundColor: 'red',
+    borderColor: 'puple',
+  },
+  labelSelect: {
+    color: 'white',
+    fontWeight: '700'
+  },
+  labelNotSelect: {
+    color: '#000',
+    fontWeight: '700'
   },
   titulo: {
     flex: 1,
@@ -1670,7 +671,7 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 15,
   },
-  checkbox: {
+  checkboxb: {
     margin: 8,
   },
   viewInput: {
@@ -1688,4 +689,4 @@ const styles = StyleSheet.create({
   buttons: {
     width: '100%',
   }
-});
+}); 
