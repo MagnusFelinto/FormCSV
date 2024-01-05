@@ -45,10 +45,10 @@ const Select = ({ opcoes,opcaoSelecionada, setOpcaoSelecionada, indexDaPergunta 
 }; 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+    margin: 5,
   },
   opcoesContainer: {
-    marginTop: 10,
+    marginTop: 3,
   },
   opcaoBotao: {
     padding: 10,
