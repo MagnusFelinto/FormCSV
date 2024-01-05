@@ -1,0 +1,628 @@
+
+0 - SEXO
+MASCULINO
+FEMININO
+
+2 - ZONA  (ESPONTANEA)
+NORTE
+SUL
+LESTE
+OESTE
+URBANA
+
+3- REGIÃO  (ESPONTANEA)
+1.
+Campestre
+2.
+Juremal
+3.
+Primavera
+4.
+Vertentes
+5.
+CENTRO
+6.
+PRIMAVERA (LESTE)
+7.
+ALTO DA AVENIDA
+8.
+CAMPO VERDE
+9.
+CINDERELA
+10.
+SUB-ESTAÇÃO
+11.
+DAS PALMEIRAS
+12.
+FILADELFIA
+13.
+Florêncio
+14.
+Vila Nova III
+15.
+Angicos
+16.
+PA Pico Estreito
+17.
+PA Caatingueira
+18.
+Vila Nova II
+19.
+Vila Nova I
+20.
+PA Real
+21.
+Córrego de Pedra
+22.
+Santa Maria
+23.
+Aroeira Grande
+24.
+AV. Senhor Petrolino Portela
+25.
+PA Tiradentes
+26.
+PA Vitória
+27.
+Mato Alto
+28.
+Velame I
+29.
+Formigueiro
+30.
+Velame II
+31.
+Lajedo de Ouro
+32.
+Maxixe
+33.
+Olho d'gua da Escada
+34.
+Lajedo Mel
+35.
+Sumidouro
+36.
+Mata Burro
+37.
+PA Bom Sucesso dos Militares
+38.
+Canaã
+39.
+Lajedo do Sebo
+40.
+KM.31
+41.
+Boa Sorte
+42.
+PA Poço Novo II
+43.
+PA Fazenda Poço Baraúna (Poco I)
+44.
+Baixa Branca
+45.
+Veneza
+46.
+Recreio
+47.
+PA Santa Clara
+48.
+Boa Água
+49.
+PA Formosa
+50.
+Banco da Terra
+51.
+PA Ouro Verde
+52.
+Rancho DO
+
+4 - Qual é a sua orientação sexual?  (ESTIMULADA)
+Héterossexual
+Bissexual
+Lésbica
+Pansexual
+Queer
+Nenhuma das anteriores. Especifique: _____________
+
+5 - Você se identifica como?  (ESTIMULADA)
+1 Preto
+2 Pardo
+3 Branco
+4 Amarelo
+5 Índio
+6 - IDADE
+7 - Estado Civil
+Solteiro(a)
+Casado(a)/ comp.(a)
+Viuvo(a)
+Divorciado(a)
+Separado(a)
+8 - Você estuda ou estudou, em escola pública ou privada (ESTIMULADA E ÚNICA)
+1 Escola pública
+2 Escola particular
+3 Em escola pública E particular
+4 Nunca frequentei a escola
+
+9 - NIVEL DE ESCOLARIDADE  (ESTIMULADA)
+ANALFABETO
+ENSINO FUNDAMENTAL I INCOMPLETO
+ENSINO FUNDAMENTAL I COMPLETO
+ENSINO FUNDAMENTAL II INCOMPLETO
+ENSINO FUNDAMENTAL II COMPLETO
+ENSINO MÉDIO INCOMPLETO
+ENSINO MÉDIO COMPLETO
+ENSINO SUPERIOR INCOMPLETO
+ENSINO SUPERIOR COMPLETO
+ESPECIALIZAÇÃO 
+MESTRADO
+DOUTORADO
+
+10 - Você poderia me dizer qual é aproximadamente a sua renda mensal pessoal? (SE NÃO RESPONDER ESPONTANEAMENTE APRESENTE AS OPÇÕES) 
+Até R$ 260,00
+De R$ 260,01 até R$ 520,00
+De R$ 520,01 até R$ 780,00
+De R$ 780,01 até R$ 1.320,00
+De R$ 1.320,01 até R$ 2.600,00
+De R$ 2.600,01 até R$ 5.200,00
+De R$ 5.200,01 até R$ 7.800,00
+Mais de R$ 7.800,00
+Não tem renda pessoal
+Não sei/Não respondeu
+
+11 - De onde vem sua fonte de renda?  (ESTIMULADA)(alterar para múltipla escolha)
+Agricultor
+Aposentadoria
+Autônomo
+Auxílio governamental
+Bolsa de Estudos
+Comerciante
+Desempregado
+Servidor Público
+Trabalho com carteira assinada (CLT)
+Outros…
+
+12 - Quantas pessoas moram contigo na sua casa?  (ESPONTANEA)
+
+13 - O(a) sr(a). poderia me dizer qual é aproximadamente a sua renda mensal de sua casa, caso tenha? (ESPONTANEA/ ESTIMULADA)
+
+Menos de 1 salário minimo
+Entre 1 e 3 salários mínimos
+De 3 até 5 salários mínimos
+De 5 até 10 salários mínimos
+Mais de 10 salários mínimos
+Prefiro não declarar
+Não tem renda pessoal
+
+14 - Em sua casa alguém recebe auxílio do Governo Federal?  (ESTIMULADA)
+SIM
+NÃO
+
+15 - Quantos filhos com menos de 18 anos o(a) Sr(a) tem? (ESPONT NEA)
+0
+Colocar número manualmente
+
+16 - SE SIM
+O(s) filho(s) do(a) Sr(a) estuda(m) ou estudara(m) em escola pública ou particular? (ESTIMULADA)
+Não tem filho
+Escola pública
+Escola particular
+Em escola pública E particular
+Eles ainda não estudam/Nunca estudaram
+
+17 - Quando o(a) Sr(a) tem algum problema de saúde, o(a) Sr(a): (ESTIMULADA)
+Vai ao hospital público /posto de saúde OU
+Vai ao hospital particular /clínica/consultório
+Vai aos hospitais público e particular
+
+18 - Sua moradia é:  (ESTIMULADA)
+casa própria
+aluguel
+mora de favor
+
+19 - Qual sua religião?  (ESPONTANEO)
+Agnóstico
+Ateu
+Católico
+Candomblé
+Evangélico
+Evangélico Pentecostal
+Protestante
+Umbandista
+Nenhuma/Não tem religião
+Outros…
+
+21 - O(a)    Sr(a)    tem    título    de    eleitor?        
+(INSTRUÇÃO: Pessoas que perderam o título entram como opção sim) (ESTIMULADA)
+Sim
+Não
+
+22 - QUAL VEICULO DE COMUNICAÇÃO VOCÊ MAIS ULTILIZA PARA SE INFORMAR? DE 1 ATÉ 5  (ESTIMULADA)
+1	2	3	4	5
+TELEVISÃO	
+CELULAR
+COMPUTADOR	
+JORNAIS/ REVISTAS	
+RÁDIO	
+
+
+29 - Quais questões são mais importantes para você na escolha de um candidato? (Escolha as três mais importantes, DA MAIOR PARA A MENOR)  (ESTIMULADA)
+
+Saúde
+Educação
+Segurança pública
+Economia
+Meio ambiente
+Emprego
+Infraestrutura
+Outros…
+
+31 - Na sua opinião, quais características um bom candidato deve ter? (Escolha até três opções) (ESTIMULADA)
+
+Honestidade ( FALAR A VERDADE DOA A QUEM DOER)
+Competência técnica (PESSOA QUE SABE COMO FAZER AS COISAS)
+Empatia ( QUE ENTENDA AS PESSOAS E SUAS NECESSIDADES)
+Experiência política (PESSOA QUE JÁ TENHA UMA CARREIRA POLITICA)
+Transparência (PESSOA NO QUAL SEJA ACESSIVEL E MOSTRE SEU TRABALHO RECORRENTEMENTE)
+Caridosa (AJUDA AS PESSOAS MAIS NECESSITADAS)
+Bons Valores (PESSOA NO QUAL PRESERVA OS VALORES FAMILIARES)
+
+
+32 - Agora usando as notas de zero a cinco, gostaria que o(a) Sr(a) me dissesse o quanto gosta de alguns políticos que vou mencionar. Quero lembrar que, zero significa que o(a) Sr(a) NÃO gosta do político que vou mencionar e cinco que o(a) Sr(a) gosta muito. De novo, se o(a) Sr(a) não conhecer o político que eu disser, diga apenas que não o conhece. (ESTIMULADA E ÚNICA PARA CADA ITEM DA BATERIA) (LER CANDIDATOS – RODIZIAR)
+0 até 5 	NÃO CONHEÇO
+LULA	
+BOLSONARO	
+SIMONE TEBET	
+CIRO GOMES	
+FELIPI D'ÁVILA	
+CABO DARCIOLO	
+PADRE KELMON	
+-
+Subclasse Governador
+-
+Fatima Bezerra
+Fabio Dantas
+Capitão Styvenson
+Clorisa Linhares
+33 - Qual    o    partido    que    melhor    representa    a    maneira    como    o(a)    Sr(a)    pensa?    (ESPONT NEA    E    ÚNICA)
+NÃO SEI
+NÃO SIMPATIZO COM NENHUM PARTIDO POLITICO
+MOVIMENTO DEMOCRÁTICO BRASILEIRO - MDB
+PARTIDO DEMOCRÁTICO TRABALHISTA - PDT
+PARTIDO DOS TRABALHADORES - PT
+PARTIDO COMUNISTA DO BRASIL - PCdoB
+PARTIDO SOCIALISTA BRASILEIRO - PSB
+PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA - PSDB
+AGIR - AGIR
+PARTIDO DA MOBILIZAÇÃO NACIONAL - PMN
+CIDADANIA - CIDADANIA
+PARTIDO VERDE - PV
+AVANTE - AVANTE
+PROGRESSISTAS - PP
+PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO - PSTU
+PARTIDO COMUNISTA BRASILEIRO - PCB
+PARTIDO RENOVADOR TRABALHISTA BRASILEIRO - PRTB
+DEMOCRACIA CRISTÃ - DC
+PARTIDO DA CAUSA OPERÁRIA - PCO
+PODEMOS - PODE
+REPUBLICANOS - REPUBLI
+PARTIDO SOCIALISMO E LIBERDADE - PSOL
+PARTIDO LIBERAL - PL
+PARTIDO SOCIAL DEMOCRÁTICO - PSD
+SOLIDARIEDADE - SOL
+PARTIDO NOVO - NOVO
+REDE SUSTENTABILIDADE - REDE
+PARTIDO DA MULHER BRASILEIRA - PMB
+UNIDADE POPULAR - UP
+UNIÃO BRASIL - UNIÃO
+Partido Renovação Democrática - PRD
+
+34- Diga-me na sua opniao o nome de uma pessoa no qual tenha um bom nome para se candidatar a veriador em 2024?
+_____________________________________________________________
+Não tenho
+35 - Em quem o(a) Sr(a) votou para prefeito na última eleição no município de Baraúna? (ESPONTANEO)
+a) Divanize
+c) Izoares
+b) Saldanha
+h) Não votou, por ser maior de 70 anos
+i) Não votou por opçao
+j) Não votou por ter entre 16 e 17 anos
+k) Não votou, apenas justificou o voto
+g) Prefere não declarar
+Justificou o voto
+Votou nulo
+Votou em branco
+Não lembra
+36 - Se a eleição fosse hoje, em quem você votaria para PREFEITO? (ESPONTANEO)
+Divanize
+Zezé da Agrícola
+Izoares
+Lucia Nascimento
+Luciano Testinha
+Fabrício Equipadora
+Marcos Antònio
+Não sei, sou eleitor indeciso
+Outros…
+
+37 - Você votaria em Divanize para ser reeleita Prefeita?  (ESPONTANEO)
+Sim
+Não
+Talvez
+Não sei quem é
+
+38 - Você votaria em Zezé Da Agrícola para Prefeito?  (ESPONTANEO)
+Sim
+Não
+Talvez
+Não sei quem é
+
+39 - Você votaria em Fabricio Equipadora para Prefeito? (ESPONTANEO)
+Sim
+Não
+Talvez
+Não sei quem é
+
+40 Você votaria em Marcos Antonio para Prefeito? (ESPONTANEO)
+Sim
+Não
+Talvez
+Não sei quem é
+
+41 -  Na    ultima campanha municipal em Baraúna/RN ,    em    quem    o(a)    Sr(a)    votou    para    VEREADOR?    (ESPONTANEA)  SE NECESSARIO  LER    OPÇÕES
+Fabio Jr
+Fabricio Equipadora
+Zezé da Agricola
+David Simão
+Neuza
+Helena de Lair
+Artilho
+Raimundo do Poco NOVO
+Zulene
+EDILSON
+MELQUE
+Prefiro não declara
+Justificou o voto
+Nao lembra
+Voto nulo
+Voto em branco
+Outro
+
+42 - Como o(a) sr(a) avalia a atuação do vereador que votou em 2020, caso ele tenha sido eleito? (ESTIMULADO)
+Ótima
+Boa
+Ruim
+Péssima
+Regular para bom
+Regular para ruim
+Nao foi eleito
+
+43 - Na sua opinião, de uma maneira geral, a Gestão da atual prefeita nos últimos 3 anos foi  (ESTIMULADA)
+MUITO BOA
+BOA
+RUIM
+PÉSSIMA
+PREFIRO NÃO RESPONDER
+
+44 - Eu vou ler várias situações e gostaria que o(a) Sr(a) dissesse se o    senhor votaria:
+  (ESTIMULADA)
+SIM	Não
+• Em um candidato que oferece cestas básicas de alimentos para famílias muito pobres:	
+• Em um candidato que conseguisse para uma mãe, vaga para matricular seu filho na escola.	
+• Em um candidato que oferecesse um caminhão de tijolos para várias famílias que precisam acabar de construir suas casas	
+• Em um candidato que oferece reformar um campo de futebol para um grupo de amigos que jogam bola juntos toda semana	
+• Em um candidato que só fizesse o bem pensando no coletivo, buscando melhorias para o bem comum de vários ou de toda uma população, através de leis, projetos, prestação de contas do dinheiro público e não desse prioridade a necessidades individuais e particulares, como as citadas anteriormente:	
+
+45- Como você avalia a transparencia e prestação de contas da gestão atual?
+
+Satisfatório
+Insatisfatório
+Neutro
+Não acompanho
+
+
+46 - Eu me sinto representado pelos políticos locais: (ESTIMULADA)
+
+Concordo plenamente, sinto que eles refletem minhas preocupações. (Sentimento: Identificação, Contentamento)
+Nem sempre, acho que há certa desconexão com as necessidades da população. (Sentimento: Desconexão, Insatisfação)
+Discordo, sinto-me completamente sub-representado. (Sentimento: Descontentamento, Alienamento)
+
+47 - Vou citar alguns serviços públicos da cidade e gostaria que o (a) Sr. (a) desse uma nota de 0 a 10 para dizer o quanto está satisfeito com cada um deles em Baraúna/RN. De 0 a 5, que nota o (a) Sr(a) dá para. (ESTIMULADA)
+
+0	1	2	3	4	5
+A coleta de lixo	
+A polícia	
+A limpeza das ruas e calçadas	
+O estado de manutenção das ruas e calçadas da cidade	
+O controle dos camelôs, mesas de bar e bancas de lojas	
+As quadras, praças e espaços de lazer da cidade	
+As escolas públicas	
+O serviço de saúde pública	
+A iluminação das ruas e praças	
+O serviço de água	
+O serviço de esgoto	
+
+49 - O que mais influencia sua decisão de voto? (ESTIMULADO)
+Propostas de campanha
+Histórico do candidato ()
+Ideologia política (partido)
+Debates eleitorais (entre as pessoas)
+Amizade com candidato
+Amizade com as pessoas
+Uma ajuda com algum favor
+Escolho na hora mesmo
+Outros…
+
+50 - Você acha que deveria existir uma mudança na prefeitura da cidade?
+Sim
+Não
+
+54 - AVALIE OS PROBLEMAS DA CIDADE DE BARAÚNA NA SUA OPINIÃO, COM NOTAS DE 1 A 5. SENDO QUE 1 SÃO PROBLEMAS MENOS GRAVES, ENQUANTO  MAIS PRÓXIMO DE 5 MAIOR SÃO PROBLEMAS COM MAIOR URGÊNCIA DE SER RESOLVIDO.  (ESTIMULADO).
+1	2	3	4	5
+1 Desemprego	
+2 Saúde	
+3 Educação	
+4 Pobreza	
+5 Salário	
+6 Violência	
+7 Corrupção	
+11 Política	
+12 Fome	
+13 Desigualdade	
+14 Trânsito	
+17 Favelas	
+18 Água	
+19 Esgoto	
+20 Urbanismo	
+21 Estacionamento	
+22 Transporte público	
+23 Infraestrutura	
+24 Lazer
+25 Atividades Esportivas
+	
+
+55 - QUAL O PRINCIPAL PROBLEMA DA SUA REGIÃO SITIO/BAIRRO NA SUA OPINIÃO?  (ESPONTANEO)
+
+55 - Representando sua comunidade/ região, você teria alguma ideia inovadora ou sugestão criativa que acredita que poderia melhorar Baraúna e que gostaria que a próxima gestão implementasse na sua comunidade ou região? (ESPONTANEO)
+
+56- Na sua opinião dos vereadores eleitos em 2020, avalie os que mais cumpriram e menos cumpriram suas funções do cargo para a população: Sendo de 0 até 5, onde zero é indicativo de uma má gestão do cargo e quanto mais próximo de 5 melhor gestão o candidato fez:
+FABIO JR
+FABRICIO EQUIPADORA
+ZEZE DA AGRICOLA
+DAVID SIMAO
+NEUZA
+HELENA DE LAIR
+ARTILHO
+RAIMUNDO DO POCO NOVO
+EDILSON
+MELQUE
+ZULENE
+59 - MANDE UMA MENSAGEM PARA OS POLITICOS DA CIDADE DE BARAÚNA  (ESPONTANEO)
+Avalia a gestão atual nas seguintes áreas:
+de 0 até 5
+Saúde 
+Educação
+infraestrutura
+emprego
+segurança pública
+situação ambiental
+cultura
+lazer e recreação
+esporte
+Causa animal
+Empreendedorismo
+Direitos da Mulher
+Acessibilidade e atendimento de pessoa com NEEE (pessoas autistas, TDH e outras)
+
+60 -  	Qual o principal desafio enfrentado na área da saúde em Baraúna/RN?: 
+Falta de médicos e profissionais de saúde
+Infraestrutura inadequada em hospitais e postos de saúde
+Acesso limitado a medicamentos
+Longas filas de espera
+Falta de programas de prevenção
+Outro: ___________
+ 61 -  	Qual o principal desafio enfrentado na área da educação em Baraúna/RN? 
+Falta de estrutura nas escolas
+Baixa qualidade do ensino
+Falta de acesso à educação infantil
+Ausência de programas extracurriculares
+Necessidade de mais capacitação para professores
+Outro: ___________
+ 
+62 -  	Qual o principal desafio enfrentado na área de infraestrutura em Baraúna/RN? 
+Má conservação de ruas e estradas
+Falta de iluminação pública adequada
+Saneamento básico deficiente ou inexistente
+Falta de coleta seletiva de lixo
+Ausência de áreas de lazer
+Outro: ___________
+ 
+63 -  	Qual o principal desafio enfrentado na área de emprego e desenvolvimento econômico em Baraúna/RN? 
+Falta de indústrias e empresas locais
+Carência de programas de capacitação profissional
+Falta de concurso público
+Limitada oferta de empregos formais
+Insuficiente apoio a pequenos negócios
+Outro: ___________
+ 
+64 - Qual o principal desafio enfrentado na área de segurança pública em Baraúna/RN? 
+Aumento da criminalidade
+Falta de iluminação em áreas públicas
+Carência de efetivo policial
+Necessidade de programas de prevenção
+Ausência de câmeras de segurança
+Outro: ___________
+ 
+65 - Qual o principal desafio enfrentado na área ambiental em Baraúna/RN? 
+Falta de local adequado para o  lixo acumulado
+Falta de coleta seletiva de lixo
+Desmatamento desenfreado e degradação ambiental
+Necessidade de áreas verdes e parques
+Problemas com o abastecimento de água
+Outro: ___________
+ 
+66 - Qual tipo específico de evento cultural o(a) sr(a) gostaria de ver mais na cidade? 
+Festivais de música
+Exposições de arte
+Peças teatrais
+Feiras culturais
+Outro: ___________
+
+
+67 - Qual melhoria ou nova instalação de lazer o(a) sr(a) considera mais necessária? 
+ 
+Parques públicos
+Quadras esportivas
+Pistas de caminhada
+Áreas de picnic
+Outro: ___________
+ 
+68 - Qual esporte ou atividade física o(a) sr(a) gostaria que fosse mais incentivado na cidade? 
+Futebol
+Vôlei
+Atletismo
+Dança
+Outro: ___________
+ 
+69- Qual melhoria específica o(a) sr(a) acredita ser necessária no espaço esportivo já existente?
+ 
+Manutenção das quadras
+Melhoria na iluminação
+Novos equipamentos
+Construção de novas áreas esportivas
+Outro: ___________
+70 - Existe iniciativa específica para a proteção dos animais que o(a) sr(a) considera essencial? 
+Campanhas de castração
+Abrigos para animais de rua
+Programas de conscientização
+Reforço nas leis de proteção animal
+Outro: ___________
+ 
+71 - Qual iniciativa específica o(a) sr(a) gostaria de ver para promover o empreendedorismo em Baraúna/RN? 
+Cursos de capacitação
+Linhas de crédito
+Feiras de empreendedorismo
+Incentivos fiscais
+Outro: ___________
+
+ 
+72-	Existe iniciativa específica que o(a) sr(a) gostaria de ver para melhorar a segurança das mulheres na cidade? 
+ 
+Patrulhas específicas
+Programas de conscientização
+Maior presença policial
+Apoio a vítimas de violência
+ 
+73 - O que seria prioridade para a gestão municipal no quesito acessibilidade de pessoas com deficiência ou NEE:
+ 
+Adaptação de espaços públicos para acessibilidade.
+Programas de inclusão e capacitação profissional para pessoas com deficiência/NEE
+Ampliar calçadas regulares e com piso tátil;
+Concursos para profissionais que atuariam  como auxiliares nos serviços educacionais para crianças, jovens e adultos com NEE ou alguma deficiência;
+Outro: ___________
+
+74 - Para terminar eu gostaria de ouvir sua opinião sobre o questionário.    O    que    o(a)    Sr(a)    achou    do    questionário:    longo,    interessante,    chato    ou    importante?    Você    pode    dar    mais    de    uma    resposta.(ESTIMULADO)
+
+Importante
+Longo
+Interessante
+Chato
+

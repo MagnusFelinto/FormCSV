@@ -9,9 +9,15 @@ const CheckboxList = ({ options, selectedOptions, onSelect }) => {
     const updatedOptions = isSelected
       ? selectedOptions.filter((selectedOption) => selectedOption !== option)
       : [...selectedOptions, option]; 
-    onSelect(updatedOptions);
-  };
-
+    // onSelect(updatedOptions);
+    // Limitar a seleção a no máximo 3 opções
+    if (updatedOptions.length <= 3) {
+      onSelect(updatedOptions);
+    }
+    else{
+      alert("Já foram selecionados 3 opções")
+    } 
+  }; 
   return (
     <View>
       {options.map((option, index) => (
